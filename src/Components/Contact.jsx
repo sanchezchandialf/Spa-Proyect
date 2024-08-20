@@ -1,7 +1,7 @@
 import React from 'react';
 import { InputComponent } from './ui/InputComponent';
 import { ButtonComponent } from './ui/ButtonComponent';
-
+       
 const Contact = () => {
   return (
     <div className="bg-gray-100 py-16 px-6">
