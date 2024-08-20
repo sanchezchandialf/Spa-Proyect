@@ -1,0 +1,143 @@
+/* CSS para el estilo de la página */
+
+/* Estilos de la tipografía */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Estilos de la tipografía */
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  /* Lineas de texto */
+  line-height: 1.5;
+
+  /* Peso de la tipografía */
+  font-weight: 400;
+
+  /* Modos de color de la página */
+  color-scheme: light dark;
+
+  /* Color de texto para mejor legibilidad */
+  color: #1a1a1a;
+
+  /* Color de fondo suave y neutral */
+  background-color: #c0ccae;
+
+  /* Estilos de la tipografía */
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Estilos de los enlaces */
+a {
+  /* Peso de la tipografía */
+  font-weight: 500;
+
+  /* Color del enlace */
+  color: #646cff;
+
+  /* Decoración de los enlaces */
+  text-decoration: inherit;
+}
+
+/* Estilos de los enlaces al pasar el cursor */
+a:hover {
+  /* Color del enlace al pasar el cursor */
+  color: #535bf2;
+}
+
+/* Estilos del cuerpo de la página */
+body {
+  /* Margen del cuerpo de la página */
+  margin: 0;
+
+  /* Posicionamiento de los elementos en el cuerpo de la página */
+  display: flex;
+  place-items: center;
+
+  /* Ancho minimo de la página */
+  min-width: 320px;
+
+  /* Alto minimo de la página */
+  min-height: 100vh;
+}
+
+/* Estilos de los titulos */
+h1 {
+  /* Tamaño de los titulos */
+  font-size: 3.2em;
+
+  /* Lineas de los titulos */
+  line-height: 1.1;
+}
+
+/* Estilos de los botones */
+button {
+  /* Radio de los botones */
+  border-radius: 8px;
+
+  /* Borde de los botones */
+  border: 1px solid transparent;
+
+  /* Padding de los botones */
+  padding: 0.6em 1.2em;
+
+  /* Tamaño de la tipografía de los botones */
+  font-size: 1em;
+
+  /* Peso de la tipracheé de los botones */
+  font-weight: 500;
+
+  /* Tipografía de los botones */
+  font-family: inherit;
+
+  /* Color de fondo de los botones */
+  background-color: #1a1a1a;
+
+  /* Cursor de los botones */
+  cursor: pointer;
+
+  /* Transición de los botones */
+  transition: border-color 0.25s;
+}
+
+/* Estilos de los botones al pasar el cursor */
+button:hover {
+  /* Color de borde de los botones al pasar el cursor */
+  border-color: #646cff;
+}
+
+/* Estilos de los botones al enfocarlos */
+button:focus,
+button:focus-visible {
+  /* Outline de los botones al enfocarlos */
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Estilos de los modos de color de la página */
+@media (prefers-color-scheme: light) {
+  /* Color de texto para el modo claro */
+  :root {
+    color: #1a1a1a;
+
+    /* Color de fondo para el modo claro */
+    background-color: #c0ccae;
+  }
+
+  /* Color de los enlaces al pasar el cursor en el modo claro */
+  a:hover {
+    color: #747bff;
+  }
+
+  /* Color de fondo de los botones en el modo claro */
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
