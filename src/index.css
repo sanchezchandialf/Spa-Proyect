@@ -63,6 +63,7 @@ body {
 
   /* Alto minimo de la página */
   min-height: 100vh;
+  background-color: #c0ccae;
 }
 
 /* Estilos de los titulos */
@@ -141,3 +142,4 @@ button:focus-visible {
 html {
   scroll-behavior: smooth;
 }
+
