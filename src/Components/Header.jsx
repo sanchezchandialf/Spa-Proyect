@@ -21,7 +21,7 @@ const NavigationElement = (props) => {
   </a>)
 
 }
-const Header = () => {
+const Header = ({onLoginClick, onRegisterClick}) => {
   const navigationDescriptions = [
     "Inicio", "Servicios", "Sobre nosotros", "Contacto"
   ]
@@ -34,19 +34,18 @@ const Header = () => {
             {navigationDescriptions.map((text) => <NavigationElement key={text} text={text} />)}
           </div>
           <div className="flex items-center">
-            <a
-              href="#"
-              className="text-gray-700 dark:text-white hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:focus:ring-gray-600 focus:text-rose-500 font-medium rounded-lg text-sm px-4 py-2 mr-2"
-            >
-              Iniciar Sesion
-            </a>
-            <a
-              href="#"
-              className="text-white bg-pink-500 hover:bg-pink-500 hover:bg-opacity-75 hover:text-white focus:ring-4 focus:ring-pink-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-600 dark:hover:bg-pink-700 focus:outline-none dark:focus:ring-pink-600"
-            >
-              Registrate
-            </a>
-
+          <p
+            onClick={onLoginClick}
+            className="cursor-pointer ml-1 mr-1 text-white bg-pink-500 hover:bg-pink-500 hover:bg-opacity-75 hover:text-white focus:ring-4 focus:ring-pink-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-600 dark:hover:bg-pink-700 focus:outline-none dark:focus:ring-pink-600"
+          >
+            Iniciar Sesión
+          </p>
+          <p
+            onClick={onRegisterClick}
+            className="cursor-pointer ml-1 mr-1 text-white bg-pink-500 hover:bg-pink-500 hover:bg-opacity-75 hover:text-white focus:ring-4 focus:ring-pink-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-gray-600 dark:hover:bg-pink-700 focus:outline-none dark:focus:ring-pink-600"
+          >
+            Registrarse
+          </p>
 
           </div>
         </div>

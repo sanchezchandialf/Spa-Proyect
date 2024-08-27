@@ -128,8 +128,8 @@ const Body = () => {
           <h2 className="text-7xl font-semibold mb-0 text-left py-8">Visitanos</h2>
           <p className="mb-4 text-xl ">
             Experimente la experiencia de Sentirse Bien por sí mismo.
-           <p className='mb-4 '>Reserve su día de spa hoy y embárquese en un viaje de relajación y rejuvenecimiento.</p> 
           </p>
+          <p className='mb-4 '>Reserve su día de spa hoy y embárquese en un viaje de relajación y rejuvenecimiento.</p> 
           <div className='mt-8'>
             <ButtonComponent size="sm">Pedi un Turno</ButtonComponent>
           </div>
