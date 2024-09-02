@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Equipo from "../assets/Equipo.jpg";
 import Tratamientos from "../assets/Tratamientos.jpg";
 import Filosofia from "../assets/Filosofia.jpg";
@@ -12,6 +12,7 @@ import { ButtonComponent } from "./ui/ButtonComponent";
 import Carrusel from './ui/Carrusel';
 import Masajes from "../assets/Masajes.jpg";
 import GaleriaP from './GaleriaP';
+import Turnos from '../Pages/Turnos';
 const fotos = [
   {
     title: 'Sala de spa',
@@ -67,7 +68,13 @@ const treatments = [
   },
 ];
 
+
 const Body = () => {
+  const [showTurno, setShowTurno] = useState(false);
+  const handleTurnoClick = ()=> {
+    setShowTurno(true);
+  }
+  
   return (
     <div className='min-h-screen  bg-background text-foreground'>
       <header className="py- text-primary-foreground">
@@ -131,8 +138,9 @@ const Body = () => {
           </p>
           <p className='mb-4 '>Reserve su día de spa hoy y embárquese en un viaje de relajación y rejuvenecimiento.</p> 
           <div className='mt-8'>
-            <ButtonComponent size="sm">Pedi un Turno</ButtonComponent>
+            <ButtonComponent size="sm" onClick={handleTurnoClick}>Pedi un Turno</ButtonComponent>
           </div>
+          {showTurno && <Turnos onCLose={()=> setShowTurno(false)}/>}
 
         </section>
       </main>
