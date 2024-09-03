@@ -3,8 +3,6 @@ import { FormInput } from "./ui/FormInput";
 
 const Register = ({ isOpen, onClose })=>{
 
-   
-
     const {register, handleSubmit, setError, watch, reset, 
         formState:{errors , isSubmitting}} = useForm();
 
@@ -40,34 +38,96 @@ const Register = ({ isOpen, onClose })=>{
                 <h1 className="text-4xl text-white font-bold text-center mb-6">Registrarse</h1>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="row p-1 justify-content-around">
+                        <div className="col-lg-6">
+                            {/*INPUT NOMBRE DE USUARIO*/}
+                            <FormInput textLabel="Usuario" name="usuario" register={register} type="text"
+                            options={{
+                                required:"Nombre de usuario es necesario",
+                            }}/>
+                            {errors.usuario && <div className="text-red-500 m-0">{errors.usuario.message}</div>}
+                        </div>
 
-                    <FormInput textLabel="Email" name="email" register={register} type="email"
-                    options={{
-                        required:"Email es necesario",
-                        pattern:{value:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                            message:"Email invalido"
-                        }}}
-                    />
-                    {errors.email && <div className="text-red-500 m-0">{errors.email.message}</div>}
-                    
-                    <FormInput type="password"
-                        textLabel="Contraseña"  name="password" register={register} 
-                        options={{
-                        required: "Contraseña es necesaria",
-                        pattern: {value:/^(?=.*[A-Za-z])(?=.*\d)[\w\W]{8,16}$/,
-                            message:"Debe tener entre 8 y 16 caracteres\nAl menos una letra y un numero"
-                        }}}
-                    />
+                        <div className="col-lg-6">
+                          {/*INPUT EMAIL*/}
+                            <FormInput textLabel="Email" name="email" register={register} type="email"
+                            options={{
+                                required:"Email es necesario",
+                                pattern:{value:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                                    message:"Email invalido"
+                                }}}/>
+                            {errors.email && <div className="text-red-500 m-0">{errors.email.message}</div>}  
+                        </div>
+                    </div>
+                    <div className="row p-1 justify-content-around">
+                        <div className="col-lg-6">
+                            {/*INPUT NOMBRE*/}
+                            <FormInput textLabel="Nombre" name="nombre" register={register} type="text"
+                            options={{
+                                required:"Su nombre es necesario",
+                            }}/>
+                            {errors.nombre && <div className="text-red-500 m-0">{errors.nombre.message}</div>}
+                        </div>
+                        <div className="col-lg-6">
+                           {/*INPUT APELLIDO*/}
+                            <FormInput textLabel="Apellido" name="apellido" register={register} type="text"
+                            options={{
+                                required:"Apellido es necesario",
+                            }}/>
+                            {errors.apellido && <div className="text-red-500 m-0">{errors.apellido.message}</div>}
+                        </div>
+                    </div>
+                    <div className="row p-1 justify-content-around">
+                        <div className="col-lg-6">
+                            {/*INPUT TELEFONO*/}
+                            <FormInput textLabel="Telefono" name="telefono" register={register} type="text"
+                            options={{
+                                required:"Telefono es necesario",
+                            }}/>
+                            {errors.telefono && <div className="text-red-500 m-0">{errors.telefono.message}</div>}
+                        </div>
+                        <div className="col-lg-6">
+                            {/*INPUT DNI*/}
+                            <FormInput textLabel="DNI" name="dni" register={register} type="text"
+                            options={{
+                                required:"DNI es necesario",
+                            }}/>
+                            {errors.dni && <div className="text-red-500 m-0">{errors.dni.message}</div>}
+                        </div>
+                    </div>
+                    <div className="row p-1 justify-content-around">
+                        <div className="col-lg-12">
+                            {/*INPUT DOMICILIO*/}
+                            <FormInput textLabel="Direccion" name="domicilio" register={register} type="text"
+                            options={{
+                                required:"Su direccion es necesaria",
+                            }}/>
+                            {errors.domicilio && <div className="text-red-500 m-0">{errors.domicilio.message}</div>}
+                        </div>
+                    </div>
+                    <div className="row p-1 justify-content-around">
+                        <div className="col-lg-6">
+                        {/*INPUT CONTRASEÑA*/}
+                        <FormInput type="password"
+                            textLabel="Contraseña"  name="password" register={register} 
+                            options={{
+                            required: "Contraseña es necesaria",
+                            pattern: {value:/^(?=.*[A-Za-z])(?=.*\d)[\w\W]{8,16}$/,
+                                message:"Debe tener entre 8 y 16 caracteres\nAl menos una letra y un numero"
+                            }}}/>
                     {errors.password && <div className="text-red-500 whitespace-pre">{errors.password.message}</div>}
-
-                    <FormInput type="password" textLabel="Confirmar contraseña" name="confirmPassword" register={register}
-                    options={{
-                        required: "Confirma tu contraseña",
-                        validate: value =>
-                          value === passwordValue || "Las contraseñas no coinciden"
-                    }}
-                    />
-                    {errors.confirmPassword && <div className="text-red-500 m-0">{errors.confirmPassword.message}</div>}
+                        </div>
+                        <div className="col-lg-6">
+                            {/*INPUT CONFIRMAR CONTRASEÑA*/}
+                            <FormInput type="password" textLabel="Confirmar contraseña" name="confirmPassword" register={register}
+                            options={{
+                                required: "Confirma tu contraseña",
+                                validate: value =>
+                                value === passwordValue || "Las contraseñas no coinciden"
+                            }}/>
+                            {errors.confirmPassword && <div className="text-red-500 m-0">{errors.confirmPassword.message}</div>}
+                        </div>
+                    </div>
 
                     <button type="submit" disabled={isSubmitting}
                     className="w-full mb-4 text-[18px] mt-6 rounded-full bg-white text-slate-900 hover:text-white hover:bg-slate-900 py-2 transition-colors duration-300"
