@@ -1,5 +1,8 @@
 import { useForm } from "react-hook-form";
 import { FormInput } from "./ui/FormInput";
+import { Link } from "react-router-dom";
+import { useState } from "react";
+import axios from "../api/axios";
 
 const Register = ({ isOpen, onClose })=>{
 
@@ -8,17 +11,19 @@ const Register = ({ isOpen, onClose })=>{
 
     const passwordValue = watch("password");
 
+    const [success, setSuccess] = useState(false);
+
+
     //aca deberia estar el codigo para guardar los datos en la bd
     const onSubmit = async (data)=>{
-        try{
-            // esperar a que se guarde correctamente
-            await new Promise ((resolve) => setTimeout(resolve, 2000));
-            console.log(data);
-        } catch (error){
-            setError("email", {
-                message:"Este email ya esta en uso",
-            })
-        }
+        
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/register', data);
+            console.log('Usuario registrado exitosamente');
+          } catch (error) {
+            console.error('Error registrando el usuario:', error);
+            console.log('Hubo un problema al registrar el usuario');
+          }
     }
 
     const handleClose = () => {
@@ -36,16 +41,24 @@ const Register = ({ isOpen, onClose })=>{
                     aria-label="Cerrar">x</button>
 
                 <h1 className="text-4xl text-white font-bold text-center mb-6">Registrarse</h1>
-
+                {/* <div className="row p-1 justify-content-center">
+                    <div className="col-lg-6 ">
+                    <span className="bg-emerald-800 text-white p-2 text-lg">¡Se creo exitosamente su usuario!</span>
+                    </div>
+                    <div className="col-lg-4 ">
+                    <Link to="/Login">Inicie secion</Link>
+                    </div>
+                </div> */}
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="row p-1 justify-content-around">
+                    
                         <div className="col-lg-6">
                             {/*INPUT NOMBRE DE USUARIO*/}
-                            <FormInput textLabel="Usuario" name="usuario" register={register} type="text"
+                            <FormInput textLabel="Usuario" name="username" register={register} type="text"
                             options={{
                                 required:"Nombre de usuario es necesario",
                             }}/>
-                            {errors.usuario && <div className="text-red-500 m-0">{errors.usuario.message}</div>}
+                            {errors.username && <div className="text-red-500 m-0">{errors.username.message}</div>}
                         </div>
 
                         <div className="col-lg-6">
@@ -117,8 +130,8 @@ const Register = ({ isOpen, onClose })=>{
                             }}}/>
                     {errors.password && <div className="text-red-500 whitespace-pre">{errors.password.message}</div>}
                         </div>
-                        <div className="col-lg-6">
-                            {/*INPUT CONFIRMAR CONTRASEÑA*/}
+                        {/* <div className="col-lg-6">
+                            
                             <FormInput type="password" textLabel="Confirmar contraseña" name="confirmPassword" register={register}
                             options={{
                                 required: "Confirma tu contraseña",
@@ -126,7 +139,7 @@ const Register = ({ isOpen, onClose })=>{
                                 value === passwordValue || "Las contraseñas no coinciden"
                             }}/>
                             {errors.confirmPassword && <div className="text-red-500 m-0">{errors.confirmPassword.message}</div>}
-                        </div>
+                        </div> */}
                     </div>
 
                     <button type="submit" disabled={isSubmitting}
