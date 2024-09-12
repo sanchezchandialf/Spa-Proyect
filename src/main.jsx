@@ -1,25 +1,25 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-
-import App from './App.jsx'
 import './index.css'
-import Turnos from './Pages/Turnos.jsx'
-import NotFound from './Pages/NotFound.jsx'
-import Inicio from './Pages/Inicio.jsx'
+
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import App from './App'
+import App2 from './App2'
+import { AuthProvider } from './context/AuthProvider'
 
 
-const router = createBrowserRouter([
-{
-  path:'/',
-  element: <Inicio />,
-  errorElement:<NotFound/>
-},
 
-]);
+
+
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <RouterProvider router={router}/>
+    <BrowserRouter>
+      <AuthProvider>
+        <Routes>
+          <Route path='/*' element={<App2/>}/>
+        </Routes>
+      </AuthProvider>
+    </BrowserRouter>
   </StrictMode>,
 )

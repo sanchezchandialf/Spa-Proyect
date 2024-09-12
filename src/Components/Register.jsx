@@ -18,11 +18,28 @@ const Register = ({ isOpen, onClose })=>{
     const onSubmit = async (data)=>{
         
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/register', data);
+            const response = await axios.post('/api/auth/register', data);
             console.log('Usuario registrado exitosamente');
+            console.log(response.data);
+            setSuccess(true);
+            reset();
           } catch (error) {
+            if(!error?.response){
+                setError("root", {
+                    message:"Error al intentar conectarse con el servidor",
+                })
+            } else if (error.response?.status === 400) {
+                
+                const errorMessage = error.response.data || "Error en el registro";
+                setError("root", {
+                  message: errorMessage,
+                });
+              } else {
+                setError("root", {
+                  message: "Error inesperado durante el registro",
+                });
+              }
             console.error('Error registrando el usuario:', error);
-            console.log('Hubo un problema al registrar el usuario');
           }
     }
 
@@ -40,15 +57,9 @@ const Register = ({ isOpen, onClose })=>{
                     className="absolute top-1 right-1 text-white hover:text-gray-300 text-justify-center bg-transparent font-extrabold rounded-lg text-sm px-4 py-2 font-mono"
                     aria-label="Cerrar">x</button>
 
+                <section>
                 <h1 className="text-4xl text-white font-bold text-center mb-6">Registrarse</h1>
-                {/* <div className="row p-1 justify-content-center">
-                    <div className="col-lg-6 ">
-                    <span className="bg-emerald-800 text-white p-2 text-lg">¡Se creo exitosamente su usuario!</span>
-                    </div>
-                    <div className="col-lg-4 ">
-                    <Link to="/Login">Inicie secion</Link>
-                    </div>
-                </div> */}
+                
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="row p-1 justify-content-around">
                     
@@ -141,19 +152,21 @@ const Register = ({ isOpen, onClose })=>{
                             {errors.confirmPassword && <div className="text-red-500 m-0">{errors.confirmPassword.message}</div>}
                         </div> */}
                     </div>
+                    {errors.root && <div className="text-red-500 whitespace-pre">{errors.root.message}</div>}
 
                     <button type="submit" disabled={isSubmitting}
                     className="w-full mb-4 text-[18px] mt-6 rounded-full bg-white text-slate-900 hover:text-white hover:bg-slate-900 py-2 transition-colors duration-300"
                     >{isSubmitting ? "Guardando..." : "Confirmar"}</button>
 
                     <div>
-                        <span className="text-white m-4">¿Ya tinenes una cuenta? <a href="/Register" className="hover:underline">Inicia secion</a></span>
+                        <span className="text-white m-4">¿Ya tinenes una cuenta? <Link to="/login" className="hover:underline">Inicia secion</Link></span>
                     </div>
 
                 </form>
-            </div>
-        </div>
-        
+                </section>
+            
+            </div>{/*Contenedor verde */}
+        </div>       
     );
 }
 
