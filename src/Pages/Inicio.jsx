@@ -1,4 +1,4 @@
-import React ,{useState}from 'react';
+import React, { useState } from 'react';
 import Header from '/src/Components/Header.jsx';
 import Body from '/src/Components/Body.jsx';
 import Contact from '/src/Components/Contact.jsx';
@@ -14,29 +14,30 @@ import Register from '/src/Components/Register.jsx';
 function Inicio() {
 
   const [isLoginOpen, setIsLoginOpen] = useState(false);
-  const [isRegisterOpen, setIsRegisterOpen] =useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
   return (
     <>
-      <Header onRegisterClick={()=> setIsRegisterOpen(true)} onLoginClick={() => setIsLoginOpen(true)}/>
-      
-      <Login 
-        isOpen={isLoginOpen} 
-        onClose={() => setIsLoginOpen(false)} 
+      <Header onRegisterClick={() => setIsRegisterOpen(true)} onLoginClick={() => setIsLoginOpen(true)} />
+
+      <Login
+        isOpen={isLoginOpen}
+        onClose={() => setIsLoginOpen(false)}
       />
 
-      <Register 
+      <Register
         isOpen={isRegisterOpen}
-        onClose={()=> setIsRegisterOpen(false)}
+        onClose={() => setIsRegisterOpen(false)}
       />
-      
-      <div>
-      <Portada />
+
+      <div className="w-full m-0 p-0">
+        <Portada />
       </div>
-      
-      <div  >
+
+      <div className="w-full m-0 p-0">
         <Body />
       </div>
+
       <div >
         <Contact />
       </div>

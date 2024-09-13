@@ -38,14 +38,14 @@ const Informaciones = () => {
 
 const Contact = () => {
   return (
-    <div className="flex flex-col min-h-screen text bg-[#000000]">
+    <div className="flex flex-col min-h-screen text bg-[#cc5862]">
     <header className="h-[60vh] flex flex-col items-center justify-center text-center text-white">
-      <h1 className="text-4xl md:text-6xl font-semibold">Contáctanos</h1>
+      <h1 className="text-8xl md:text-6xl font-bold">Contáctanos</h1>
       <p className="text-lg md:text-xl max-w-2xl mt-4">
         Si tienes alguna pregunta o necesitas ayuda, no dudes en comunicarte con nosotros.
       </p>
       <div className='mt-8'>
-        <ButtonComponent size="sm">Enviar Mensaje</ButtonComponent>
+        <ButtonComponent size="sm"className="bg-white hover:bg-pink-500 text-pink-600 font-bold py-2 px-4 rounded">Enviar Mensaje</ButtonComponent>
       </div>
     </header>
   

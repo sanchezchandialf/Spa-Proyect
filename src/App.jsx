@@ -2,11 +2,9 @@ import React ,{useState}from 'react';
 import Header from '/src/Components/Header.jsx';
 import Body from '/src/Components/Body.jsx';
 import Contact from '/src/Components/Contact.jsx';
-import GaleriaP from '/src/Components/GaleriaP.jsx';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Portada from './Components/Portada';
-
+import Portada from './Components/Portada.jsx';
 import Login from './Components/Login.jsx';
 import Register from './Components/Register.jsx';
 
@@ -15,7 +13,7 @@ function App() {
 
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] =useState(false);
-
+  
   return (
     <>
       <Header onRegisterClick={()=> setIsRegisterOpen(true)} onLoginClick={() => setIsLoginOpen(true)}/>

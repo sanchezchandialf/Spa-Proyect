@@ -9,7 +9,16 @@ export default {
       backgroundColor: {
         'costum-green' : '#c0ccae',
       },
+      animation: {
+        scroll: 'scroll 40s linear infinite',
+      },
+      keyframes: {
+        scroll: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
     },
   },
   plugins: [],
+  }
+}
 }

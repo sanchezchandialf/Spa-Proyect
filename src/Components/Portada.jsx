@@ -1,5 +1,5 @@
 import React from 'react';
-import Carrusel from './ui/Carrusel';
+import Carrusel from './Carrusel';
 import Bann from "../assets/Bann.jpg";
 import Banner from '../assets/Banner.jpg';
 import PromoInvierno from '../assets/PromoInvierno.jpg';
