@@ -1,9 +1,17 @@
-function PagServicios(){
-    return (<>
-        <h1>Servicios</h1>
-        <p>Aca van las descripcion de servicios</p>
-        <p>aca van lo de sacar turno</p>
-    </>);
+import Header2 from "../Components/Header2";
+import ComentariosSection from "../Components/ui/ComentarioSeccion";
+import SpaServices from "../Components/ui/SpaServices";
+
+function PagServicios() {
+    return (
+      <div className="flex flex-col w-full">
+        <Header2 />
+        <main className="w-full flex-1"> {/* Removí paddings aquí */}
+          <SpaServices />
+        </main>
+        <ComentariosSection />
+      </div>
+    );
 }
 
-export default PagServicios
+export default PagServicios;

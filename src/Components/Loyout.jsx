@@ -45,7 +45,7 @@ const Layout =()=>{
             <Login isOpen={isLoginOpen} onClose={handleCloseModal} />
             <Register isOpen={isRegisterOpen} onClose={handleCloseModal} /> */}
 
-            <Portada/>
+          
 
             <Outlet />
 

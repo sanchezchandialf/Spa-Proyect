@@ -45,7 +45,7 @@ const Contact = () => {
         Si tienes alguna pregunta o necesitas ayuda, no dudes en comunicarte con nosotros.
       </p>
       <div className='mt-8'>
-        <ButtonComponent size="sm"className="bg-white hover:bg-pink-500 text-pink-600 font-bold py-2 px-4 rounded">Enviar Mensaje</ButtonComponent>
+        <ButtonComponent size="sm">Enviar Mensaje</ButtonComponent>
       </div>
     </header>
   
