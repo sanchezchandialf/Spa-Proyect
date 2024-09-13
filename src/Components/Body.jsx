@@ -7,6 +7,8 @@ import ServiciosPresentacion from './ui/ServiciosPresentacion';
 import ComentariosSection from './ui/ComentarioSeccion';
 import SpaNumero from './ui/SpaShow';
 import SpaNumbers from './ui/NumberComponent';
+import CallToAction from './ui/CalltoAccion';
+
 
 const Body = () => {
   const [showTurno, setShowTurno] = useState(false);
@@ -20,8 +22,7 @@ const Body = () => {
       <main className="w-full">
         <WelcomeSection />
         <ServiciosPresentacion />
-
-
+        <CallToAction />
 
 
         <section className="py-16 bg-gray-50 relative">
