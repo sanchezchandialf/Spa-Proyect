@@ -8,6 +8,7 @@ import ComentariosSection from './ui/ComentarioSeccion';
 import SpaNumero from './ui/SpaShow';
 import SpaNumbers from './ui/NumberComponent';
 import CallToAction from './ui/CalltoAccion';
+import Contact from './Contact';
 
 
 const Body = () => {
@@ -60,7 +61,7 @@ const Body = () => {
           {showTurno && <Turnos onClose={() => setShowTurno(false)} />}
         </section>
 
-
+        <Contact/>
 
       </main>
     </div>

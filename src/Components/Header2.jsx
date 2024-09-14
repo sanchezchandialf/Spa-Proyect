@@ -1,10 +1,12 @@
 import SpaFinal from "../assets/SpaFinal.png";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useLogin } from '../context/LoginContext';
+import { useAuth } from '../context/AuthContext';
 
 const Logo = () => {
   return (
-    <Link to="/inicio" className="flex items-center">
+    <Link to="/" className="flex items-center">
       <img src={SpaFinal} className="h-8 w-auto sm:h-10" alt="Flowbite Logo" />
       <span className="ml-3 text-2xl font-bold text-gray-700 dark:text-white">
         Sentirse Bien
@@ -24,14 +26,24 @@ const NavigationElement = ({ text, path }) => {
   );
 };
 
-const Header2 = ({ onLoginClick, onRegisterClick }) => {
-  const [menuOpen, setMenuOpen] = useState(false);
 
+
+const Header2 = () => {
+  const { esCliente, esProfesional, esAdmin, hayUsuario, logout } = useAuth();
+
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { handleRegisterClick, handleLoginClick } = useLogin();
   const navigationItems = [
-    { text: "Inicio", path: "/inicio" },
+    { text: "Inicio", path: "/" },
     { text: "Servicios", path: "/servicios" },
     { text: "Contacto", path: "/contacto" },
   ];
+
+  // Si es profesional, agregar la página especial
+  if (esProfesional()) {
+    navigationItems.push({ text: "PagProfesional", path: "/profesional" });
+  }
+
 
   return (
     <header className="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 shadow-lg z-50">
@@ -48,18 +60,41 @@ const Header2 = ({ onLoginClick, onRegisterClick }) => {
           </div>
 
           <div className="flex items-center space-x-2">
-            <button
-              onClick={onLoginClick}
-              className="cursor-pointer text-white bg-pink-500 hover:bg-opacity-75 font-medium rounded-lg text-sm px-4 py-2"
-            >
-              Iniciar Sesión
-            </button>
-            <button
-              onClick={onRegisterClick}
-              className="cursor-pointer text-white bg-pink-500 hover:bg-opacity-75 font-medium rounded-lg text-sm px-4 py-2"
-            >
-              Registrarse
-            </button>
+          {hayUsuario() ? (
+              <>
+                {/* Botón de cerrar sesión */}
+                <button
+                  onClick={logout}
+                  className="cursor-pointer text-white bg-pink-500 hover:bg-opacity-75 font-medium rounded-lg text-sm px-4 py-2"
+                >
+                  Cerrar Sesión
+                </button>
+
+                {/* Si es admin, mostrar el botón para registrar profesional */}
+                {esAdmin() && (
+                  <button
+                    className="cursor-pointer text-white bg-pink-500 hover:bg-opacity-75 font-medium rounded-lg text-sm px-4 py-2"
+                  >
+                    Registrar Profesional
+                  </button>
+                )}
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={handleLoginClick}
+                  className="cursor-pointer text-white bg-pink-500 hover:bg-opacity-75 font-medium rounded-lg text-sm px-4 py-2"
+                >
+                  Iniciar Sesión
+                </button>
+                <button
+                  onClick={handleRegisterClick}
+                  className="cursor-pointer text-white bg-pink-500 hover:bg-opacity-75 font-medium rounded-lg text-sm px-4 py-2"
+                >
+                  Registrarse
+                </button>
+              </>
+            )}
           </div>
 
           {/* Botón para abrir/cerrar el menú en dispositivos pequeños */}
@@ -97,4 +132,4 @@ const Header2 = ({ onLoginClick, onRegisterClick }) => {
   );
 };
 
-export default Header2;
+export default Header2

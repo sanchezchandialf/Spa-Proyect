@@ -1,15 +1,22 @@
 import { useForm } from "react-hook-form";
 import { FormInput } from "./ui/FormInput";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useState } from "react";
 import axios from "../api/axios";
-import { useLogin } from "../context/LoginContext";
-import toast from 'react-hot-toast';
 
+const RegisterProfecional = ({onClose})=>{
 
-const Register = ()=>{
+    const {register, handleSubmit, setError, watch, reset, 
+        formState:{errors , isSubmitting}} = useForm();
 
-    const {handleModalClose, handleLoginClick}=useLogin();
-    const {register, handleSubmit, setError, watch, reset, formState:{errors , isSubmitting}} = useForm();
     const passwordValue = watch("password");
+    const navigate = useNavigate();
+    const location = useLocation();
+    //lleva al usuario a la ruta portegida a la que quiso ingresar o al inicio
+    const from = location.state?.from?.pathname || "/";
+
+    const [success, setSuccess] = useState(false);
+
 
     //aca deberia estar el codigo para guardar los datos en la bd
     const onSubmit = async (data) => {
@@ -17,11 +24,14 @@ const Register = ()=>{
     
         try {
             const response = await axios.post("/api/auth/registerCliente", formData);
+    
             console.log(response.data);
-
+            setSuccess(true);
+            reset();
             if (response.code === 200) toast.success('Se creo su cuenta correctamente, inicie secion');
-            
-            redireccionarLogin();
+
+            onClose();
+            navigate('/login', { state: { from } });
             
         } catch (error) {
             if (!error?.response) {
@@ -38,17 +48,14 @@ const Register = ()=>{
                     message: "Error inesperado durante el registro",
                 });
             }
+            console.error('Error registrando el usuario:', error);
         }
     };
 
-    const redireccionarLogin=()=>{
-        reset();
-        handleModalClose();
-        handleLoginClick();
-    }
     const handleClose = () => {
         reset(); // Restablecer los valores del formulario
-        handleModalClose();
+        onClose();
+        navigate(-1);
         
     };
 
@@ -123,16 +130,6 @@ const Register = ()=>{
                         </div>
                     </div>
                     <div className="row p-1 justify-content-around">
-                        <div className="col-lg-12">
-                            {/*INPUT DOMICILIO*/}
-                            <FormInput textLabel="Direccion" name="domicilio" register={register} type="text"
-                            options={{
-                                required:"Su direccion es necesaria",
-                            }}/>
-                            {errors.domicilio && <div className="text-red-500 m-0">{errors.domicilio.message}</div>}
-                        </div>
-                    </div>
-                    <div className="row p-1 justify-content-around">
                         <div className="col-lg-6">
                         {/*INPUT CONTRASEÑA*/}
                         <FormInput type="password"
@@ -162,7 +159,7 @@ const Register = ()=>{
                     >{isSubmitting ? "Guardando..." : "Confirmar"}</button>
 
                     <div>
-                        <span className="text-white m-4">¿Ya tinenes una cuenta? <p className="cursor-pointer" onClick={redireccionarLogin}>Inicia secion</p> </span>
+                        <span className="text-white m-4">¿Ya tinenes una cuenta? <Link to="/login" className="hover:underline">Inicia secion</Link></span>
                     </div>
 
                 </form>
@@ -173,4 +170,4 @@ const Register = ()=>{
     );
 }
 
-export default Register;
+export default RegisterProfecional;
