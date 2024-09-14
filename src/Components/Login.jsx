@@ -13,7 +13,7 @@ const Login = ()=>{
     formState:{errors , isSubmitting}} = useForm();
 
     const { login, esAdmin } = useAuth();
-    const axiosInstance = useAxios();
+    const axios = useAxios();
     
     
  const {handleModalClose, handleRegisterClick}=useLogin();
@@ -21,7 +21,7 @@ const Login = ()=>{
     //aca deberia estar el codigo para guardar los datos en la bd
     const onSubmit = async (data) => {
         try {
-          const response = await axiosInstance.post("api/auth/login", data);
+          const response = await axios.post("api/auth/login", data);
           
           // Chequear si la estructura de la respuesta es la esperada
           if (response.status === 200 && response.data) {

@@ -7,12 +7,17 @@ const LoginContext = createContext();
 export const LoginProvider = ({ children }) => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isRegisterProfesionalOpen, setIsRegisterProfesionalOpen] = useState(false);
+
 
   const handleLoginClick = () => setIsLoginModalOpen(true);
   const handleRegisterClick = () => setIsRegisterModalOpen(true);
+  const handleRegisterProfesionalClick = () => setIsRegisterProfesionalOpen(true);
+
   const handleModalClose = () => {
     setIsLoginModalOpen(false);
     setIsRegisterModalOpen(false);
+    setIsRegisterProfesionalOpen(false);
   };
 
   return (
@@ -20,8 +25,10 @@ export const LoginProvider = ({ children }) => {
       value={{
         isLoginModalOpen,
         isRegisterModalOpen,
+        isRegisterProfesionalOpen,
         handleLoginClick,
         handleRegisterClick,
+        handleRegisterProfesionalClick,
         handleModalClose,
       }}
     >

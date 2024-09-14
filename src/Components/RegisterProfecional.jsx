@@ -1,37 +1,33 @@
 import { useForm } from "react-hook-form";
 import { FormInput } from "./ui/FormInput";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
-import axios from "../api/axios";
+import useAxios from '../hooks/useAxios';
+import toast from 'react-hot-toast';
+import { useLogin } from "../context/LoginContext";
 
-const RegisterProfecional = ({onClose})=>{
 
+
+const RegisterProfecional = ()=>{
+
+    const {handleModalClose }=useLogin();
     const {register, handleSubmit, setError, watch, reset, 
         formState:{errors , isSubmitting}} = useForm();
 
     const passwordValue = watch("password");
-    const navigate = useNavigate();
-    const location = useLocation();
-    //lleva al usuario a la ruta portegida a la que quiso ingresar o al inicio
-    const from = location.state?.from?.pathname || "/";
 
-    const [success, setSuccess] = useState(false);
-
+    const axios= useAxios();
 
     //aca deberia estar el codigo para guardar los datos en la bd
     const onSubmit = async (data) => {
         const { confirmPassword, ...formData } = data; // Excluye confirmPassword
     
         try {
-            const response = await axios.post("/api/auth/registerCliente", formData);
-    
-            console.log(response.data);
-            setSuccess(true);
-            reset();
-            if (response.code === 200) toast.success('Se creo su cuenta correctamente, inicie secion');
+            const response = await axios.post("api/auth/registerProf", formData);
 
-            onClose();
-            navigate('/login', { state: { from } });
+            if (response.status === 200){
+                toast.success('Se creo la cuenta correctamente, ya puede iniciar sesion');
+                handleClose();
+            } 
+
             
         } catch (error) {
             if (!error?.response) {
@@ -53,9 +49,8 @@ const RegisterProfecional = ({onClose})=>{
     };
 
     const handleClose = () => {
-        reset(); // Restablecer los valores del formulario
-        onClose();
-        navigate(-1);
+        reset(); 
+        handleModalClose();
         
     };
 
@@ -68,7 +63,7 @@ const RegisterProfecional = ({onClose})=>{
                     aria-label="Cerrar">x</button>
 
                 <section>
-                <h1 className="text-4xl text-white font-bold text-center mb-6">Registrarse</h1>
+                <h1 className="text-4xl text-white font-bold text-center mb-6">Registrar Profesional</h1>
                 
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="row p-1 justify-content-around">
@@ -159,7 +154,7 @@ const RegisterProfecional = ({onClose})=>{
                     >{isSubmitting ? "Guardando..." : "Confirmar"}</button>
 
                     <div>
-                        <span className="text-white m-4">¿Ya tinenes una cuenta? <Link to="/login" className="hover:underline">Inicia secion</Link></span>
+                        <span className="text-white m-4">¿Ya tinenes una cuenta? </span>
                     </div>
 
                 </form>

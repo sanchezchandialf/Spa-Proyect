@@ -9,13 +9,14 @@ import PagContacto
 import { Toaster } from 'react-hot-toast';
 import Login from './Components/Login';
 import Register from './Components/Register';
+import RegisterProfecional from './Components/RegisterProfecional';
 import Header2 from './Components/Header2';
 import { useLogin } from './context/LoginContext'; // Importar el contexto
 import { useAuth } from './context/AuthContext';
 import PagProfesional from './Pages/PagProfesional';
 function App2() {
   
-  const { isLoginModalOpen, isRegisterModalOpen, handleModalClose } = useLogin(); // Acceder al contexto
+  const { isLoginModalOpen, isRegisterModalOpen, isRegisterProfesionalOpen, handleModalClose } = useLogin(); // Acceder al contexto
   const {esPorfesional} = useAuth();
   return (
     <>
@@ -30,6 +31,9 @@ function App2() {
 
     {isLoginModalOpen && <Login onClose={handleModalClose} />}
     {isRegisterModalOpen && <Register onClose={handleModalClose} />}
+    {isRegisterProfesionalOpen && <RegisterProfecional onClose={handleModalClose} />}
+
+
 
     <Toaster
         position="top-center"

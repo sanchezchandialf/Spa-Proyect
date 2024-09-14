@@ -19,9 +19,12 @@ const Register = ()=>{
             const response = await axios.post("/api/auth/registerCliente", formData);
             console.log(response.data);
 
-            if (response.code === 200) toast.success('Se creo su cuenta correctamente, inicie secion');
+            if (response.status === 200) {
+                toast.success('Se creo su cuenta correctamente, inicie secion');
+                redireccionarLogin();
+            }
             
-            redireccionarLogin();
+            
             
         } catch (error) {
             if (!error?.response) {

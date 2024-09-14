@@ -32,7 +32,7 @@ const Header2 = () => {
   const { esCliente, esProfesional, esAdmin, hayUsuario, logout } = useAuth();
 
   const [menuOpen, setMenuOpen] = useState(false);
-  const { handleRegisterClick, handleLoginClick } = useLogin();
+  const { handleRegisterClick, handleLoginClick, handleRegisterProfesionalClick} = useLogin();
   const navigationItems = [
     { text: "Inicio", path: "/" },
     { text: "Servicios", path: "/servicios" },
@@ -73,6 +73,8 @@ const Header2 = () => {
                 {/* Si es admin, mostrar el botón para registrar profesional */}
                 {esAdmin() && (
                   <button
+                    onClick={handleRegisterProfesionalClick}
+
                     className="cursor-pointer text-white bg-pink-500 hover:bg-opacity-75 font-medium rounded-lg text-sm px-4 py-2"
                   >
                     Registrar Profesional
