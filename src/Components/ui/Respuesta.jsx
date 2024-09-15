@@ -13,7 +13,7 @@ export const Responder = ({ consultaId }) => {
         const token = localStorage.getItem('accessToken');
        /*  const apiUrl = `http://localhost:8080/api/consulta/${consultaId}/respuestas/crear`; // URL correcta */
 
-        const apiUrl = `http://vps-4291415-x.dattaweb.com:8080/api/consulta/${consultaId}/respuestas/crear`;
+        const apiUrl = `https://agile-flexibility-production.up.railway.app/api/consulta/${consultaId}/respuestas/crear`;
         try {
             const response = await fetch(apiUrl, {
                 method: 'POST',

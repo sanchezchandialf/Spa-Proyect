@@ -8,7 +8,8 @@ import ServiciosPresentacion from './ui/ServiciosPresentacion';
 import SpaNumbers from './ui/NumberComponent';
 import CallToAction from './ui/CalltoAccion';
 import Contact from './Contact';
-import Carrusel from './Carrusel';
+import { NewsCarousel } from './ui/Noticias';
+
 
 const Body = () => {
   const [showTurno, setShowTurno] = useState(false);
@@ -59,7 +60,7 @@ const Body = () => {
           </div>
           {showTurno && <Turnos onClose={() => setShowTurno(false)} />}
         </section>
-      
+       
         <Contact/>
         
       </main>

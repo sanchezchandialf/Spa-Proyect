@@ -1,5 +1,6 @@
-const API_URL = "http://localhost:8080/";
-
+/* const API_URL = "http://localhost:8080/"; */
+/* const API_URL = "http://vps-4291415-x.dattaweb.com:8080/"; */
+const API_URL = "https://agile-flexibility-production.up.railway.app/"
 const createFetchApi = () => {
   return async function FetchApi({
     path,

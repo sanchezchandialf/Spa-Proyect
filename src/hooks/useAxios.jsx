@@ -6,7 +6,7 @@ const useAxios = () => {
 
   const axiosInstance = axios.create({
     /*     baseURL: 'http://localhost:8080',  */
-    baseURL: 'http://vps-4291415-x.dattaweb.com:8080',
+    baseURL: 'https://agile-flexibility-production.up.railway.app',
     headers: {
       'Content-Type': 'application/json',
     },

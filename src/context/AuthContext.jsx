@@ -31,7 +31,7 @@ export const AuthProvider = ({ children }) => {
   // Función para renovar el token
   const refreshTokenFn = async () => {
     try {
-      const response = await axios.post('http://localhost:8080/api/auth/refresh', {
+      const response = await axios.post('http://vps-4291415-x.dattaweb.com:8080/api/auth/refresh', {
         refresh_token: refreshToken, // Si el backend usa refresh tokens
       });
 
