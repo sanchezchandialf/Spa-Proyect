@@ -5,7 +5,8 @@ const useAxios = () => {
   const { token, logout, refreshToken } = useAuth();
 
   const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8080', 
+    /*     baseURL: 'http://localhost:8080',  */
+    baseURL: 'http://vps-4291415-x.dattaweb.com:8080',
     headers: {
       'Content-Type': 'application/json',
     },
