@@ -4,12 +4,11 @@ import GaleriaP from './GaleriaP';
 import Turnos from '../Pages/Turnos';
 import WelcomeSection from './ui/Welcome';
 import ServiciosPresentacion from './ui/ServiciosPresentacion';
-import ComentariosSection from './ui/ComentarioSeccion';
-import SpaNumero from './ui/SpaShow';
+
 import SpaNumbers from './ui/NumberComponent';
 import CallToAction from './ui/CalltoAccion';
 import Contact from './Contact';
-
+import Carrusel from './Carrusel';
 
 const Body = () => {
   const [showTurno, setShowTurno] = useState(false);
@@ -21,10 +20,10 @@ const Body = () => {
   return (
     <div className='min-h-screen bg-background text-foreground'>
       <main className="w-full">
+        
         <WelcomeSection />
         <ServiciosPresentacion />
         <CallToAction />
-
 
         <section className="py-16 bg-gray-50 relative">
           <div className="container mx-auto px-6">
@@ -60,9 +59,9 @@ const Body = () => {
           </div>
           {showTurno && <Turnos onClose={() => setShowTurno(false)} />}
         </section>
-
+      
         <Contact/>
-
+        
       </main>
     </div>
   );

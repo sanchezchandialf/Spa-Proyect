@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { FetchApi } from '../../api/Common';
 import {ServiceCard} from './ServiceCard';
 

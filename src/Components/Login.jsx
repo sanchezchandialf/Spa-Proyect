@@ -28,9 +28,12 @@ const Login = ()=>{
             const { accessToken, usuarioLogueado } = response.data;
             const roles = usuarioLogueado.roles;
             const idRole = roles[0].idRole; // Asegúrate de que idRole exista
-        
+            const user=response.data.usuarioLogueado;
+            localStorage.setItem('rol', idRole);
+            localStorage.setItem('accessToken', response.data.accessToken);
+            localStorage.setItem('user', JSON.stringify(response.data.usuarioLogueado));
             // Guarda el token y el rol en el contexto usando el hook useAuth
-            login(accessToken, idRole);
+            login(accessToken, user, idRole);
             console.log(idRole);
             const a = esAdmin();
             console.log(a);
