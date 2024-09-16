@@ -43,7 +43,7 @@ const ServicesSection = () => {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Nuestros Servicios</h1>
+      <h1 className="text-3xl font-bold mb-6 text-black">Nuestros Servicios</h1>
 
       <input
         type="text"

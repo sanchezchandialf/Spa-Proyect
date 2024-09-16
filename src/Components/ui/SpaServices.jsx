@@ -38,9 +38,7 @@ const SpaServices = () => {
           <motion.p className="mt-8 text-2xl italic text-gray-300" initial={{ y: 50 }} animate={{ y: 0 }}>
             "La relajación es la mejor forma de encontrarse con uno mismo. Un spa es el lugar donde cuerpo y mente se alinean."
           </motion.p>
-          <motion.p className="mt-2 text-gray-400" initial={{ y: 50 }} animate={{ y: 0 }}>
-            - Anónimo
-          </motion.p>
+         
         </div>
       </motion.section>
 

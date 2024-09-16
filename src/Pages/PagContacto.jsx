@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ConsultaForm from '../Components/ui/ConsultaForm';
 import EmpleoList from '../Components/ui/EmpleoList';
 
 function PagContacto() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  })
   return (
     <div className="min-h-screen bg-[#c5dce3] text-gray-900">
       {/* Sección del Formulario de Consulta */}

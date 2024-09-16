@@ -12,9 +12,9 @@ const items = [
 const WelcomeSection = () => {
   return (
     <div className="flex flex-col">
-      <div className="w-full">
+      {/* <div className="w-full">
         <StaticBanner items={items} />
-      </div>
+      </div> */}
       <div className="w-full "> {/* Añadido margen superior */}
         <ContainerFluido
           imageSrc={Bienvenidafoto}
@@ -23,7 +23,7 @@ const WelcomeSection = () => {
           columnText="Fundado en 2005, Sentirse Bien Spa Retreat ha sido un refugio para aquellos que buscan paz y relajación en el corazón de la ciudad. Nuestro viaje comenzó con una visión simple: crear un espacio donde las personas podrían escapar del estrés de la vida diaria y encontrar la verdadera rejuvenecimiento para el cuerpo, la mente y el espíritu"
         />
       </div>
-      <div className="w-full"> {/* Añadido margen superior */}
+      <div className="w-full"> 
         <StaticBanner items={items} />
       </div>
       {/* <div className="w-full mt-4 md:mt-8">

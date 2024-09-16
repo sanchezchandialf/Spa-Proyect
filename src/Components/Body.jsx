@@ -3,6 +3,9 @@ import WelcomeSection from './ui/Welcome';
 import ServiciosPresentacion from './ui/ServiciosPresentacion';
 import CallToAction from './ui/CalltoAccion';
 import Contact from './Contact';
+import { NewsCarousel } from './Noticias';
+import Footer from './ui/footer';
+
 
 const Body = () => {
   const [showTurno, setShowTurno] = useState(false);
@@ -28,11 +31,12 @@ const Body = () => {
         <section className="w-full bg-gray-100">
           <CallToAction />
         </section>
-
+         <NewsCarousel />
         {/* Contacto */}
         <section className="w-full bg-gray-200">
           <Contact />
         </section>
+        <Footer />
       </main>
     </div>
   );

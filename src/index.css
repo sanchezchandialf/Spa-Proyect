@@ -5,9 +5,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root  {
-
-
+:root {
   /* Estilos de la tipografía */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -35,7 +33,6 @@ a:hover {
 
 /* Estilos del cuerpo de la página */
 
-
 /* Estilos de los titulos */
 h1 {
   /* Tamaño de los titulos */
@@ -59,7 +56,7 @@ button {
   /* Tamaño de la tipografía de los botones */
   font-size: 1em;
 
-  /* Peso de la tipracheé de los botones */
+  /* Peso de la tipografía de los botones */
   font-weight: 500;
 
   /* Tipografía de los botones */
@@ -121,7 +118,49 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5em;
+  }
+
+  button {
+    padding: 0.5em 1em;
+    font-size: 0.9em;
+  }
+
+  /* Estilos de los formularios */
+  .form-container {
+    padding: 1.5em;
+    margin: 1em;
+  }
+
+  input, textarea {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 2em;
+  }
+
+  button {
+    padding: 0.4em 0.8em;
+    font-size: 0.8em;
+  }
+
+  .form-container {
+    padding: 1em;
+    margin: 0.5em;
+  }
+
+  input, textarea {
+    font-size: 0.8em;
+  }
+}
+
 html {
   scroll-behavior: smooth;
 }
-

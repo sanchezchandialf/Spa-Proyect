@@ -3,7 +3,7 @@ import React from 'react';
 export const ServiceCard = ({ service }) => {
   return (
     <div className="bg-white shadow-md rounded-lg p-6 mb-4">
-      <h2 className="text-xl font-bold mb-2">{service.detallesServicio}</h2>
+      <h2 className="text-xl font-bold mb-2 text-gray-800">{service.detallesServicio}</h2>
       <p className="text-gray-600">Duración: {service.duracionMinutos} minutos</p>
       <p className="text-gray-600 mb-2">Categoría: {service.categoria.nombre}</p>
       <p className="text-indigo-500 font-semibold">Precio: ${service.precio}</p>

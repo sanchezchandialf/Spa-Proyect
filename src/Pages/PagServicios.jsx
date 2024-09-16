@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import SpaServices from '../Components/ui/SpaServices';
 import SolicitarTurno from '../Components/ui/SolicitarTurno';
 import ComentariosSection from '../Components/ui/ComentarioSeccion';
 
 function PagServicios() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  })
   return (
     <div className="min-h-screen flex flex-col w-full bg-gray-50 ">
       <main className="w-full flex-1">
