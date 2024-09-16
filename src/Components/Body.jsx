@@ -4,7 +4,7 @@ import ServiciosPresentacion from './ui/ServiciosPresentacion';
 import CallToAction from './ui/CalltoAccion';
 import Contact from './Contact';
 import { NewsCarousel } from './Noticias';
-import Footer from './ui/footer';
+
 
 const Body = () => {
   const [showTurno, setShowTurno] = useState(false);
@@ -42,7 +42,7 @@ const Body = () => {
         </section>
 
         {/* Footer */}
-        <Footer />
+       
       </main>
     </div>
   );
