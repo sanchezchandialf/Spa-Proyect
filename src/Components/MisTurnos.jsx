@@ -47,26 +47,28 @@ const MisTurnos = () => {
     return <div>Ocurrio un error inesperado</div>;  // Mostrar un mensaje de error si ocurre
   }
 
-  return (<section className="min-h-screen bg-emerald-50 flex flex-col items-center">
-    <div className="w-full max-w-7xl bg-white p-6 shadow-md text-center">
-      <h1 className="text-4xl font-bold text-teal-800 mb-2">
+  return (<section className="min-h-screen bg-[#CCC7AE] p-6">
+  
+    <div className="w-full bg-white p-6 shadow-md">
+      <h1 className="text-4xl font-bold [text-#545B55] mb-2 text-center lg:text-left">
         ¡Hola {nombre}!
       </h1>
       {turnos.length > 0 && (
-        <h2 className="text-2xl font-semibold text-teal-700 text-left pl-3">
+        <h2 className="text-2xl font-semibold text-[#D19793] pl-3 mb-4 text-center lg:text-left">
           Sus turnos:
         </h2>
       )}
     </div>
-  
+
+   
     {turnos.length > 0 ? (
-      <div className="w-full max-w-7xl grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-emerald-50 p-6 shadow-inner">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
         {turnos.map((turno) => (
           <TurnoCard key={turno.idTurno} turno={turno} />
         ))}
       </div>
     ) : (
-      <div className="text-lg text-teal-600 italic bg-white p-4 shadow-md">
+      <div className="text-lg text-[#545B55] italic bg-[#F6CEC8] p-4 shadow-md w-full">
         No tienes turnos asignados.
       </div>
     )}

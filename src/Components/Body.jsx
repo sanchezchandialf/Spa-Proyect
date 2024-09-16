@@ -4,6 +4,7 @@ import ServiciosPresentacion from './ui/ServiciosPresentacion';
 import CallToAction from './ui/CalltoAccion';
 import Contact from './Contact';
 import { NewsCarousel } from './Noticias';
+import Footer from './ui/footer';
 
 
 const Body = () => {
@@ -42,6 +43,9 @@ const Body = () => {
         </section>
 
         {/* Footer */}
+        <section className="w-full bg-white max-w-none"> {/* Aseguramos ancho completo */}
+          <Footer />
+        </section>
        
       </main>
     </div>
