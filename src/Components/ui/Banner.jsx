@@ -2,7 +2,7 @@ import React from 'react';
 
 const StaticBanner = ({ items }) => {
   return (
-    <div className="bg-black text-white py-2 px-4 flex flex-col sm:flex-row items-center justify-center">
+    <div className="bg-black text-white py-6 px-4 flex flex-col sm:flex-row items-center justify-center">
       <div className="flex flex-wrap justify-center items-center">
         {items.map((item, index) => (
           <span key={index} className="inline-flex items-center mx-2 my-1">

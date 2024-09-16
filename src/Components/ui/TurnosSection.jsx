@@ -43,7 +43,7 @@ const ConsultarTurnosSection = () => {
   
     return (
       <div className="container mx-2 p-6">
-        <h1 className="text-3xl font-bold mb-6">Gestión de Turnos</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center text-black ">Gestión de Turnos</h1>
         <div className="mb-6 flex flex-wrap gap-4">
         {/* Selector de fecha */}
         <span className="flex items-center gap-1 ">

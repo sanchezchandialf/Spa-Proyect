@@ -31,8 +31,8 @@ const EmpleoList = () => {
     };
 
     return (
-        <div className="w-full bg-[#EDEID2] p-8 text-[#412F26]">
-            <h2 className="text-4xl font-bold text-[#6A6F4C] mb-8 text-center">Oportunidades de Empleo</h2>
+        <div className="w-full bg-[#EDEID2] px-4 py-8 lg:px-16 text-[#412F26]">
+            <h2 className="text-3xl md:text-4xl font-bold text-[#6A6F4C] mb-8 text-center">Oportunidades de Empleo</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {empleos.map((empleo) => (
                     <div key={empleo.idEmpleo} className="bg-[#CBB89D] rounded-xl shadow-lg overflow-hidden transition duration-300 hover:shadow-2xl">

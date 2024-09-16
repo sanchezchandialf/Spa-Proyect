@@ -1,20 +1,29 @@
-import Header2 from "../Components/Header2";
-import ComentariosSection from "../Components/ui/ComentarioSeccion";
-import SpaServices from "../Components/ui/SpaServices";
-import SolicitarTurno from '../Components/ui/SolicitarTurno'
-
+import React from 'react';
+import SpaServices from '../Components/ui/SpaServices';
+import SolicitarTurno from '../Components/ui/SolicitarTurno';
+import ComentariosSection from '../Components/ui/ComentarioSeccion';
 
 function PagServicios() {
-    return (
-      <div className="flex flex-col w-full">
-        
-        <main className="w-full flex-1"> {/* Removí paddings aquí */}
+  return (
+    <div className="min-h-screen flex flex-col w-full bg-gray-50 ">
+      <main className="w-full flex-1">
+        {/* Servicios de Spa */}
+        <section className="w-full bg-white">
           <SpaServices />
-          <SolicitarTurno/>
-        </main>
+        </section>
+
+        {/* Sección de Solicitar Turno */}
+        <section className="w-full bg-gray-100 mt-8">
+          <SolicitarTurno />
+        </section>
+      </main>
+
+      {/* Sección de Comentarios */}
+      <footer className="w-full bg-gray-200 py-8">
         <ComentariosSection />
-      </div>
-    );
+      </footer>
+    </div>
+  );
 }
 
 export default PagServicios;

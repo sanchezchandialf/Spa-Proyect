@@ -1,23 +1,23 @@
-import ConsultaForm from "../Components/ui/ConsultaForm";
-import EmpleoList from "../Components/ui/EmpleoList";
+import React from 'react';
+import ConsultaForm from '../Components/ui/ConsultaForm';
+import EmpleoList from '../Components/ui/EmpleoList';
 
 function PagContacto() {
   return (
-    <div className="min-h-screen bg-[#c5dce3] text-white">
+    <div className="min-h-screen bg-[#c5dce3] text-gray-900">
       {/* Sección del Formulario de Consulta */}
-      <div className=" w-full">
-        <h2 className="text-3xl font-semibold text-center text-white mb-8">Formulario de Consulta</h2>
-        <div className="w-full">
+      <section className="w-full pt-0 pb-8 md:pb-16 -mt-4 md:-mt-8">
+        <div className="container mx-auto px-4">
           <ConsultaForm />
         </div>
-      </div>
+      </section>
 
       {/* Sección de la Lista de Empleos */}
-      <div className=" w-full">
-        <div className="w-full">
+      <section className="w-full py-8 md:py-16 bg-white">
+        <div className="container mx-auto px-4">
           <EmpleoList />
         </div>
-      </div>
+      </section>
     </div>
   );
 }
