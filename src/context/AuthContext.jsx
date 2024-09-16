@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const AuthContext = createContext();
@@ -65,5 +66,20 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  if (!context) {
+      throw new Error('useAuth tiene que usarse con AuthProvider');
+  }
+
+  const logoutWithNavigation = () => {
+      context.logout();
+      navigate('/');
+  };
+
+  return {
+      ...context,
+      logout: logoutWithNavigation
+  };
 };

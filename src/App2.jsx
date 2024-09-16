@@ -14,6 +14,7 @@ import Header2 from './Components/Header2';
 import { useLogin } from './context/LoginContext'; // Importar el contexto
 import { useAuth } from './context/AuthContext';
 import PagProfesional from './Pages/PagProfesional';
+import PagTurnos from './Pages/PagTurnos';
 function App2() {
   
   const { isLoginModalOpen, isRegisterModalOpen, isRegisterProfesionalOpen, handleModalClose } = useLogin(); // Acceder al contexto
@@ -22,12 +23,17 @@ function App2() {
     <>
       <Header2 />
       
-    <Routes>
-      <Route path="/" element={<PagInicio />} /> 
-      <Route path="/servicios" element={<PagServicios/>} />
-      <Route path="/contacto" element={<PagContacto/>} />
-      <Route path='/profesional' element={<PagProfesional/>}/>
-    </Routes>
+      <div className="mt-20">
+        <Routes>
+          <Route path="/" element={<PagInicio />} /> 
+          <Route path="/servicios" element={<PagServicios/>} />
+          <Route path="/contacto" element={<PagContacto/>} />
+          <Route path='/profesional' element={<PagProfesional/>}/>
+          <Route path='/MisTurnos' element={<PagTurnos/>}/>
+
+        </Routes>
+      </div>
+    
 
     {isLoginModalOpen && <Login onClose={handleModalClose} />}
     {isRegisterModalOpen && <Register onClose={handleModalClose} />}

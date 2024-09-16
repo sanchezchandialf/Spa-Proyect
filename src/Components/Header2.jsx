@@ -44,6 +44,10 @@ const Header2 = () => {
     navigationItems.push({ text: "PagProfesional", path: "/profesional" });
   }
 
+  if (esCliente()) {
+    navigationItems.push({ text: "Mis Turnos", path: "/MisTurnos" });
+  }
+
 
   return (
     <header className="fixed top-0 left-0 w-full bg-white dark:bg-gray-900 shadow-lg z-50">

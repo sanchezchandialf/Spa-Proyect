@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
 const useAxios = () => {
-  const { token, logout, refreshToken } = useAuth();
+  const { token, logout , rol, refreshToken} = useAuth();
 
   const axiosInstance = axios.create({
     /*     baseURL: 'http://localhost:8080',  */
@@ -16,7 +16,13 @@ const useAxios = () => {
   axiosInstance.interceptors.request.use(
     (config) => {
       if (token) {
+        console.log('Token de autenticación del interceptor:', token); 
+        console.log('Rol de autenticación del interceptor:', rol); 
+
+
         config.headers.Authorization = `Bearer ${token}`;
+      }else {
+        console.log('Token no encontrado. No se puede realizar la solicitud.');
       }
       return config;
     },

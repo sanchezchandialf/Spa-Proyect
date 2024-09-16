@@ -1,6 +1,8 @@
 import Header2 from "../Components/Header2";
 import ComentariosSection from "../Components/ui/ComentarioSeccion";
 import SpaServices from "../Components/ui/SpaServices";
+import SolicitarTurno from '../Components/ui/SolicitarTurno'
+
 
 function PagServicios() {
     return (
@@ -8,6 +10,7 @@ function PagServicios() {
         
         <main className="w-full flex-1"> {/* Removí paddings aquí */}
           <SpaServices />
+          <SolicitarTurno/>
         </main>
         <ComentariosSection />
       </div>
