@@ -3,7 +3,7 @@ import { FormInput } from "./ui/FormInput";
 import toast from 'react-hot-toast';
 import { useLogin } from "../context/LoginContext";
 import { useAuth } from "../context/AuthContext";
-import useAxios from '../hooks/useAxios';
+import axios from "../api/axios";
 
 const Login = ()=>{
 
@@ -12,7 +12,7 @@ const Login = ()=>{
     formState:{errors , isSubmitting}} = useForm();
 
     const { login, esAdmin } = useAuth();
-    const axios = useAxios();
+
     
     
  const {handleModalClose, handleRegisterClick}=useLogin();
@@ -20,25 +20,25 @@ const Login = ()=>{
     //aca deberia estar el codigo para guardar los datos en la bd
     const onSubmit = async (data) => {
         try {
-          const response = await axios.post("api/auth/login", data);
+          const response = await axios.post("/api/auth/login", data);
           
           // Chequear si la estructura de la respuesta es la esperada
           if (response.status === 200 && response.data) {
             const { accessToken, usuarioLogueado } = response.data;
+
             const roles = usuarioLogueado.roles;
-            const idRole = roles[0].idRole; // Asegúrate de que idRole exista
-            const user=response.data.usuarioLogueado;
+            const idRole = roles[0].idRole; 
+
             localStorage.setItem('rol', idRole);
             localStorage.setItem('accessToken', response.data.accessToken);
-            localStorage.setItem('user', JSON.stringify(response.data.usuarioLogueado));
+
             // Guarda el token y el rol en el contexto usando el hook useAuth
-            login(accessToken, user, idRole);
+            login(accessToken,  idRole);
             console.log(idRole);
-            const a = esAdmin();
-            console.log(a);
             
             toast.success('Se inició sesión correctamente');
             handleClose(); // Cerrar el modal
+            
           } else {
             throw new Error('Respuesta inesperada del servidor');
           }
@@ -82,7 +82,7 @@ const Login = ()=>{
                     aria-label="Cerrar">x</button>
              
                 <section>
-                <h1 className="text-4xl text-white font-bold text-center mb-6">Iniciar Secion</h1>
+                <h1 className="text-4xl text-white font-bold text-center mb-6">Iniciar Sesión</h1>
 
                 <form onSubmit={handleSubmit(onSubmit)}>
 

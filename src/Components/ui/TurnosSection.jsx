@@ -90,7 +90,7 @@ const ConsultarTurnosSection = () => {
   
         {/* Mostrar los turnos */}
         {turnos.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-[#f2e1f4] p-6 border-pink-900 border-4">
             {turnos.map((turno) => (
               <TurnoCard key={turno.idTurno} turno={turno} />
             ))}

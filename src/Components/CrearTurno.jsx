@@ -6,7 +6,7 @@ import CustomDatePicker from './ui/CustumDatePicker.jsx'
 
 
 
-const CrearTurno = ({ idCliente, cerrar }) => {
+const CrearTurno = ({ idCliente }) => {
 
     // Fecha mínima: Un día después del día actual
     const today = new Date();
@@ -26,6 +26,7 @@ const CrearTurno = ({ idCliente, cerrar }) => {
     const selectedServicio = watch('servicioId'); // Escuchamos el valor del servicio seleccionado
     const selectedFecha = watch('fecha'); // Escuchamos la fecha seleccionada
     const selectedHoraInicio = watch('horaInicio'); // Escuchamos la hora de inicio seleccionada
+    const selectedHoraFin = watch('horaFin'); // Añadir el campo horaFin
 
     // Efecto para cargar categorías al montar el componente
     useEffect(() => {
@@ -78,9 +79,7 @@ const CrearTurno = ({ idCliente, cerrar }) => {
         };
 
         axiosInstance.post('/api/turno/crear', turnoData)
-            .then(response => {
-
-                console.log('Turno creado con éxito');
+            .then(()=> {
                 toast.success('Turno creado con éxito')
                 reset();
             })
@@ -105,8 +104,13 @@ const CrearTurno = ({ idCliente, cerrar }) => {
             setSelectedDate(date); // Actualiza la fecha seleccionada
             setValue('fecha', date.toISOString().split('T')[0]); // Llama a la función con la fecha en formato ISO
         } else if (date) {
-            alert('Los domingos no están disponibles.');
+            toast.error('Los domingos no están disponibles.');
         }
+    };
+
+    const handleHorarioSeleccionado = (horario) => {
+        setValue('horaInicio', horario.horaInicio);
+        setValue('horaFin', horario.horaFin);
     };
 
     return (
@@ -175,24 +179,27 @@ const CrearTurno = ({ idCliente, cerrar }) => {
                 </label>
                 <select 
                     id="selectHora"
-                    className="block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring focus:ring-blue-500"
-                    {...register('horaInicio')}
+                    className="block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg"
+                    onChange={(e) => handleHorarioSeleccionado(JSON.parse(e.target.value))}
                     disabled={!selectedFecha}>
                     <option value="">Seleccione un horario</option>
                     {horarios.map((horario, index) => (
-                        <option key={index} value={horario.hora_inicio}>
+                        <option
+                            key={index}
+                            value={JSON.stringify({ horaInicio: horario.hora_inicio, horaFin: horario.hora_fin })}>
                             {horario.hora_inicio} - {horario.hora_fin}
                         </option>
                     ))}
                 </select>
-                <input type="hidden" {...register('horaFin')} value={selectedHoraInicio && horarios.find(h => h.hora_inicio === selectedHoraInicio)?.hora_fin || ''} />
+                <input type="hidden" {...register('horaInicio')} />
+                <input type="hidden" {...register('horaFin')} />
             </div>
 
             {/* Botón para Crear el Turno */}
             <button 
                 type="submit"
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
-                disabled={!selectedHoraInicio}>
+                disabled={!selectedHoraInicio || !selectedHoraFin}>
                 Crear Turno
             </button>
         </form>

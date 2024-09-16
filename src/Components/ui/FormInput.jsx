@@ -11,7 +11,7 @@ export const FormInput = ({ type, textLabel, name, register, options }) => {
       />
       <label
         htmlFor={name}
-        className="absolute left-4 top-2 text-gray-500 duration-300 transform scale-100 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-focus:scale-75 peer-focus:-translate-y-2 peer-focus:px-1 peer-focus:text-pink-500 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:-translate-y-2"
+        className="absolute left-4 top-2 text-gray-600 duration-300 transform scale-100 origin-[0] bg-transparent px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-2 peer-focus:scale-75 peer-focus:-translate-y-2 peer-focus:px-1 peer-focus:text-pink-500 peer-not-placeholder-shown:scale-75 peer-not-placeholder-shown:-translate-y-2"
       >
         {textLabel}
       </label>

@@ -29,7 +29,7 @@ const Header2 = () => {
     { text: "Inicio", path: "/" },
     { text: "Servicios", path: "/servicios" },
     { text: "Contacto", path: "/contacto" },
-    esProfesional() && { text: "PagProfesional", path: "/profesional" },
+    esProfesional() && { text: "Panel Profesional", path: "/profesional" },
     esCliente() && { text: "Mis Turnos", path: "/MisTurnos" }
   ].filter(Boolean);
 
