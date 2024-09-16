@@ -29,7 +29,7 @@ const SpaServices = () => {
     
 
       {/* Sección "Sentite Bien" */}
-      <motion.section className="flex items-center   justify-center h-screen bg-[#26552d] text-white w-full"
+      <motion.section className="flex items-center   justify-center h-screen bg-[#26552d]  w-full"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }}>
         <div className="text-center">
           <motion.h1 className="text-9xl font-bold text-white " initial={{ scale: 0.8 }} animate={{ scale: 1 }}>
