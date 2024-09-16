@@ -5,11 +5,10 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 import Bann from "../assets/Bann.jpg";
-import Banner from '../assets/Banner.jpg';
-import PromoInvierno from '../assets/PromoInvierno.jpg';
+
 import fotopresentacion from '../assets/fotopresentacion.jpg';
 import Piedras from '../assets/Piedras.jpg';
-import Reiki from '../assets/reiki.jpg';
+
 const newsItems = [
   {
     id: 1,
@@ -22,7 +21,7 @@ const newsItems = [
     id: 2,
     title: 'Próximos Cursos de Reiki',
     description: 'Estamos emocionados de anunciar que pronto ofreceremos cursos de Raiki para aquellos interesados en aprender esta técnica de sanación.',
-    image: Reiki,
+    image:Piedras,
     link: '/servicios', // Ruta específica
   },
   {
