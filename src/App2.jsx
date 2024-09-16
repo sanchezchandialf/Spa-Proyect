@@ -23,7 +23,7 @@ function App2() {
     <>
       <Header2 />
       
-      <div className="mt-20">
+      <div >
         <Routes>
           <Route path="/" element={<PagInicio />} /> 
           <Route path="/servicios" element={<PagServicios/>} />
