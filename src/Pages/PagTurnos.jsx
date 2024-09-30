@@ -1,5 +1,5 @@
 import React from 'react';
-import MisTurnos from '../Components/MisTurnos';
+import MisTurnos from '../Turnos/componentes/MisTurnos';
 
 const PagTurnos = () => {
   return (

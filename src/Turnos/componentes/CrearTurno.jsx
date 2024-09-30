@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import useAxios from '../hooks/useAxios'; 
+import useAxios from '../../hooks/useAxios.jsx'; 
 import { useForm } from 'react-hook-form'; 
 import toast from 'react-hot-toast';
-import CustomDatePicker from './ui/CustumDatePicker.jsx'
+import CustomDatePicker from '../utilidades/CustumDatePicker.jsx'
 
 
 

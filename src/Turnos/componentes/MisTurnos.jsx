@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import useAxios from '../hooks/useAxios';
-import  TurnoCard  from './ui/TurnoCard';  
+import useAxios from '../../hooks/useAxios';
+import  TurnoCard  from '../utilidades/TurnoCard';  
 
 const MisTurnos = () => {
   const axiosInstance = useAxios();  

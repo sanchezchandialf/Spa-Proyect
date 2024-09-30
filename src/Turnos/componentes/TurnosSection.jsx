@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useAxios from '../../hooks/useAxios';
 import { useAuth } from '../../context/AuthContext';
-import { TurnoCard } from './TurnoCard';
+import { TurnoCard } from '../utilidades/TurnoCard';
 
 const ConsultarTurnosSection = () => {
     const [turnos, setTurnos] = useState([]);

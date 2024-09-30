@@ -1,5 +1,5 @@
 import React from 'react';
-import ConsultarTurnosSection from '../Components/ui/TurnosSection';
+import ConsultarTurnosSection from '../Turnos/componentes/TurnosSection';
 import ConsultasSection from '../Contact/Components/ConsultasSection';
 import EmpleoListWithPostulaciones from '../Contact/Components/EmpleoListWithPostulaciones';
 

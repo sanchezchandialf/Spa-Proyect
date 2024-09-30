@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { FormInput } from "./ui/FormInput";
+import { FormInput } from "../UtilitiesGenericas/FormInput";
 import toast from 'react-hot-toast';
 import { useLogin } from "../context/LoginContext";
 import { useAuth } from "../context/AuthContext";

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SpaNumbers from '../../Components/ui/NumberComponent';
-import CrearTurno from '../../Components/CrearTurno';
+import CrearTurno from '../../Turnos/componentes/CrearTurno';
 import { useAuth } from "../../context/AuthContext";
 import { useLogin } from "../../context/LoginContext";
 import useAxios from '../../hooks/useAxios';
