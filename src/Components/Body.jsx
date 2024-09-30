@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import WelcomeSection from './ui/Welcome';
-import ServiciosPresentacion from './ui/ServiciosPresentacion';
-import CallToAction from './ui/CalltoAccion';
-import Contact from './Contact';
-import { NewsCarousel } from './Noticias';
-import Fondo from './ui/Fondo';
+import WelcomeSection from '../Home/Componentes/Welcome';
+import ServiciosPresentacion from '../Home/Componentes/ServiciosPresentacion';
+import CallToAction from '../Home/Componentes/CalltoAccion';
+import Contact from '../Home/Componentes/Contact';
+import { NewsCarousel } from '../Home/Componentes/Noticias';
+import Fondo from '../Home/Componentes/Fondo';
 
 
 

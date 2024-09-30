@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import SpaServices from '../Components/ui/SpaServices';
-import SolicitarTurno from '../Components/ui/SolicitarTurno';
-import ComentariosSection from '../Components/ui/ComentarioSeccion';
+import SpaServices from '../Servicios/Components/SpaServices';
+import SolicitarTurno from '../Servicios/Components/SolicitarTurno';
+import ComentariosSection from '../Servicios/Components/ComentarioSeccion';
 
 function PagServicios() {
   useEffect(() => {

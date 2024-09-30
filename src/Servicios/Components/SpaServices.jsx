@@ -1,11 +1,7 @@
 import React from 'react';
-import { Grid, Card, CardContent, Typography, Button, CardActions } from '@mui/material';
 import { motion } from 'framer-motion'; // Import Framer Motion
-import { ChevronRight } from 'lucide-react'; // Import Lucide React Icon
-import ContainerFluido from './Container';
-import Masajes from '../../assets/Masajes.jpg';
-import ContainerFluido2 from './Container2';
-import MasajesSala from '../../assets/MasajesSala.jpeg';
+import ContainerFluido from '../../UtilitiesGenericas/Container';
+import Masajes from '../Assets/Masajes.jpg';
 import ServicesSection from './ServiceSeccion';
 import CommentsSection from './ComentarioLista';
 
@@ -29,7 +25,7 @@ const SpaServices = () => {
     
 
       {/* Sección "Sentite Bien" */}
-      <motion.section className="flex items-center   justify-center h-screen bg-[#26552d]  w-full"
+      <motion.section className="flex items-center   justify-center h-screen bg-[#26552d] text-white w-full"
         initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1.5 }}>
         <div className="text-center">
           <motion.h1 className="text-9xl font-bold text-white " initial={{ scale: 0.8 }} animate={{ scale: 1 }}>

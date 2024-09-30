@@ -1,8 +1,5 @@
 import React from 'react';
-import ContainerFluido2 from './Container2';
-import Bienvenidafoto from '../../assets/Bienvenidafoto.jpg';
-import FotoWelcome from '../../assets/FotoWelcome.jpg';
-import Flores from '../../assets/Flores.jpg';
+import ContainerFluido2 from '../../UtilitiesGenericas/Container2';
 import Toallas from '../../assets/Toallas.jpg';
 
 const ServiciosPresentacion = () => {

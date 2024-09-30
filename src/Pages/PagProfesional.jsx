@@ -1,7 +1,7 @@
 import React from 'react';
 import ConsultarTurnosSection from '../Components/ui/TurnosSection';
-import ConsultasSection from '../Components/ui/ConsultasSection';
-import EmpleoListWithPostulaciones from '../Components/ui/EmpleoListWithPostulaciones';
+import ConsultasSection from '../Contact/Components/ConsultasSection';
+import EmpleoListWithPostulaciones from '../Contact/Components/EmpleoListWithPostulaciones';
 
 function PagProfesional() {
   return (

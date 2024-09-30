@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm } from "react-hook-form";
-import { ButtonComponent } from '../Components/ui/ButtonComponent';
+import { ButtonComponent } from '../UtilitiesGenericas/ButtonComponent';
 
 function Turnos({onCLose}) {
     const { register, handleSubmit, watch, formState: { errors} } = useForm();

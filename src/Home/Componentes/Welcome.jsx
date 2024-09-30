@@ -1,8 +1,8 @@
 import React from 'react';
-import ContainerFluido from './Container';
-import SpaNumbers from "./NumberComponent";
+import ContainerFluido from '../../UtilitiesGenericas/Container';
+import SpaNumbers from "../../Components/ui/NumberComponent";
 import Bienvenidafoto from '../../assets/Bienvenidafoto.jpg';
-import StaticBanner from './Banner';
+import StaticBanner from '../Utilites/Banner';
 
 const items = [
   "Aromaterapia para aliviar el estrés y promover la relajación.",

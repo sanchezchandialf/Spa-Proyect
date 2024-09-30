@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import ConsultaForm from '../Components/ui/ConsultaForm';
-import EmpleoList from '../Components/ui/EmpleoList';
+import ConsultaForm from '../Contact/Components/ConsultaForm';
+import EmpleoList from '../Contact/Components/EmpleoList';
 
 function PagContacto() {
   useEffect(() => {

@@ -4,10 +4,9 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useNavigate } from 'react-router-dom'; // Importa useNavigate
-import Bann from "../assets/Bann.jpg";
-
-import fotopresentacion from '../assets/fotopresentacion.jpg';
-import Piedras from '../assets/Piedras.jpg';
+import Bann from '../Assets/Bann.jpg';
+import fotopresentacion from '../Assets/fotopresentacion.jpg';
+import Piedras from '../Assets/Piedras.jpg';
 
 const newsItems = [
   {
