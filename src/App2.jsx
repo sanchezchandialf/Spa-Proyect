@@ -15,13 +15,17 @@ import { useLogin } from './context/LoginContext'; // Importar el contexto
 import { useAuth } from './context/AuthContext';
 import PagProfesional from './Pages/PagProfesional';
 import PagTurnos from './Pages/PagTurnos';
+import Menu from './administracion/Menu';
 function App2() {
   
   const { isLoginModalOpen, isRegisterModalOpen, isRegisterProfesionalOpen, handleModalClose } = useLogin(); // Acceder al contexto
   const {esPorfesional} = useAuth();
   return (
     <>
+    <div className='mb-20'>
       <Header2 />
+    </div>
+      
       
       <div >
         <Routes>
@@ -30,6 +34,7 @@ function App2() {
           <Route path="/contacto" element={<PagContacto/>} />
           <Route path='/profesional' element={<PagProfesional/>}/>
           <Route path='/MisTurnos' element={<PagTurnos/>}/>
+          <Route path='/administracion' element={<Menu/>}/>
 
         </Routes>
       </div>

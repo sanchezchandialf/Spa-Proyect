@@ -1,5 +1,5 @@
 import SpaFinal from "../assets/SpaFinal.png";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useState } from "react";
 import { useLogin } from '../context/LoginContext';
 import { useAuth } from '../context/AuthContext';
@@ -21,29 +21,34 @@ const NavigationElement = ({ text, path }) => (
 );
 
 const Header2 = () => {
-  const { esCliente, esProfesional, esAdmin, hayUsuario, logout } = useAuth();
+  const { esCliente, esProfesional, esAdmin, hayUsuario, logout, admin_profesional, admin_secretaria } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const { handleRegisterClick, handleLoginClick, handleRegisterProfesionalClick } = useLogin();
 
-  const navigationItems = [
+  const itemsCorporativo = [
     { text: "Inicio", path: "/" },
     { text: "Servicios", path: "/servicios" },
     { text: "Contacto", path: "/contacto" },
-    esProfesional() && { text: "Panel Profesional", path: "/profesional" },
     esCliente() && { text: "Mis Turnos", path: "/MisTurnos" }
   ].filter(Boolean);
 
+
   return (
     <header className="fixed top-0 left-0 w-screen bg-white dark:bg-gray-800 shadow-md z-50 overflow-x-hidden"> {/* Cambié w-full a w-screen y agregué overflow-x-hidden */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-1">
         <div className="flex items-center justify-between py-4">
           <Logo />
           
-          <nav className="hidden md:flex items-center space-x-8">
-            {navigationItems.map(item => (
+          {(admin_profesional() || admin_secretaria()) ? (
+            <Navigate to='/administracion' />
+          ) : (
+            <nav className="hidden md:flex items-center space-x-8">
+            {itemsCorporativo.map(item => (
               <NavigationElement key={item.text} text={item.text} path={item.path} />
             ))}
           </nav>
+          )}
+          
 
           <div className="flex items-center space-x-4">
             {hayUsuario() ? (
@@ -106,7 +111,7 @@ const Header2 = () => {
 
         {menuOpen && (
           <nav className="md:hidden flex flex-col space-y-2 mt-4 bg-white dark:bg-gray-800 shadow-lg rounded-lg">
-            {navigationItems.map(item => (
+            {itemsCorporativo.map(item => (
               <NavigationElement key={item.text} text={item.text} path={item.path} />
             ))}
           </nav>

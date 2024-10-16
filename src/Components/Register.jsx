@@ -56,7 +56,7 @@ const Register = ()=>{
 
     return(
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <div className="bg-costum-green border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-90 relative max-h-[90vh] overflow-auto">
+            <div className="bg-[#344C3D]  border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-90 relative max-h-[90vh] overflow-auto">
                 <button onClick={handleClose}
                     className="absolute top-1 right-1 text-white hover:text-gray-300 bg-transparent font-extrabold rounded-lg text-sm px-4 py-2"
                     aria-label="Cerrar">X</button>

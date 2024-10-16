@@ -76,7 +76,7 @@ const Login = ()=>{
 
     return(
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-            <main className="bg-costum-green border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-90  relative whitespace-normal overflow-wrap-normal">
+            <main className="bg-[#344C3D] border-slate-400 rounded-md p-8 shadow-lg backdrop-filter backdrop-blur-sm bg-opacity-90  relative whitespace-normal overflow-wrap-normal">
                 <button onClick={handleClose}
                     className="absolute top-1 right-1 text-white hover:text-gray-300 text-justify-center bg-transparent font-extrabold rounded-lg text-sm px-4 py-2 font-mono"
                     aria-label="Cerrar">x</button>

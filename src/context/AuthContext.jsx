@@ -24,6 +24,16 @@ export const AuthProvider = ({ children }) => {
     setRol(0);
   };
 
+  const admin_profesional = ()=>{
+     return rol === 2 || rol ===3;
+  }
+
+  const admin_secretaria = ()=>{
+    return rol === 2 //|| rol ===4;
+ }
+
+  
+
   const value = {
     token,
     rol,
@@ -33,6 +43,9 @@ export const AuthProvider = ({ children }) => {
     esCliente: () => rol === 1,
     esAdmin: () => rol === 2,
     esProfesional: () => rol === 3,
+    admin_profesional,
+    admin_secretaria,
+    
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
