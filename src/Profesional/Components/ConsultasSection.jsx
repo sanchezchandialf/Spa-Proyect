@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import ConsultaDetail from './ConsultaDetail';
+import ConsultaDetail from '../../Contact/Components/ConsultaDetail';
 
 import ConsultasList from './ConsultaList';
-import Responder from './Respuesta';
+import Responder from '../../Contact/Components/Respuesta';
 
 const ConsultasSection = () => {
     
