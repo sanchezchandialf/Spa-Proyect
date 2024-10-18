@@ -77,7 +77,7 @@ const SolicitarTurno =()=>{
               </div>
             </div>
           </div>
-          {hayUsuario() && esCliente() && showTurno && <CrearTurno idCliente={idUsuario} />}
+          {hayUsuario() && esCliente() && showTurno && <CrearTurno />}
         </section>
   </div>)
 

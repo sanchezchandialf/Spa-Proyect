@@ -3,11 +3,13 @@ import useAxios from '../../api/useAxios.jsx';
 import { useForm } from 'react-hook-form'; 
 import toast from 'react-hot-toast';
 import CustomDatePicker from '../utilidades/CustumDatePicker.jsx'
+import { useAuth } from '../../context/AuthContext.jsx';
 
 
 
-const CrearTurno = ({ idCliente }) => {
+const CrearTurno = () => {
 
+    const { idUsuario } = useAuth();
     // Fecha mínima: Un día después del día actual
     const today = new Date();
     const minDate = new Date(today);
@@ -71,7 +73,7 @@ const CrearTurno = ({ idCliente }) => {
     // Función para gestionar la creación del turno
     const onSubmit = (data) => {
         const turnoData = {
-            id_cliente: idCliente,
+            id_cliente: idUsuario,
             id_servicio: data.servicioId,
             fecha: data.fecha,
             horaInicio: data.horaInicio,
