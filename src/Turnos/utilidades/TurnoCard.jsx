@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useAxios from '../../hooks/useAxios';
+import useAxios from '../../api/useAxios';
 import { useAuth } from '../../context/AuthContext';
 
 export const TurnoCard = ({ turno }) => {

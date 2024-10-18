@@ -3,7 +3,7 @@ import SpaNumbers from '../../Components/ui/NumberComponent';
 import CrearTurno from '../../Turnos/componentes/CrearTurno';
 import { useAuth } from "../../context/AuthContext";
 import { useLogin } from "../../context/LoginContext";
-import useAxios from '../../hooks/useAxios';
+import useAxios from '../../api/useAxios';
 import toast from 'react-hot-toast';
 
 

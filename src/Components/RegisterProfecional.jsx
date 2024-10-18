@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { FormInput } from "../UtilitiesGenericas/FormInput";
-import useAxios from '../hooks/useAxios';
+import useAxios from '../api/useAxios';
 import toast from 'react-hot-toast';
 import { useLogin } from "../context/LoginContext";
 

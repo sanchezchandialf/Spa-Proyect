@@ -11,7 +11,7 @@ const Login = ()=>{
     const {register, handleSubmit, setError, reset, 
     formState:{errors , isSubmitting}} = useForm();
 
-    const { login, esAdmin } = useAuth();
+    const { login, esAdmin, n } = useAuth();
 
     
     
@@ -25,16 +25,12 @@ const Login = ()=>{
           // Chequear si la estructura de la respuesta es la esperada
           if (response.status === 200 && response.data) {
             const { accessToken, usuarioLogueado } = response.data;
-
-            const roles = usuarioLogueado.roles;
-            const idRole = roles[0].idRole; 
-
-            localStorage.setItem('rol', idRole);
-            localStorage.setItem('accessToken', response.data.accessToken);
+            const idRole = usuarioLogueado.roles[0].idRole;
+            const idUsuario = usuarioLogueado.idUsuario;
+            const nombreUsuario = usuarioLogueado.username;
 
             // Guarda el token y el rol en el contexto usando el hook useAuth
-            login(accessToken,  idRole);
-            console.log(idRole);
+            login(accessToken, idRole, idUsuario, nombreUsuario);
             
             toast.success('Se inició sesión correctamente');
             handleClose(); // Cerrar el modal

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import ConsultarTurnosSection from '../Turnos/componentes/TurnosSection';
-import ConsultasSection from '../Contact/Components/ConsultasSection';
-import EmpleoListWithPostulaciones from '../Contact/Components/EmpleoListWithPostulaciones';
+import ConsultasSection from '../Profesional/Components/ConsultasSection';
+import EmpleoListWithPostulaciones from '../Profesional/Components/EmpleoListWithPostulaciones';
+import Factura from '../pagos/utilidades/Factura';
+import CrearTurnoVacio from '../Turnos/componentes/CrearTurnoVacio';
 import { useAuth } from '../context/AuthContext';
 
 
@@ -23,8 +25,10 @@ export default function Menu() {
             return <ConsultasSection/>;
         case 'Turnos':
             return <ConsultarTurnosSection/>;
+        case 'Agregar turnos':
+            return <CrearTurnoVacio/>;
         case 'Pagos':
-            return <h1>Muestra pagos realizados por cliente, todas sus facturas</h1>;
+            return <Factura/>;
         case 'Ingresos':
             return <h1>Informe de ingresos por fechas</h1>;
         case 'Servicios por profesional':
@@ -84,6 +88,15 @@ export default function Menu() {
                 className="w-full text-left p-2 bg-[#829672] hover:bg-[#344C3D] m-1"
               >
                 Turnos
+              </button>
+              )}
+
+              {admin_profesional() && (
+                <button 
+                onClick={() => setSelectedOption('Agregar turnos')} 
+                className="w-full text-left p-2 bg-[#829672] hover:bg-[#344C3D] m-1"
+              >
+                Agregar turnos
               </button>
               )}
               

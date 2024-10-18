@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import  useAxios  from "../../hooks/useAxios"; // Asegúrate de que este hook esté disponible o reemplázalo con Axios directo
+import  useAxios  from "../../api/useAxios"; // Asegúrate de que este hook esté disponible o reemplázalo con Axios directo
 
 export const ViewClient = () => {
   const axiosInstance = useAxios(); // Hook para manejar Axios, puedes usar `axios.create` si no tienes este hook

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import useAxios from '../../hooks/useAxios'; // Importar el hook personalizado
+import useAxios from '../../api/useAxios'; // Importar el hook personalizado
 
 const EmpleoListWithPostulaciones = () => {
     const axiosInstance = useAxios(); // Usar el hook personalizado

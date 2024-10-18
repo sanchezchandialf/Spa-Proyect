@@ -1,41 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import useAxios from '../../hooks/useAxios';
-import  TurnoCard  from '../utilidades/TurnoCard';  
+import useAxios from '../../api/useAxios';
+import  TurnoCard  from '../utilidades/TurnoCard'; 
+import { useAuth } from '../../context/AuthContext';
 
 const MisTurnos = () => {
   const axiosInstance = useAxios();  
   const [turnos, setTurnos] = useState([]);  
   const [loading, setLoading] = useState(true);  
   const [error, setError] = useState(null);
-  const [nombre, setNombre] = useState("...");
+  const { nombreUsuario } = useAuth();
   
-  
-    const obtenerNombreUsuario = async()=>{
-    try{
-        const response = await axiosInstance.get("/api/auth/userLogueado");
-        if (response.status === 200 && response.data) {
-            
-            const n = response.data.data.nombre;
-            setNombre(n);
-            
-        }
-    }catch(error){}
-    };
 
-    const fetchTurnos = async () => {
-      try {
-        const response = await axiosInstance.get('/api/turno/misTurnos'); 
-        setTurnos(response.data.data);  
-        setLoading(false);  
-      } catch (err) {
-        setError('Error al cargar los turnos'); 
-        setLoading(false);  
-      }
-    };
+  const fetchTurnos = async () => {
+    try {
+      const response = await axiosInstance.get('/api/turno/misTurnos'); 
+      setTurnos(response.data.data);  
+      setLoading(false);  
+    } catch (err) {
+      setError('Error al cargar los turnos'); 
+      setLoading(false);  
+    }
+  };
   
   useEffect(() => {
-    fetchTurnos();
-    obtenerNombreUsuario();  // Ejecutar la solicitud
+    fetchTurnos(); // Ejecutar la solicitud
   }, []);  
 
 
@@ -51,7 +39,7 @@ const MisTurnos = () => {
   
     <div className="w-full bg-white p-6 shadow-md">
       <h1 className="text-4xl font-bold [text-#545B55] mb-2 text-center lg:text-left">
-        ¡Hola {nombre}!
+        ¡Hola {nombreUsuario}!
       </h1>
       {turnos.length > 0 && (
         <h2 className="text-2xl font-semibold text-[#D19793] pl-3 mb-4 text-center lg:text-left">
