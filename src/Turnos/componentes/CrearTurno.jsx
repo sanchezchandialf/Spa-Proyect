@@ -16,42 +16,38 @@ const CrearTurno = () => {
     const maxDate = new Date(today);
     maxDate.setDate(maxDate.getDate() + 20); // Máximo: 20 días desde hoy
 
-    const [categorias, setCategorias] = useState([]);  // Lista de categorías
-    const [horarios, setHorarios] = useState([]);  // Turnos disponibles
-
-    const [selectedDate, setSelectedDate] = useState(minDate); // Fecha seleccionada
     const { register, handleSubmit, setValue, watch, reset } = useForm();
 
-    const selectedCategoria = watch('categoriaNombre'); // Categoría seleccionada
-    const selectedFecha = watch('fecha'); // Fecha seleccionada
-    const selectedHoraInicio = watch('horaInicio'); // Hora de inicio seleccionada
-    const selectedHoraFin = watch('horaFin'); // Hora de fin seleccionada
+    const [horarios, setHorarios] = useState([]);  // Turnos disponibles
+    const [servicios, setServicios] = useState([]); // Servicios disponibles
+    const [selectedServicios, setSelectedServicios] = useState([]); // Servicios seleccionados
+    const [selectedTurno, setSelectedTurno] = useState(null); // Turno seleccionado
+    const [selectedDate, setSelectedDate] = useState(minDate); // Fecha seleccionada
 
-    // Cargar categorías al montar el componente
+    const selectedFecha = watch('fecha'); // Fecha seleccionada
+    const selectedServicio = watch('servicio'); // Servicio seleccionado
+
+    // Cargar servicios al montar el componente
     useEffect(() => {
-        axiosInstance.get('/api/servicio/categorias')
-            .then(response => setCategorias(response.data.data))
-            .catch(error => console.error('Error al cargar las categorías', error));
+        axiosInstance.get('/api/servicio/listar')
+            .then(response => setServicios(response.data.data))
+            .catch(error => console.error('Error al cargar los servicios', error));
     }, []);
 
     // Manejador de cambio de fecha
     const handleDateChange = (date) => {
-        if (date && isWeekday(date)) {
+        if (date) {
             setSelectedDate(date);
-            setValue('fecha', date.toISOString().split('T')[0]); // Guardamos la fecha en formato ISO
+            setValue('fecha', date.toISOString().split('T')[0]);
 
-            // Si hay categoría seleccionada, buscar turnos disponibles para esa fecha
-            if (selectedCategoria) {
-                fetchTurnosDisponibles(date.toISOString().split('T')[0], selectedCategoria);
-            }
-        } else {
-            toast.error('Los domingos no están disponibles.');
+            // Cargar los turnos disponibles para la fecha seleccionada
+            fetchTurnosDisponibles(date.toISOString().split('T')[0]);
         }
     };
 
-    // Llamada a la API para obtener los turnos disponibles
-    const fetchTurnosDisponibles = (fecha, categoria) => {
-        axiosInstance.get(`/api/turno/disponibles?fecha=${fecha}&categoria=${categoria}`)
+    // Llamada a la API para obtener los turnos disponibles en la fecha seleccionada
+    const fetchTurnosDisponibles = (fecha) => {
+        axiosInstance.get(`/api/turno/disponibles?fecha=${fecha}`)
             .then(response => {
                 const horariosDisponibles = response.data?.data || [];
                 setHorarios(horariosDisponibles);
@@ -62,69 +58,49 @@ const CrearTurno = () => {
             });
     };
 
-    // Manejador de selección de categoría
-    const handleCategoriaChange = (e) => {
-        const categoriaSeleccionada = e.target.value;
-        setValue('categoriaNombre', categoriaSeleccionada);
+    // Manejador de selección de horario
+    const handleHorarioSeleccionado = (turno) => {
+        setSelectedTurno(turno);
+        setValue('idTurno', turno.idTurno);
+    };
 
-        // Si ya se ha seleccionado una fecha, buscar turnos para esa fecha y categoría
-        if (selectedDate) {
-            fetchTurnosDisponibles(selectedDate.toISOString().split('T')[0], categoriaSeleccionada);
+    // Agregar servicio seleccionado a la lista de servicios
+    const agregarServicio = () => {
+        const servicio = servicios.find(s => s.idServicio === parseInt(selectedServicio));
+        if (servicio && !selectedServicios.some(s => s.idServicio === servicio.idServicio)) {
+            setSelectedServicios([...selectedServicios, servicio]);
+            setValue('servicio', ''); // Resetear selección de servicio
         }
     };
 
-    // Manejador de selección de horario
-    const handleHorarioSeleccionado = (horario) => {
-        setValue('horaInicio', horario.hora_inicio);
-        setValue('horaFin', horario.hora_fin);
-    };
-
     // Función para gestionar la creación del turno
-    const onSubmit = (data) => {
+    const onSubmit = () => {
+        if (!selectedTurno) {
+            toast.error('Debe seleccionar un horario para crear un turno');
+            return;
+        }
+
+        const servicioIds = selectedServicios.map(s => s.idServicio);
         const turnoData = {
-            id_cliente: idUsuario,
-            fecha: data.fecha,
-            horaInicio: data.horaInicio,
-            horaFin: data.horaFin,
-            categoria: data.categoriaNombre,
+            idTurno: selectedTurno.idTurno,
+            servicioIds: servicioIds
         };
 
-        axiosInstance.post('/api/turno/crear', turnoData)
+        axiosInstance.post('/api/turno/asignar', turnoData)
             .then(() => {
                 toast.success('Turno creado con éxito');
                 reset(); // Reseteamos el formulario
+                setSelectedServicios([]); // Limpiamos la lista de servicios seleccionados
             })
             .catch(error => {
                 console.error('Error al crear el turno', error);
+                toast.error('Error al crear el turno');
             });
     };
 
-    // Verificar si un día es domingo
-    const isWeekday = (date) => date.getDay() !== 0;
-
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-6 bg-gray-900 text-white rounded-lg shadow-lg">
-            {/* Paso 1: Seleccionar Categoría */}
-            <div className="mb-4">
-                <label htmlFor="selectCategoria" className="block text-sm font-medium mb-2">
-                    Selecciona una categoría:
-                </label>
-                <select
-                    id="selectCategoria"
-                    className="block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg"
-                    {...register('categoriaNombre')}
-                    onChange={handleCategoriaChange}
-                >
-                    <option value="">Seleccione una categoría</option>
-                    {categorias.map((categoria) => (
-                        <option key={categoria.idCategoria} value={categoria.nombre}>
-                            {categoria.nombre}
-                        </option>
-                    ))}
-                </select>
-            </div>
-
-            {/* Paso 2: Seleccionar Fecha */}
+            {/* Paso 1: Seleccionar Fecha */}
             <div className="mb-4">
                 <label htmlFor="selectFecha" className="block text-sm font-medium mb-2">
                     Selecciona una fecha:
@@ -137,12 +113,11 @@ const CrearTurno = () => {
                     dateFormat="yyyy-MM-dd"
                     placeholderText="Selecciona una fecha"
                     withPortal={true}
-                    filterDate={isWeekday}
                 />
                 <input type="hidden" {...register('fecha')} />
             </div>
 
-            {/* Paso 3: Seleccionar Horario */}
+            {/* Paso 2: Seleccionar Horario */}
             <div className="mb-4">
                 <label htmlFor="selectHora" className="block text-sm font-medium mb-2">
                     Selecciona un horario:
@@ -153,28 +128,72 @@ const CrearTurno = () => {
                     onChange={(e) => handleHorarioSeleccionado(JSON.parse(e.target.value))}
                     disabled={!selectedFecha || horarios.length === 0}
                 >
-                    <option value="">Seleccione un horario</option>
-                    {horarios.map((horario, index) => (
+                    <option value="">
+                        {selectedFecha ? "Seleccione un horario" : "Seleccione una fecha primero"}
+                    </option>
+                    {horarios.map((horario) => (
                         <option
-                            key={index}
-                            value={JSON.stringify({
-                                hora_inicio: horario.hora_inicio,
-                                hora_fin: horario.hora_fin,
-                            })}
+                            key={horario.idTurno}
+                            value={JSON.stringify(horario)}
                         >
-                            {horario.hora_inicio} - {horario.hora_fin}
+                            {horario.horaInicio} - Profesional: {horario.profesional.usuario.nombre} {horario.profesional.usuario.apellido}
                         </option>
                     ))}
                 </select>
-                <input type="hidden" {...register('horaInicio')} />
-                <input type="hidden" {...register('horaFin')} />
+                {selectedFecha && horarios.length === 0 && (
+                    <p className="text-red-500 text-sm mt-2">No hay horarios disponibles para esta fecha.</p>
+                )}
+            </div>
+
+            {/* Paso 3: Seleccionar Servicio */}
+            <div className="mb-4">
+                <label htmlFor="selectServicio" className="block text-sm font-medium mb-2">
+                    Selecciona un servicio:
+                </label>
+                <select
+                    id="selectServicio"
+                    className="block w-full p-2 bg-gray-700 border border-gray-600 rounded-lg"
+                    {...register('servicio')}
+                >
+                    <option value="">Seleccione un servicio</option>
+                    {servicios.map((servicio) => (
+                        <option key={servicio.idServicio} value={servicio.idServicio}>
+                            {servicio.categoria.nombre} - {servicio.detallesServicio}
+                        </option>
+                    ))}
+                </select>
+            </div>
+
+            {/* Lista de servicios agregados */}
+            <div className="mb-4">
+                <h3 className="text-lg font-semibold mb-2">Servicios seleccionados:</h3>
+                <div className="bg-gray-800 p-4 rounded-lg">
+                    {selectedServicios.length > 0 ? (
+                        <ul className="list-disc list-inside">
+                            {selectedServicios.map((servicio, index) => (
+                                <li key={index} className="mb-1">
+                                    {servicio.categoria.nombre} - {servicio.detallesServicio}
+                                </li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p className="text-gray-400">No has seleccionado ningún servicio aún.</p>
+                    )}
+                </div>
+                <button 
+                    type="button" 
+                    className="mt-4 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
+                    onClick={agregarServicio}
+                >
+                    Agregar servicio
+                </button>
             </div>
 
             {/* Botón para Crear el Turno */}
             <button
                 type="submit"
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
-                disabled={!selectedHoraInicio || !selectedHoraFin}
+                className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-lg transition duration-200"
+                disabled={!selectedTurno || selectedServicios.length === 0}
             >
                 Crear Turno
             </button>
