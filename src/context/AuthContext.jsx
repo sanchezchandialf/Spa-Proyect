@@ -39,7 +39,7 @@ export const AuthProvider = ({ children }) => {
   }
 
   const admin_secretaria = ()=>{
-    return rol === 2 //|| rol ===4;
+    return rol === 2 || rol ===4;
  }
 
   

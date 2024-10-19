@@ -3,9 +3,10 @@ import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
 import { useLogin } from '../context/LoginContext';
 
-const useAxios = () => {
-  const { token,  logout } = useAuth();
-  const {handleLoginClick}=useLogin();
+const useAxios = (options = {}) => {
+  const { token, logout } = useAuth();
+  const { handleLoginClick } = useLogin();
+  const { ignoreAuthError = false } = options;
 
   const axiosInstance = axios.create({
     baseURL: 'http://localhost:8080',
@@ -35,9 +36,14 @@ const useAxios = () => {
     },
     (error) => {
       if (error.response && error.response.status === 401) {
-        toast.error('Su sesion expiro, inicie secion nuevamente');
-        logout();
-        handleLoginClick();
+        if (ignoreAuthError) {
+          // Si ignoreAuthError es true, no cerramos la sesión y permitimos que el componente maneje el error
+          return Promise.reject(error);
+        } else {
+          toast.error('Su sesión expiró, inicie sesión nuevamente');
+          logout();
+          handleLoginClick();
+        }
       }
       return Promise.reject(error);
     }
@@ -45,7 +51,5 @@ const useAxios = () => {
 
   return axiosInstance;
 };
-
-
 
 export default useAxios;

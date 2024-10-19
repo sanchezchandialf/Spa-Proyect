@@ -3,6 +3,7 @@ import { FormInput } from "../UtilitiesGenericas/FormInput";
 import useAxios from '../api/useAxios';
 import toast from 'react-hot-toast';
 import { useLogin } from "../context/LoginContext";
+import { useState } from "react";
 
 const RegisterProfecional = () => {
 
@@ -11,6 +12,8 @@ const RegisterProfecional = () => {
     const passwordValue = watch("passwordRegisterP");
 
     const axios = useAxios();
+
+    const [rol, setRol] = useState("Profesional");
 
     const onSubmit = async (data) => {
         const transformedData = Object.keys(data).reduce((acc, key) => {
@@ -22,7 +25,8 @@ const RegisterProfecional = () => {
         const { confirmPassword, ...formData } = transformedData; // Excluye confirmPassword
     
         try {
-            const response = await axios.post("api/auth/registerProf", formData);
+            const endpoint = rol === "Profesional" ? "api/auth/registerProf" : "api/auth/registerSecretario";
+            const response = await axios.post(endpoint, formData);
 
             if (response.status === 200) {
                 toast.success('Se creó la cuenta correctamente, ya puede iniciar sesión');
@@ -60,9 +64,23 @@ const RegisterProfecional = () => {
                     aria-label="Cerrar">x</button>
 
                 <section>
-                    <h1 className="text-4xl text-white font-bold text-center mb-6">Registrar Profesional</h1>
+                    <h1 className="text-4xl text-white font-bold text-center mb-6">Registrar empleado</h1>
 
                     <form onSubmit={handleSubmit(onSubmit)}>
+                        {/* Nuevo select para elegir el rol */}
+                        <div className="mb-4">
+                            <label htmlFor="rol" className="block text-white mb-2">Rol del empleado:</label>
+                            <select
+                                id="rol"
+                                value={rol}
+                                onChange={(e) => setRol(e.target.value)}
+                                className="w-full p-2 rounded-md bg-white text-slate-900"
+                            >
+                                <option value="Profesional">Profesional</option>
+                                <option value="Secretario">Secretario</option>
+                            </select>
+                        </div>
+
                         {/* Sección con Flexbox para columnas responsivas */}
                         <div className="flex flex-col sm:flex-row sm:gap-4">
                             <div className="flex-1 mb-4">
