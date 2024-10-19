@@ -41,8 +41,11 @@ const ConsultarTurnosSection = () => {
       return <p>No tienes acceso a esta sección.</p>;
     }
   
+    const turnosPagados = turnos.filter(turno => turno.pago === "COMPLETADO" || turno.estado === "PAGADO");
+    const turnosPendientes = turnos.filter(turno => turno.pago !== "COMPLETADO" && turno.estado !== "PAGADO");
+  
     return (
-      <div className="container mx-2 p-6">
+      <div className="container mx-2 p-6 bg-[#f2e1f4]">
         <h1 className="text-3xl font-bold mb-6 text-center text-black ">Gestión de Turnos</h1>
         <div className="mb-6 flex flex-wrap gap-4">
         {/* Selector de fecha */}
@@ -90,10 +93,20 @@ const ConsultarTurnosSection = () => {
   
         {/* Mostrar los turnos */}
         {turnos.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-[#f2e1f4] p-6 border-pink-900 border-4">
-            {turnos.map((turno) => (
-              <TurnoCard key={turno.idTurno} turno={turno} />
-            ))}
+          <div>
+            <h2 className="text-2xl font-semibold mb-4">Turnos Pendientes de Pago</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-[#f2e1f4] p-6 border-pink-900 border-4 mb-6">
+              {turnosPendientes.map((turno) => (
+                <TurnoCard key={turno.idTurno} turno={turno} />
+              ))}
+            </div>
+
+            <h2 className="text-2xl font-semibold mb-4">Turnos Pagados</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 bg-[#f2e1f4] p-6 border-pink-900 border-4">
+              {turnosPagados.map((turno) => (
+                <TurnoCard key={turno.idTurno} turno={turno} />
+              ))}
+            </div>
           </div>
         ) : (
           <p className="text-gray-500">No se encontraron turnos.</p>

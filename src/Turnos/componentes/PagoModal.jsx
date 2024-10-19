@@ -37,8 +37,8 @@ const PagoModal = ({ turnoId, onClose, onPagoExitoso }) => {
         toast.error(response.data.message || "Hubo un problema con el pago.");
       }
     } catch (error) {
-      console.error("Error al procesar el pago:", error);
-      toast.error(error.response?.data?.message || "Error al procesar el pago. Por favor, intente de nuevo.");
+      //console.error("Error al procesar el pago:", error);
+      //toast.error(error.response?.data?.message || "Error al procesar el pago. Por favor, intente de nuevo.");
     } finally {
       setLoading(false);
     }
