@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import useAxios from '../../hooks/useAxios';
 
 const PostulacionModal = ({ empleo, onClose }) => {
   const [cvFile, setCvFile] = useState(null);
+  const axiosInstance = useAxios();
 
   const handleFileChange = (e) => {
     setCvFile(e.target.files[0]);
@@ -20,8 +21,8 @@ const PostulacionModal = ({ empleo, onClose }) => {
     formData.append('id_empleo', empleo.idEmpleo);
 
     try {
-      await axios.post(
-        'https://agile-flexibility-production.up.railway.app/api/postulacion/upload',
+      await axiosInstance.post(
+        '/api/postulacion/upload',
         formData,
         {
           headers: {

@@ -10,7 +10,8 @@ const EmpleoList = () => {
     useEffect(() => {
         const fetchEmpleos = async () => {
             try {
-                const response = await axios.get('https://agile-flexibility-production.up.railway.app/api/empleo/listar');
+                //const response = await axios.get('https://agile-flexibility-production.up.railway.app/api/empleo/listar');
+                const response=await axios.get('http://localhost:8080/');
                 setEmpleos(response.data.data);
             } catch (error) {
                 console.error('Error al obtener los empleos', error);

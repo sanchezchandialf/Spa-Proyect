@@ -1,35 +1,21 @@
 import React, { useState } from 'react';
+import useAxios from '../../hooks/useAxios';
 
 export const Responder = ({ consultaId }) => {
     const [textoRespuesta, setTextoRespuesta] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const axios = useAxios();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
         console.log(consultaId);
-        const token = localStorage.getItem('accessToken');
-       /*  const apiUrl = `http://localhost:8080/api/consulta/${consultaId}/respuestas/crear`; // URL correcta */
 
-        const apiUrl = `https://agile-flexibility-production.up.railway.app/api/consulta/${consultaId}/respuestas/crear`;
         try {
-            const response = await fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`, // Agregar el token Bearer
-                },
-                body: JSON.stringify({ textoRespuesta }), // Cuerpo de la solicitud
-            });
-
-            if (!response.ok) {
-                throw new Error('Error al responder la consulta');
-            }
-
-            const data = await response.json();
-            console.log('Respuesta enviada:', data);
+            const response = await axios.post(`/api/consulta/${consultaId}/respuestas/crear`, { textoRespuesta });
+            console.log('Respuesta enviada:', response.data);
             alert('Respuesta enviada con éxito');
         } catch (error) {
             console.error('Error al responder la consulta:', error);

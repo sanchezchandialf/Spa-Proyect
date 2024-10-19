@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { FetchApi } from '../../api/Common';
 import toast from 'react-hot-toast';
+import useAxios from '../../hooks/useAxios';
 
 const ConsultasList = ({ onConsultaSelect }) => {
   const [consultas, setConsultas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('');
-  const token = localStorage.getItem('accessToken'); // Obtener el token
+  const axiosInstance = useAxios();
 
   const fetchConsultas = async (contestado = '') => {
     setLoading(true);
     try {
-      const response = await FetchApi({
-        path: `api/consulta/listar`,
-        method: 'GET',
-        requiresAuth: true,
-        payload: { contestado }, // Pasar el filtro como query param
-        token,
+      const response = await axiosInstance.get(`api/consulta/listar`, {
+        params: { contestado }
       });
 
-      if (response.code === 200) {
+      if (response.status === 200) {
         setConsultas(response.data);
-      } else if (response.code === 401) {
-        toast.error('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
       } else {
         toast.error('Error al obtener las consultas');
       }
