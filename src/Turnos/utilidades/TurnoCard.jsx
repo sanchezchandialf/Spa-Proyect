@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import useAxios from '../../api/useAxios';
 import { useAuth } from '../../context/AuthContext';
+import PagoModal from '../componentes/PagoModal';
+import { jsPDF } from "jspdf";
 
 export const TurnoCard = ({ turno }) => {
   const axiosInstance = useAxios(); // Instancia de axios con autenticación
   const [estadoTurno, setEstadoTurno] = useState(turno.estado); // Estado local para manejar el estado del turno
+  const [estadoPago, setEstadoPago] = useState(turno.pago);
+  const [mostrarPagoModal, setMostrarPagoModal] = useState(false);
 
   const esTurnoViejo = (turno) => {
     if (estadoTurno === "CANCELADO") return false;
@@ -25,6 +29,31 @@ export const TurnoCard = ({ turno }) => {
     } catch (error) {
       console.error("Error al cancelar el turno", error);
     }
+  };
+
+  const handlePagarTurno = () => {
+    setMostrarPagoModal(true);
+  };
+
+  const handleCerrarPagoModal = () => {
+    setMostrarPagoModal(false);
+  };
+
+  const handlePagoExitoso = () => {
+    setEstadoPago("COMPLETADO");
+  };
+
+  const generarComprobantePDF = () => {
+    const doc = new jsPDF();
+    doc.text("Comprobante de Pago", 10, 10);
+    doc.text(`Turno ID: ${turno.idTurno}`, 10, 20);
+    doc.text(`Profesional: ${turno.profesional.usuario.nombre} ${turno.profesional.usuario.apellido}`, 10, 30);
+    doc.text(`Fecha: ${turno.fecha}`, 10, 40);
+    doc.text(`Hora: ${turno.horaInicio} - ${turno.horaFin}`, 10, 50);
+    doc.text(`Estado del pago: ${estadoPago === "COMPLETADO" ? "Pagado" : "Pendiente"}`, 10, 60);
+    
+    // Generar el PDF y abrirlo en una nueva pestaña
+    window.open(doc.output('bloburl'), '_blank');
   };
 
   return (
@@ -55,7 +84,7 @@ export const TurnoCard = ({ turno }) => {
       </p>
 
       <p className="text-gray-600">Estado del pago: 
-        {turno.pago === null ? (
+        {estadoPago === null ? (
           <span className="ml-2 text-red-600">Pendiente</span>
         ) : (
           <span className="ml-2 text-green-600">Completado</span>
@@ -66,13 +95,41 @@ export const TurnoCard = ({ turno }) => {
         <p className="text-gray-600">Teléfono del cliente: {turno.cliente.telefono}</p>
       )}
 
-      {estadoTurno !== "CANCELADO" && !esTurnoViejo(turno) && (
-        <button
-          className="mt-4 bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-          onClick={handleCancelarTurno}
-        >
-          Cancelar turno
-        </button>
+      <div className="mt-4 flex space-x-2">
+        {estadoTurno !== "CANCELADO" && !esTurnoViejo(turno) && (
+          <button
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+            onClick={handleCancelarTurno}
+          >
+            Cancelar turno
+          </button>
+        )}
+
+        {estadoPago === null && !esTurnoViejo(turno) && (
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            onClick={handlePagarTurno}
+          >
+            Pagar turno
+          </button>
+        )}
+
+        {estadoPago === "COMPLETADO" && (
+          <button
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+            onClick={generarComprobantePDF}
+          >
+            Imprimir Comprobante
+          </button>
+        )}
+      </div>
+
+      {mostrarPagoModal && (
+        <PagoModal
+          turnoId={turno.idTurno}
+          onClose={() => setMostrarPagoModal(false)}
+          onPagoExitoso={handlePagoExitoso}
+        />
       )}
     </div>
   );
