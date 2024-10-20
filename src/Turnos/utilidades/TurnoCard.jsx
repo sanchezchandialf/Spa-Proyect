@@ -5,9 +5,9 @@ import PagoModal from '../componentes/PagoModal';
 import { jsPDF } from "jspdf";
 import toast from 'react-hot-toast';
 
-export const TurnoCard = ({ turno, onTurnoUpdated }) => {
-  const axiosInstance = useAxios(); // Instancia de axios con autenticación
-  const [estadoTurno, setEstadoTurno] = useState(turno.estado); // Estado local para manejar el estado del turno
+export const TurnoCard = ({ turno }) => {
+  const axiosInstance = useAxios();
+  const [estadoTurno, setEstadoTurno] = useState(turno.estado);
   const [estadoPago, setEstadoPago] = useState(turno.pago);
   const [mostrarPagoModal, setMostrarPagoModal] = useState(false);
 
@@ -16,20 +16,33 @@ export const TurnoCard = ({ turno, onTurnoUpdated }) => {
   useEffect(() => {
     setEstadoTurno(turno.estado);
     setEstadoPago(turno.pago);
+    verificarYFinalizarTurno();
   }, [turno]);
 
-  const esTurnoViejo = (turno) => {
-    if (estadoTurno === "CANCELADO") return false;
+  const esTurnoFinalizable = () => {
+    if (estadoTurno === "CANCELADO" || estadoTurno === "FINALIZADO") return false;
     const currentDateTime = new Date();
     const turnoFechaHoraFin = new Date(`${turno.fecha}T${turno.horaFin}`);
     return turnoFechaHoraFin < currentDateTime;
   };
 
+  const verificarYFinalizarTurno = async () => {
+    if (esTurnoFinalizable()) {
+      try {
+        const response = await axiosInstance.post(`/api/turno/finalizarTurno/${turno.idTurno}`);
+        if (response.status === 200) {
+          setEstadoTurno("FINALIZADO");
+          console.log("Turno finalizado automáticamente");
+        }
+      } catch (error) {
+        console.error("Error al finalizar el turno automáticamente", error);
+      }
+    }
+  };
+
   const handleCancelarTurno = async () => {
-    console.log("Intentando cancelar turno:", turno.idTurno);
     try {
       const response = await axiosInstance.delete(`/api/turno/cancelar/${turno.idTurno}`);
-      console.log("Respuesta del servidor:", response);
       if (response.status === 200) {
         setEstadoTurno("CANCELADO");
         toast.success("Turno cancelado con éxito");
@@ -38,7 +51,6 @@ export const TurnoCard = ({ turno, onTurnoUpdated }) => {
       }
     } catch (error) {
       console.error("Error al cancelar el turno", error);
-      console.error("Detalles del error:", error.response);
       toast.error(error.response?.data?.message || "Error al cancelar el turno");
     }
   };
@@ -54,9 +66,6 @@ export const TurnoCard = ({ turno, onTurnoUpdated }) => {
   const handlePagoExitoso = (detallesPago) => {
     setEstadoPago("COMPLETADO");
     generarYEnviarFacturaPDF(detallesPago);
-    if (onTurnoUpdated) {
-      onTurnoUpdated(turno.idTurno, { ...turno, pago: "COMPLETADO" });
-    }
   };
 
   const generarYEnviarFacturaPDF = (detalles) => {
@@ -138,7 +147,11 @@ export const TurnoCard = ({ turno, onTurnoUpdated }) => {
       
       <p className="text-sm text-gray-600 mt-2">
         Estado: 
-        <span className={`ml-1 ${estadoTurno === "CANCELADO" ? "text-red-600" : "text-green-600"}`}>
+        <span className={`ml-1 ${
+          estadoTurno === "CANCELADO" ? "text-red-600" : 
+          estadoTurno === "FINALIZADO" ? "text-blue-600" : 
+          "text-green-600"
+        }`}>
           {estadoTurno}
         </span>
       </p>

@@ -22,7 +22,7 @@ const RegisterProfecional = () => {
             return acc;
         }, {});
 
-        const { confirmPassword, ...formData } = transformedData; // Excluye confirmPassword
+        const { confirmPassword, telefono, ...formData } = transformedData; // Excluye confirmPassword
     
         try {
             const endpoint = rol === "Profesional" ? "api/auth/registerProf" : "api/auth/registerSecretario";

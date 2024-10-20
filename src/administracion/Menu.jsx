@@ -9,7 +9,7 @@ import { useAuth } from '../context/AuthContext';
 
 export default function Menu() {
 
-    const [selectedOption, setSelectedOption] = useState('Todos los clientes');
+    const [selectedOption, setSelectedOption] = useState('Bienvenida');
     const [isClientesOpen, setIsClientesOpen] = useState(false);
     const [isInformesOpen, setIsInformesOpen] = useState(false);
 
@@ -17,8 +17,10 @@ export default function Menu() {
 
     const renderComponent = () => {
         switch (selectedOption) {
+        case 'Bienvenida':
+          return <h1>Bienvenido al sistema de gestión de la administrativa</h1>;
         case 'Todos los clientes':
-            return <h1>Listado de todos los clientes</h1>;
+            return <h1>Todos los clientes</h1>;
         case 'Clientes por profesional':
             return <h1>Clientes por profesional</h1>;
         case 'Consultas':
