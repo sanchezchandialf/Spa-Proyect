@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useAxios from '../../api/useAxios';
 import { useAuth } from '../../context/AuthContext';
-import PagoModal from '../componentes/PagoModal';
 import { jsPDF } from "jspdf";
 import toast from 'react-hot-toast';
 
@@ -10,6 +9,12 @@ export const TurnoCard = ({ turno }) => {
   const [estadoTurno, setEstadoTurno] = useState(turno.estado);
   const [estadoPago, setEstadoPago] = useState(turno.pago);
   const [mostrarPagoModal, setMostrarPagoModal] = useState(false);
+  const [numTarjeta, setNumTarjeta] = useState('');
+  const [nombreTitular, setNombreTitular] = useState('');
+  const [vencimiento, setVencimiento] = useState('');
+  const [codSeguridad, setCodSeguridad] = useState('');
+  const [metodoPago, setMetodoPago] = useState('CREDITO');
+  const [facturaUrl, setFacturaUrl] = useState(null);
 
   const { esCliente } = useAuth();
 
@@ -63,15 +68,38 @@ export const TurnoCard = ({ turno }) => {
     setMostrarPagoModal(false);
   };
 
-  const handlePagoExitoso = (detallesPago) => {
-    setEstadoPago("COMPLETADO");
-    generarYEnviarFacturaPDF(detallesPago);
+  const handleProcesarPago = async (e) => {
+    e.preventDefault();
+
+    if (!numTarjeta || !nombreTitular || !vencimiento || !codSeguridad) {
+      toast.error('Por favor complete todos los campos.');
+      return;
+    }
+
+    const pagoData = {
+      turnoId: turno.idTurno,
+      numTarjeta,
+      nombreTitular,
+      vencimiento,
+      codSeguridad,
+      metodoPago
+    };
+
+    try {
+      const response = await axiosInstance.post('/api/pago/procesar', pagoData);
+      toast.success('Pago procesado exitosamente');
+      setEstadoPago("COMPLETADO");
+      handleCerrarPagoModal();
+      generarYEnviarFacturaPDF(response.data.data);
+    } catch (error) {
+      console.error('Error al procesar el pago', error);
+      toast.error(error.response?.data?.message || 'Error al procesar el pago');
+    }
   };
 
   const generarYEnviarFacturaPDF = (detalles) => {
     const doc = new jsPDF();
 
-    // Generar el contenido del PDF
     doc.setFontSize(18);
     doc.text('Factura de Pago', 10, 10);
 
@@ -95,15 +123,11 @@ export const TurnoCard = ({ turno }) => {
 
     doc.text(`Monto Total: ${detalles.monto} $`, 10, 120 + (detalles.turno.servicios.length * 10));
 
-    // Convertir el PDF a Blob
     const pdfBlob = doc.output('blob');
-
-    // Crear un objeto FormData
     const formData = new FormData();
     formData.append('factura', pdfBlob, 'factura.pdf');
-    formData.append('turnoId', turno.idTurno);
+    formData.append('turnoId', turno.idTurno.toString());
 
-    // Enviar la solicitud POST con axiosInstance
     toast.promise(
       axiosInstance.post('/api/pago/enviar-factura', formData, {
         headers: {
@@ -119,9 +143,8 @@ export const TurnoCard = ({ turno }) => {
       console.error('Error al enviar la factura', error);
     });
 
-    // Abrir el PDF en una nueva pestaña
     const pdfUrl = URL.createObjectURL(pdfBlob);
-    window.open(pdfUrl, '_blank');
+    setFacturaUrl(pdfUrl);
   };
 
   const generarComprobantePDF = () => {
@@ -135,6 +158,14 @@ export const TurnoCard = ({ turno }) => {
     
     // Generar el PDF y abrirlo en una nueva pestaña
     window.open(doc.output('bloburl'), '_blank');
+  };
+
+  const abrirComprobante = () => {
+    if (facturaUrl) {
+      window.open(facturaUrl, '_blank');
+    } else {
+      toast.error('La factura aún no está disponible');
+    }
   };
 
   return (
@@ -183,7 +214,7 @@ export const TurnoCard = ({ turno }) => {
         {esCliente() && (estadoTurno === "PAGADO" || estadoPago === "COMPLETADO") && (
           <button
             className="bg-green-500 text-white px-3 py-1 text-sm rounded hover:bg-green-600"
-            onClick={generarComprobantePDF}
+            onClick={abrirComprobante}
           >
             Comprobante
           </button>
@@ -191,11 +222,64 @@ export const TurnoCard = ({ turno }) => {
       </div>
 
       {mostrarPagoModal && (
-        <PagoModal
-          turnoId={turno.idTurno}
-          onClose={handleCerrarPagoModal}
-          onPagoExitoso={handlePagoExitoso}
-        />
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+          <div className="bg-white p-6 rounded-lg">
+            <h2 className="text-xl font-bold mb-4">Procesar Pago</h2>
+            <form onSubmit={handleProcesarPago}>
+              <input
+                type="text"
+                placeholder="Número de Tarjeta"
+                value={numTarjeta}
+                onChange={(e) => setNumTarjeta(e.target.value)}
+                className="w-full p-2 mb-2 border rounded"
+              />
+              <input
+                type="text"
+                placeholder="Nombre del Titular"
+                value={nombreTitular}
+                onChange={(e) => setNombreTitular(e.target.value)}
+                className="w-full p-2 mb-2 border rounded"
+              />
+              <input
+                type="text"
+                placeholder="Vencimiento (MM/YY)"
+                value={vencimiento}
+                onChange={(e) => setVencimiento(e.target.value)}
+                className="w-full p-2 mb-2 border rounded"
+              />
+              <input
+                type="text"
+                placeholder="Código de Seguridad"
+                value={codSeguridad}
+                onChange={(e) => setCodSeguridad(e.target.value)}
+                className="w-full p-2 mb-2 border rounded"
+              />
+              <select
+                value={metodoPago}
+                onChange={(e) => setMetodoPago(e.target.value)}
+                className="w-full p-2 mb-4 border rounded"
+              >
+                <option value="CREDITO">Crédito</option>
+                <option value="DEBITO">Débito</option>
+              </select>
+              <div className="flex justify-end">
+                <button
+                  type="button"
+                  onClick={handleCerrarPagoModal}
+                  className="bg-gray-300 text-black px-4 py-2 rounded mr-2"
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                >
+                  Pagar
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       )}
     </div>
   );
