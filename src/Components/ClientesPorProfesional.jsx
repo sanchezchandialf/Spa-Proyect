@@ -4,12 +4,12 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 const ClientesPorProfesional = () => {
-  
   const [turnos, setTurnos] = useState([]);
   const [fecha, setFecha] = useState(new Date());
   const [idProfesional, setIdProfesional] = useState('');
   const [pagado, setPagado] = useState(false);
   const [profesionales, setProfesionales] = useState([]);
+  const [error, setError] = useState('');
   const axios = useAxios();
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const ClientesPorProfesional = () => {
     };
 
     fetchProfesionales();
-  }, [axios]);
+  }, []);
 
   useEffect(() => {
     const fetchTurnos = async () => {
@@ -40,18 +40,25 @@ const ClientesPorProfesional = () => {
         });
         if (response.data && Array.isArray(response.data.data)) {
           setTurnos(response.data.data);
+          setError('');
         } else {
           console.error('La respuesta no tiene el formato esperado:', response.data);
           setTurnos([]);
+          setError('No hay clientes con turno en esta fecha');
         }
       } catch (error) {
         console.error('Error al obtener los turnos:', error);
         setTurnos([]);
+        if (error.response && error.response.status === 404) {
+          setError('No hay clientes con turno en esta fecha');
+        } else {
+          setError('Error al obtener los turnos');
+        }
       }
     };
 
     fetchTurnos();
-  }, [idProfesional, fecha, pagado, axios]);
+  }, [idProfesional, fecha, pagado]);
 
   return (
     <div className="container mx-auto">
@@ -83,28 +90,32 @@ const ClientesPorProfesional = () => {
           <option value="true">Pagado</option>
         </select>
       </div>
-      <table className="min-w-full bg-white border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="py-2 px-4 border-b">Cliente</th>
-            <th className="py-2 px-4 border-b">DNI</th>
-            <th className="py-2 px-4 border-b">Teléfono</th>
-            <th className="py-2 px-4 border-b">Fecha</th>
-            <th className="py-2 px-4 border-b">Hora</th>
-          </tr>
-        </thead>
-        <tbody>
-          {turnos.map((turno) => (
-            <tr key={turno.idTurno} className="hover:bg-gray-50">
-              <td className="py-2 px-4 border-b">{`${turno.cliente.usuario.nombre} ${turno.cliente.usuario.apellido}`}</td>
-              <td className="py-2 px-4 border-b">{turno.cliente.usuario.dni}</td>
-              <td className="py-2 px-4 border-b">{turno.cliente.telefono}</td>
-              <td className="py-2 px-4 border-b">{turno.fecha}</td>
-              <td className="py-2 px-4 border-b">{`${turno.horaInicio} - ${turno.horaFin}`}</td>
+      {error ? (
+        <p className="text-red-500">{error}</p>
+      ) : (
+        <table className="min-w-full bg-white border border-gray-300">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="py-2 px-4 border-b">Cliente</th>
+              <th className="py-2 px-4 border-b">DNI</th>
+              <th className="py-2 px-4 border-b">Teléfono</th>
+              <th className="py-2 px-4 border-b">Fecha</th>
+              <th className="py-2 px-4 border-b">Hora</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {turnos.map((turno) => (
+              <tr key={turno.idTurno} className="hover:bg-gray-50">
+                <td className="py-2 px-4 border-b">{`${turno.cliente.usuario.nombre} ${turno.cliente.usuario.apellido}`}</td>
+                <td className="py-2 px-4 border-b">{turno.cliente.usuario.dni}</td>
+                <td className="py-2 px-4 border-b">{turno.cliente.telefono}</td>
+                <td className="py-2 px-4 border-b">{turno.fecha}</td>
+                <td className="py-2 px-4 border-b">{`${turno.horaInicio} - ${turno.horaFin}`}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 };

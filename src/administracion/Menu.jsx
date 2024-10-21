@@ -11,6 +11,7 @@ import ClientesPorProfesional from '../Components/ClientesPorProfesional';
 import ListadoClientes from '../Components/ListadoClientes';
 import InformeIngresos from '../Components/InformeIngresos';
 import InformeServicios from '../Components/InformeServicios';
+import PagosPorCliente from '../Components/PagosPorCliente';
 
 
 export default function Menu() {
@@ -41,7 +42,7 @@ export default function Menu() {
         case 'Agregar turnos':
             return <CrearTurnoVacio/>;
         case 'Pagos':
-            return <Factura/>;
+            return <PagosPorCliente/>;
         case 'Ingresos':
             return <InformeIngresos />;
         case 'Servicios por profesional':

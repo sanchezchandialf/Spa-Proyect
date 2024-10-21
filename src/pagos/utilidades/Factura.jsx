@@ -1,74 +1,78 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { jsPDF } from 'jspdf';
 
 const Factura = ({ id }) => {
   const [facturaData, setFacturaData] = useState(null);
+  const facturaRef = useRef(); // Referencia al contenido de la factura
 
   // Simula la consulta a la base de datos para obtener los datos
-  //useEffect(() => {
-    // Aquí reemplazarías con tu llamada real a la base de datos o API
-  //  const fetchFacturaData = async () => {
-  //    const response = await fetch(`/api/factura/${id}`);
-  //    const data = await response.json();
-  //    setFacturaData(data);
-  //  };
+  useEffect(() => {
+    const fetchFacturaData = async () => {
+      // Aquí reemplazarías con tu llamada real a la base de datos o API
+      const response = await fetch(`/api/factura/${id}`);
+      const data = await response.json();
+      setFacturaData(data);
+    };
 
-  //  fetchFacturaData();
-  //}, [id]);
+    fetchFacturaData();
+  }, [id]);
 
-  //if (!facturaData) {
-  //  return <div>Cargando...</div>;
-  //}
+  // Función para generar el PDF
+  const exportPDF = () => {
+    const doc = new jsPDF('p', 'pt', 'a4'); // Crear un nuevo documento PDF
 
-  //const { nombre, email, telefono, fecha, numeroFactura, servicios, total } = facturaData;
+    // Agregar el contenido del PDF manualmente
+    doc.setFontSize(18);
+    doc.text('Factura Comercial', 40, 40);
+    doc.setFontSize(12);
+    doc.text(`Licenciada Juliana Silva`, 40, 60);
+    doc.text(`Fecha: ${facturaData.fecha}`, 450, 40);
+    doc.text(`Factura: #${facturaData.numeroFactura}`, 450, 60);
 
-  const nombre = "Juan Pérez";
-  const email = "juan@example.com";
-  const telefono = "555-1234";
-  const fecha = "2023-01-01";
-  const numeroFactura = "123456";
-  const servicios = [
-    { cantidad: 1, descripcion: "Servicio 1", valor: 100 },
-    { cantidad: 2, descripcion: "Servicio 2", valor: 200 },
-  ];    
+    // Detalles del cliente
+    doc.setFontSize(14);
+    doc.text('Detalles del Cliente:', 40, 100);
+    doc.setFontSize(12);
+    doc.text(`Nombre: ${facturaData.nombre}`, 40, 120);
+    doc.text(`Email: ${facturaData.email}`, 40, 140);
+    doc.text(`Teléfono: ${facturaData.telefono}`, 40, 160);
 
-  const total = servicios.reduce((acc, servicio) => acc + servicio.valor * servicio.cantidad, 0);
+    // Detalles del servicio
+    let yOffset = 200;
+    doc.setFontSize(14);
+    doc.text('Detalles del Servicio:', 40, yOffset);
+    yOffset += 20;
+    facturaData.servicios.forEach((servicio, index) => {
+      doc.setFontSize(12);
+      doc.text(`- ${servicio.descripcion} (Cantidad: ${servicio.cantidad}): $${servicio.valor.toFixed(2)}`, 40, yOffset);
+      yOffset += 20;
+    });
 
-// Función para generar el PDF
- // Función para generar el PDF capturando el HTML con estilo
- const exportPDF = async () => {
-    const facturaElement = facturaRef.current;
+    // Total
+    yOffset += 20;
+    doc.setFontSize(14);
+    doc.text(`Total: $${facturaData.total.toFixed(2)}`, 40, yOffset);
 
-    // Usa html2canvas para capturar la factura como una imagen
-    const canvas = await html2canvas(facturaElement, { scale: 2 });
-    const imgData = canvas.toDataURL('image/png');
+    // Footer
+    yOffset += 40;
+    doc.setFontSize(10);
+    doc.text('Sitio Web: www.sitioincreible.com', 40, yOffset);
+    doc.text('Teléfono: (55) 1234-5678', 40, yOffset + 20);
+    doc.text('Email: hola@sitioincreible.com', 40, yOffset + 40);
+    doc.text('Dirección: Calle Cualquiera 123, Cualquier Lugar', 40, yOffset + 60);
 
-    // Crear el PDF y agregar la imagen
-    const pdf = new jsPDF('p', 'pt', 'a4');
-    const imgWidth = 595.28; // Ancho A4
-    const pageHeight = 841.89; // Altura A4
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-    let heightLeft = imgHeight;
-    let position = 0;
-
-    // Agregar la imagen en páginas si es necesario
-    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-    heightLeft -= pageHeight;
-
-    while (heightLeft > 0) {
-      position = heightLeft - imgHeight;
-      pdf.addPage();
-      pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-      heightLeft -= pageHeight;
-    }
-
-    // Guardar el PDF con el nombre dinámico
-    pdf.save(`SpaSentirseBien${id}.pdf`);
+    // Guardar el PDF con un nombre dinámico
+    doc.save(`SpaSentirseBien${id}.pdf`);
   };
-  
+
+  if (!facturaData) {
+    return <div>Cargando...</div>;
+  }
+
+  const { nombre, email, telefono, fecha, numeroFactura, servicios, total } = facturaData;
+
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg border border-gray-200">
+    <div ref={facturaRef} className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg border border-gray-200">
       <div className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-xl font-bold">FACTURA COMERCIAL</h2>
@@ -127,19 +131,16 @@ const Factura = ({ id }) => {
         <p>Dirección: Calle Cualquiera 123, Cualquier Lugar</p>
       </div>
 
-           {/* Botón para exportar a PDF */}
+      {/* Botón para exportar a PDF */}
       <div className="flex justify-end mt-6">
         <button
-          onClick={exportPDF()}
+          onClick={exportPDF}
           className="bg-blue-500 text-white font-semibold px-4 py-2 rounded shadow hover:bg-blue-700 transition duration-300"
         >
           Exportar a PDF
         </button>
-       </div>
-
+      </div>
     </div>
-
-    
   );
 };
 

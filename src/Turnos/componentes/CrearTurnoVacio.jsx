@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useAuth } from '../../context/AuthContext';
 import useAxios from '../../api/useAxios';
@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 
 const CrearTurnoVacio = () => {
     const { register, handleSubmit } = useForm();
-    const { idUsuario, nombreUsuario } = useAuth();
+    const { nombreUsuario } = useAuth();
     const axiosInstance = useAxios({ ignoreAuthError: true });
 
     // State for select inputs
@@ -14,6 +14,8 @@ const CrearTurnoVacio = () => {
     const [selectedDays, setSelectedDays] = useState(["Lunes"]);
     const [selectedMonths, setSelectedMonths] = useState(1); // Default to 1 month
     const [results, setResults] = useState([]);
+    const [profesionales, setProfesionales] = useState([]);
+    const [selectedProfesional, setSelectedProfesional] = useState('');
 
     // Handle select input changes
     const handleTimeChange = (e) => setSelectedTime(e.target.value);
@@ -49,11 +51,32 @@ const CrearTurnoVacio = () => {
         return nextDate;
     };
 
+    useEffect(() => {
+        fetchProfesionales();
+    }, []);
+
+    const fetchProfesionales = async () => {
+        try {
+            const response = await axiosInstance.get('/api/profesional/listar');
+            setProfesionales(response.data.data);
+            if (response.data.data.length > 0) {
+                setSelectedProfesional(response.data.data[0].idProfesional);
+            }
+        } catch (error) {
+            console.error('Error al obtener los profesionales', error);
+            toast.error('Error al cargar la lista de profesionales');
+        }
+    };
+
     const createTurno = async (fecha) => {
-        console.log(idUsuario);
+        if (!selectedProfesional) {
+            toast.error('Por favor, selecciona un profesional');
+            return { success: false, fecha, horaInicio: selectedTime };
+        }
+
         try {
             await axiosInstance.post('/api/turno/crear', {
-                idProfesional: idUsuario,
+                idProfesional: selectedProfesional,
                 fecha: fecha,
                 horaInicio: selectedTime
             });
@@ -69,9 +92,14 @@ const CrearTurnoVacio = () => {
     };
 
     const onSubmit = async (data) => {
+        if (!selectedProfesional) {
+            toast.error('Por favor, selecciona un profesional');
+            return;
+        }
+
         const startDate = new Date();
         const endDate = new Date();
-        endDate.setMonth(endDate.getMonth() + selectedMonths); // Define la cantidad de meses seleccionados
+        endDate.setMonth(endDate.getMonth() + selectedMonths);
 
         const newResults = [];
         let hasSuccess = false;
@@ -82,12 +110,12 @@ const CrearTurnoVacio = () => {
                 let currentDate = getNextDate(dayNumber);
 
                 while (currentDate <= endDate) {
-                    if (currentDate > startDate) { // Validación para no crear en el día actual
+                    if (currentDate > startDate) {
                         const result = await createTurno(currentDate.toISOString().split('T')[0]);
                         newResults.push(result);
                         if (result.success) hasSuccess = true;
                     }
-                    currentDate.setDate(currentDate.getDate() + 7); // Repite cada semana
+                    currentDate.setDate(currentDate.getDate() + 7);
                 }
             }
             setResults(newResults);
@@ -111,6 +139,26 @@ const CrearTurnoVacio = () => {
             <div className="w-full max-w-6xl flex flex-col lg:flex-row lg:space-x-8">
                 <div className="bg-white p-6 rounded-lg shadow-lg w-full lg:w-1/2 mb-8 lg:mb-0">
                     <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="mb-6">
+                            <label htmlFor="profesional" className="block text-lg font-semibold text-[#35522B] mb-2">
+                                Seleccionar Profesional:
+                            </label>
+                            <select
+                                id="profesional"
+                                value={selectedProfesional}
+                                onChange={(e) => setSelectedProfesional(e.target.value)}
+                                className="w-full p-2 border-2 border-[#A7B59E] rounded-md text-[#35522B] bg-white"
+                                required
+                            >
+                                <option value="">Seleccionar</option>
+                                {profesionales.map((profesional) => (
+                                    <option key={profesional.idProfesional} value={profesional.idProfesional}>
+                                        {`${profesional.usuario.nombre} ${profesional.usuario.apellido}`}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+
                         {/* Time selection */}
                         <div className="mb-6">
                             <label htmlFor="time" className="block text-lg font-semibold text-[#35522B] mb-2">
