@@ -124,6 +124,10 @@ export const TurnoCard = ({ turno }) => {
     doc.text(`Monto Total: ${detalles.monto} $`, 10, 120 + (detalles.turno.servicios.length * 10));
 
     const pdfBlob = doc.output('blob');
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    setFacturaUrl(pdfUrl);
+
+    // Enviar la factura por correo
     const formData = new FormData();
     formData.append('factura', pdfBlob, 'factura.pdf');
     formData.append('turnoId', turno.idTurno.toString());
@@ -142,23 +146,9 @@ export const TurnoCard = ({ turno }) => {
     ).catch(error => {
       console.error('Error al enviar la factura', error);
     });
-
-    const pdfUrl = URL.createObjectURL(pdfBlob);
-    setFacturaUrl(pdfUrl);
   };
 
-  const generarComprobantePDF = () => {
-    const doc = new jsPDF();
-    doc.text("Comprobante de Pago", 10, 10);
-    doc.text(`Turno ID: ${turno.idTurno}`, 10, 20);
-    doc.text(`Profesional: ${turno.profesional.usuario.nombre} ${turno.profesional.usuario.apellido}`, 10, 30);
-    doc.text(`Fecha: ${turno.fecha}`, 10, 40);
-    doc.text(`Hora: ${turno.horaInicio} - ${turno.horaFin}`, 10, 50);
-    doc.text(`Estado del pago: ${estadoPago === "COMPLETADO" ? "Pagado" : "Pendiente"}`, 10, 60);
-    
-    // Generar el PDF y abrirlo en una nueva pestaña
-    window.open(doc.output('bloburl'), '_blank');
-  };
+
 
   const abrirComprobante = () => {
     if (facturaUrl) {

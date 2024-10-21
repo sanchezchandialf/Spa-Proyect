@@ -1,74 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import useAxios from '../api/useAxios';
+import useAxios from '../hooks/useAxios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 const ClientesPorProfesional = () => {
-  
   const [turnos, setTurnos] = useState([]);
   const [fecha, setFecha] = useState(new Date());
   const [idProfesional, setIdProfesional] = useState('');
   const [pagado, setPagado] = useState(false);
-  const [profesionales, setProfesionales] = useState([]);
+  const [error, setError] = useState(null);
   const axios = useAxios();
 
   useEffect(() => {
-    const fetchProfesionales = async () => {
-      try {
-        const response = await axios.get('/api/profesional/listar');
-        setProfesionales(response.data.data);
-      } catch (error) {
-        console.error('Error al obtener los profesionales:', error);
-      }
-    };
-
-    fetchProfesionales();
-  }, [axios]);
-
-  useEffect(() => {
-    const fetchTurnos = async () => {
+    const obtenerTurnos = async () => {
       if (!idProfesional) return;
       
       try {
+        setError(null);
         const fechaFormateada = fecha.toISOString().split('T')[0];
-        const response = await axios.get(`/api/turno/asignados/por-profesional`, {
+        const respuesta = await axios.get(`/api/turno/asignados/por-profesional`, {
           params: {
             idProfesional,
             fecha: fechaFormateada,
             pagado
           }
         });
-        if (response.data && Array.isArray(response.data.data)) {
-          setTurnos(response.data.data);
+        if (respuesta.data && Array.isArray(respuesta.data.data)) {
+          setTurnos(respuesta.data.data);
         } else {
-          console.error('La respuesta no tiene el formato esperado:', response.data);
           setTurnos([]);
+          setError('La respuesta del servidor no tiene el formato esperado');
         }
       } catch (error) {
-        console.error('Error al obtener los turnos:', error);
         setTurnos([]);
+        setError('Error al obtener los turnos: ' + error.message);
       }
     };
 
-    fetchTurnos();
+    obtenerTurnos();
   }, [idProfesional, fecha, pagado, axios]);
 
   return (
     <div className="container mx-auto">
       <h1 className="text-2xl font-bold mb-4">Clientes por profesional</h1>
       <div className="mb-4 flex space-x-4">
-        <select
+        <input
+          type="number"
           value={idProfesional}
           onChange={(e) => setIdProfesional(e.target.value)}
+          placeholder="ID del Profesional"
           className="border p-2 rounded"
-        >
-          <option value="">Seleccionar Profesional</option>
-          {profesionales.map((profesional) => (
-            <option key={profesional.idProfesional} value={profesional.idProfesional}>
-              {`${profesional.usuario.nombre} ${profesional.usuario.apellido}`}
-            </option>
-          ))}
-        </select>
+        />
         <DatePicker
           selected={fecha}
           onChange={(date) => setFecha(date)}
@@ -83,6 +65,11 @@ const ClientesPorProfesional = () => {
           <option value="true">Pagado</option>
         </select>
       </div>
+      {error && (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+          <span className="block sm:inline">{error}</span>
+        </div>
+      )}
       <table className="min-w-full bg-white border border-gray-300">
         <thead>
           <tr className="bg-gray-100">
@@ -91,6 +78,8 @@ const ClientesPorProfesional = () => {
             <th className="py-2 px-4 border-b">Teléfono</th>
             <th className="py-2 px-4 border-b">Fecha</th>
             <th className="py-2 px-4 border-b">Hora</th>
+            <th className="py-2 px-4 border-b">Servicio</th>
+            <th className="py-2 px-4 border-b">Estado</th>
           </tr>
         </thead>
         <tbody>
@@ -101,6 +90,8 @@ const ClientesPorProfesional = () => {
               <td className="py-2 px-4 border-b">{turno.cliente.telefono}</td>
               <td className="py-2 px-4 border-b">{turno.fecha}</td>
               <td className="py-2 px-4 border-b">{`${turno.horaInicio} - ${turno.horaFin}`}</td>
+              <td className="py-2 px-4 border-b">{turno.servicios[0].detallesServicio}</td>
+              <td className="py-2 px-4 border-b">{turno.estado}</td>
             </tr>
           ))}
         </tbody>
