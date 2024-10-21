@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useAxios from '../api/useAxios';
+import useAxios from '../hooks/useAxios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -30,8 +30,9 @@ const ClientesPorProfesional = () => {
       if (!idProfesional) return;
       
       try {
+        setError(null);
         const fechaFormateada = fecha.toISOString().split('T')[0];
-        const response = await axios.get(`/api/turno/asignados/por-profesional`, {
+        const respuesta = await axios.get(`/api/turno/asignados/por-profesional`, {
           params: {
             idProfesional,
             fecha: fechaFormateada,
@@ -42,12 +43,10 @@ const ClientesPorProfesional = () => {
           setTurnos(response.data.data);
           setError('');
         } else {
-          console.error('La respuesta no tiene el formato esperado:', response.data);
           setTurnos([]);
           setError('No hay clientes con turno en esta fecha');
         }
       } catch (error) {
-        console.error('Error al obtener los turnos:', error);
         setTurnos([]);
         if (error.response && error.response.status === 404) {
           setError('No hay clientes con turno en esta fecha');
@@ -64,18 +63,13 @@ const ClientesPorProfesional = () => {
     <div className="container mx-auto">
       <h1 className="text-2xl font-bold mb-4">Clientes por profesional</h1>
       <div className="mb-4 flex space-x-4">
-        <select
+        <input
+          type="number"
           value={idProfesional}
           onChange={(e) => setIdProfesional(e.target.value)}
+          placeholder="ID del Profesional"
           className="border p-2 rounded"
-        >
-          <option value="">Seleccionar Profesional</option>
-          {profesionales.map((profesional) => (
-            <option key={profesional.idProfesional} value={profesional.idProfesional}>
-              {`${profesional.usuario.nombre} ${profesional.usuario.apellido}`}
-            </option>
-          ))}
-        </select>
+        />
         <DatePicker
           selected={fecha}
           onChange={(date) => setFecha(date)}

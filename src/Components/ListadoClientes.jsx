@@ -1,44 +1,29 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { FetchApi } from '../api/Common';
+import React, { useState, useEffect } from 'react';
+import useAxios from '../hooks/useAxios';
 
 const ListadoClientes = () => {
   const [clientes, setClientes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const axios = useAxios();
 
-  const fetchClientes = useCallback(async () => {
+  const fetchClientes = async () => {
     try {
       setLoading(true);
-      const { code, data, message } = await FetchApi({
-        path: 'api/cliente/listar',
-        method: 'GET',
-        requiresAuth: true,
-        token: localStorage.getItem('token')
-      });
-      
-      if (code === 200) {
-        setClientes(data || []);
-        setError(null);
-      } else {
-        throw new Error(message || "Error desconocido al obtener los clientes");
-      }
-    } catch (error) {
-      console.error('Error al obtener los clientes:', error);
-      setError('Hubo un problema al cargar los clientes. Inténtalo de nuevo.');
-      setClientes([]);
+      const response = await axios.get('api/cliente/listar');
+      setClientes(response.data.data);
+      setError(null);
+    } catch (err) {
+      setError('Error al cargar los clientes');
+      console.error(err);
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
   useEffect(() => {
     fetchClientes();
-  }, [fetchClientes]);
-
-  // Función para actualizar la lista de clientes
-  const actualizarListaClientes = () => {
-    fetchClientes();
-  };
+  }, []);
 
   if (loading) return <p>Cargando clientes...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
@@ -47,7 +32,7 @@ const ListadoClientes = () => {
     <div className="container mx-auto">
       <h1 className="text-2xl font-bold mb-4">Listado de Clientes</h1>
       <button 
-        onClick={actualizarListaClientes}
+        onClick={fetchClientes}
         className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Actualizar Lista
@@ -66,9 +51,9 @@ const ListadoClientes = () => {
           <tbody>
             {clientes.map((cliente) => (
               <tr key={cliente.idCliente} className="hover:bg-gray-50">
-                <td className="py-2 px-4 border-b">{cliente.usuario?.nombre || 'N/A'}</td>
-                <td className="py-2 px-4 border-b">{cliente.usuario?.apellido || 'N/A'}</td>
-                <td className="py-2 px-4 border-b">{cliente.usuario?.email || 'N/A'}</td>
+                <td className="py-2 px-4 border-b">{cliente.nombre}</td>
+                <td className="py-2 px-4 border-b">{cliente.apellido}</td>
+                <td className="py-2 px-4 border-b">{cliente.email}</td>
               </tr>
             ))}
           </tbody>
