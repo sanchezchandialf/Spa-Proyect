@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ConsultarTurnosSection from '../Turnos/componentes/TurnosSection';
 import ConsultasSection from '../Profesional/Components/ConsultasSection';
 import EmpleoListWithPostulaciones from '../Profesional/Components/EmpleoListWithPostulaciones';
 import Factura from '../pagos/utilidades/Factura';
 import CrearTurnoVacio from '../Turnos/componentes/CrearTurnoVacio';
 import { useAuth } from '../context/AuthContext';
+import useAxios from '../api/useAxios';
+
+import ClientesPorProfesional from '../components/ClientesPorProfesional';
+import ListadoClientes from '../components/ListadoClientes';
+import InformeIngresos from '../components/InformeIngresos';
+
 
 
 export default function Menu() {
@@ -15,14 +21,19 @@ export default function Menu() {
 
     const { admin_profesional, admin_secretaria, esAdmin } = useAuth();
 
+    // Verifica que estas funciones estén devolviendo los valores correctos
+    console.log('Es admin profesional:', admin_profesional());
+    console.log('Es admin secretaria:', admin_secretaria());
+    console.log('Es admin:', esAdmin());
+
     const renderComponent = () => {
         switch (selectedOption) {
         case 'Bienvenida':
           return <h1>Bienvenido al sistema de gestión de la administrativa</h1>;
         case 'Todos los clientes':
-            return <h1>Todos los clientes</h1>;
+            return <ListadoClientes />;
         case 'Clientes por profesional':
-            return <h1>Clientes por profesional</h1>;
+            return <ClientesPorProfesional />;
         case 'Consultas':
             return <ConsultasSection/>;
         case 'Turnos':
@@ -32,7 +43,7 @@ export default function Menu() {
         case 'Pagos':
             return <Factura/>;
         case 'Ingresos':
-            return <h1>Informe de ingresos por fechas</h1>;
+            return <InformeIngresos />;
         case 'Servicios por profesional':
             return <h1>Informe de servicios realizados</h1>;
         case 'Solicitudes de empleo':
