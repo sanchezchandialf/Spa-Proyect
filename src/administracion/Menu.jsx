@@ -7,10 +7,10 @@ import CrearTurnoVacio from '../Turnos/componentes/CrearTurnoVacio';
 import { useAuth } from '../context/AuthContext';
 import useAxios from '../api/useAxios';
 
-import ClientesPorProfesional from '../components/ClientesPorProfesional';
-import ListadoClientes from '../components/ListadoClientes';
-import InformeIngresos from '../components/InformeIngresos';
-
+import ClientesPorProfesional from '../Components/ClientesPorProfesional';
+import ListadoClientes from '../Components/ListadoClientes';
+import InformeIngresos from '../Components/InformeIngresos';
+import InformeServicios from '../Components/InformeServicios';
 
 
 export default function Menu() {
@@ -45,7 +45,7 @@ export default function Menu() {
         case 'Ingresos':
             return <InformeIngresos />;
         case 'Servicios por profesional':
-            return <h1>Informe de servicios realizados</h1>;
+            return <InformeServicios/>;
         case 'Solicitudes de empleo':
             return <EmpleoListWithPostulaciones/>;
         default:

@@ -11,7 +11,7 @@ const CrearTurno = () => {
 
     const today = new Date();
     const minDate = new Date(today);
-    minDate.setDate(minDate.getDate() + 1);  // Mínimo: un día después del actual
+    minDate.setDate(minDate.getDate() + 3);  // Mínimo: tres días después del actual
 
     const maxDate = new Date(today);
     maxDate.setDate(maxDate.getDate() + 20); // Máximo: 20 días desde hoy

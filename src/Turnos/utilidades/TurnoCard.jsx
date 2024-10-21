@@ -186,100 +186,104 @@ export const TurnoCard = ({ turno }) => {
           {estadoTurno}
         </span>
       </p>
-      
-      <p className="text-sm text-gray-600 mt-2">
-        Pago: 
-        <span className={`ml-1 ${estadoTurno === "PAGADO" || estadoPago === "COMPLETADO" ? "text-green-600" : "text-yellow-600"}`}>
-          {estadoTurno === "PAGADO" || estadoPago === "COMPLETADO" ? "Pagado" : "Pendiente"}
-        </span>
-      </p>
 
-      <div className="mt-3 flex space-x-2">
-        {esCliente() && estadoTurno !== "CANCELADO" && estadoTurno !== "PAGADO" && estadoPago !== "COMPLETADO" && (
-          <>
-            <button
-              className="bg-red-500 text-white px-3 py-1 text-sm rounded hover:bg-red-600"
-              onClick={handleCancelarTurno}
-            >
-              Cancelar
-            </button>
-            <button
-              className="bg-blue-500 text-white px-3 py-1 text-sm rounded hover:bg-blue-600"
-              onClick={handlePagarTurno}
-            >
-              Pagar
-            </button>
-          </>
-        )}
-        {esCliente() && (estadoTurno === "PAGADO" || estadoPago === "COMPLETADO") && (
-          <button
-            className="bg-green-500 text-white px-3 py-1 text-sm rounded hover:bg-green-600"
-            onClick={abrirComprobante}
-          >
-            Comprobante
-          </button>
-        )}
-      </div>
+      {estadoTurno !== "FINALIZADO" && (
+        <>
+          <p className="text-sm text-gray-600 mt-2">
+            Pago: 
+            <span className={`ml-1 ${estadoTurno === "PAGADO" || estadoPago === "COMPLETADO" ? "text-green-600" : "text-yellow-600"}`}>
+              {estadoTurno === "PAGADO" || estadoPago === "COMPLETADO" ? "Pagado" : "Pendiente"}
+            </span>
+          </p>
 
-      {mostrarPagoModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-          <div className="bg-white p-6 rounded-lg">
-            <h2 className="text-xl font-bold mb-4">Procesar Pago</h2>
-            <form onSubmit={handleProcesarPago}>
-              <input
-                type="text"
-                placeholder="Número de Tarjeta"
-                value={numTarjeta}
-                onChange={(e) => setNumTarjeta(e.target.value)}
-                className="w-full p-2 mb-2 border rounded"
-              />
-              <input
-                type="text"
-                placeholder="Nombre del Titular"
-                value={nombreTitular}
-                onChange={(e) => setNombreTitular(e.target.value)}
-                className="w-full p-2 mb-2 border rounded"
-              />
-              <input
-                type="text"
-                placeholder="Vencimiento (MM/YY)"
-                value={vencimiento}
-                onChange={(e) => setVencimiento(e.target.value)}
-                className="w-full p-2 mb-2 border rounded"
-              />
-              <input
-                type="text"
-                placeholder="Código de Seguridad"
-                value={codSeguridad}
-                onChange={(e) => setCodSeguridad(e.target.value)}
-                className="w-full p-2 mb-2 border rounded"
-              />
-              <select
-                value={metodoPago}
-                onChange={(e) => setMetodoPago(e.target.value)}
-                className="w-full p-2 mb-4 border rounded"
-              >
-                <option value="CREDITO">Crédito</option>
-                <option value="DEBITO">Débito</option>
-              </select>
-              <div className="flex justify-end">
+          <div className="mt-3 flex space-x-2">
+            {esCliente() && estadoTurno !== "CANCELADO" && estadoTurno !== "PAGADO" && estadoPago !== "COMPLETADO" && (
+              <>
                 <button
-                  type="button"
-                  onClick={handleCerrarPagoModal}
-                  className="bg-gray-300 text-black px-4 py-2 rounded mr-2"
+                  className="bg-red-500 text-white px-3 py-1 text-sm rounded hover:bg-red-600"
+                  onClick={handleCancelarTurno}
                 >
                   Cancelar
                 </button>
                 <button
-                  type="submit"
-                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                  className="bg-blue-500 text-white px-3 py-1 text-sm rounded hover:bg-blue-600"
+                  onClick={handlePagarTurno}
                 >
                   Pagar
                 </button>
-              </div>
-            </form>
+              </>
+            )}
+            {esCliente() && (estadoTurno === "PAGADO" || estadoPago === "COMPLETADO") && (
+              <button
+                className="bg-green-500 text-white px-3 py-1 text-sm rounded hover:bg-green-600"
+                onClick={abrirComprobante}
+              >
+                Comprobante
+              </button>
+            )}
           </div>
-        </div>
+
+          {mostrarPagoModal && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
+              <div className="bg-white p-6 rounded-lg">
+                <h2 className="text-xl font-bold mb-4">Procesar Pago</h2>
+                <form onSubmit={handleProcesarPago}>
+                  <input
+                    type="text"
+                    placeholder="Número de Tarjeta"
+                    value={numTarjeta}
+                    onChange={(e) => setNumTarjeta(e.target.value)}
+                    className="w-full p-2 mb-2 border rounded"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Nombre del Titular"
+                    value={nombreTitular}
+                    onChange={(e) => setNombreTitular(e.target.value)}
+                    className="w-full p-2 mb-2 border rounded"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Vencimiento (MM/YY)"
+                    value={vencimiento}
+                    onChange={(e) => setVencimiento(e.target.value)}
+                    className="w-full p-2 mb-2 border rounded"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Código de Seguridad"
+                    value={codSeguridad}
+                    onChange={(e) => setCodSeguridad(e.target.value)}
+                    className="w-full p-2 mb-2 border rounded"
+                  />
+                  <select
+                    value={metodoPago}
+                    onChange={(e) => setMetodoPago(e.target.value)}
+                    className="w-full p-2 mb-4 border rounded"
+                  >
+                    <option value="CREDITO">Crédito</option>
+                    <option value="DEBITO">Débito</option>
+                  </select>
+                  <div className="flex justify-end">
+                    <button
+                      type="button"
+                      onClick={handleCerrarPagoModal}
+                      className="bg-gray-300 text-black px-4 py-2 rounded mr-2"
+                    >
+                      Cancelar
+                    </button>
+                    <button
+                      type="submit"
+                      className="bg-blue-500 text-white px-4 py-2 rounded"
+                    >
+                      Pagar
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

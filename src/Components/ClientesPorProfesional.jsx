@@ -4,11 +4,26 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 
 const ClientesPorProfesional = () => {
+  
   const [turnos, setTurnos] = useState([]);
   const [fecha, setFecha] = useState(new Date());
   const [idProfesional, setIdProfesional] = useState('');
   const [pagado, setPagado] = useState(false);
+  const [profesionales, setProfesionales] = useState([]);
   const axios = useAxios();
+
+  useEffect(() => {
+    const fetchProfesionales = async () => {
+      try {
+        const response = await axios.get('/api/profesional/listar');
+        setProfesionales(response.data.data);
+      } catch (error) {
+        console.error('Error al obtener los profesionales:', error);
+      }
+    };
+
+    fetchProfesionales();
+  }, [axios]);
 
   useEffect(() => {
     const fetchTurnos = async () => {
@@ -42,13 +57,18 @@ const ClientesPorProfesional = () => {
     <div className="container mx-auto">
       <h1 className="text-2xl font-bold mb-4">Clientes por profesional</h1>
       <div className="mb-4 flex space-x-4">
-        <input
-          type="number"
+        <select
           value={idProfesional}
           onChange={(e) => setIdProfesional(e.target.value)}
-          placeholder="ID del Profesional"
           className="border p-2 rounded"
-        />
+        >
+          <option value="">Seleccionar Profesional</option>
+          {profesionales.map((profesional) => (
+            <option key={profesional.idProfesional} value={profesional.idProfesional}>
+              {`${profesional.usuario.nombre} ${profesional.usuario.apellido}`}
+            </option>
+          ))}
+        </select>
         <DatePicker
           selected={fecha}
           onChange={(date) => setFecha(date)}
@@ -69,7 +89,6 @@ const ClientesPorProfesional = () => {
             <th className="py-2 px-4 border-b">Cliente</th>
             <th className="py-2 px-4 border-b">DNI</th>
             <th className="py-2 px-4 border-b">Teléfono</th>
-            <th className="py-2 px-4 border-b">Servicio</th>
             <th className="py-2 px-4 border-b">Fecha</th>
             <th className="py-2 px-4 border-b">Hora</th>
           </tr>
@@ -80,7 +99,6 @@ const ClientesPorProfesional = () => {
               <td className="py-2 px-4 border-b">{`${turno.cliente.usuario.nombre} ${turno.cliente.usuario.apellido}`}</td>
               <td className="py-2 px-4 border-b">{turno.cliente.usuario.dni}</td>
               <td className="py-2 px-4 border-b">{turno.cliente.telefono}</td>
-              <td className="py-2 px-4 border-b">{turno.servicios[0].detallesServicio}</td>
               <td className="py-2 px-4 border-b">{turno.fecha}</td>
               <td className="py-2 px-4 border-b">{`${turno.horaInicio} - ${turno.horaFin}`}</td>
             </tr>
