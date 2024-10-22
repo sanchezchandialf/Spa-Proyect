@@ -2,17 +2,14 @@ import React, { useState, useEffect } from 'react';
 import ConsultarTurnosSection from '../Turnos/componentes/TurnosSection';
 import ConsultasSection from '../Profesional/Components/ConsultasSection';
 import EmpleoListWithPostulaciones from '../Profesional/Components/EmpleoListWithPostulaciones';
-import Factura from '../pagos/utilidades/Factura';
 import CrearTurnoVacio from '../Turnos/componentes/CrearTurnoVacio';
 import { useAuth } from '../context/AuthContext';
-import useAxios from '../api/useAxios';
 
 import ClientesPorProfesional from '../components/ClientesPorProfesional';
 import ListadoClientes from '../components/ListadoClientes';
 import InformeIngresos from '../components/InformeIngresos';
-import InformeServicios from '../Components/InformeServicios';
+import InformeServicios from '../components/InformeServicios';
 import PagosPorCliente from '../Components/PagosPorCliente';
-
 
 export default function Menu() {
 
