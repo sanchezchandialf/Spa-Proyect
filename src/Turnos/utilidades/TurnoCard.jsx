@@ -98,30 +98,56 @@ export const TurnoCard = ({ turno }) => {
   };
 
   const generarYEnviarFacturaPDF = (detalles) => {
-    const doc = new jsPDF();
+    const doc = new jsPDF('p', 'pt', 'a4');
 
+    // Encabezado
     doc.setFontSize(18);
-    doc.text('Factura de Pago', 10, 10);
-
+    doc.text('Factura', 40, 40);
     doc.setFontSize(12);
-    doc.text(`Número de Transacción: ${detalles.id}`, 10, 30);
+    doc.text(`Spa Sentirse Bien`, 40, 60);
+    doc.text(`Fecha: ${new Date(detalles.fechaPago).toLocaleDateString()}`, 450, 40);
+    doc.text(`Factura: #${detalles.id}`, 450, 60);
 
-    const fecha = new Date(detalles.fechaPago);
-    const fechaFormateada = fecha.toLocaleString();
-    doc.text(`Fecha de Pago: ${fechaFormateada}`, 10, 40);
+    // Detalles del cliente
+    doc.setFontSize(14);
+    doc.text('Detalles del Cliente:', 40, 100);
+    doc.setFontSize(12);
+    doc.text(`Nombre: ${detalles.nombreTitular}`, 40, 120);
+    doc.text(`Método de Pago: ${detalles.metodoPago}`, 40, 140);
+    doc.text(`Turno ID: ${detalles.turno.idTurno}`, 40, 160);
 
-    doc.text(`Fecha del Turno: ${detalles.turno.fecha}`, 10, 50);
-    doc.text(`Hora del Turno: ${detalles.turno.horaInicio}`, 10, 60);
-    doc.text(`Nombre del Titular: ${detalles.nombreTitular}`, 10, 70);
-    doc.text(`Método de Pago: ${detalles.metodoPago}`, 10, 80);
-    doc.text(`Turno ID: ${detalles.turno.idTurno}`, 10, 90);
+    // Detalles del servicio
+    let yOffset = 200;
+    doc.setFontSize(14);
+    doc.text('Detalles del Turno:', 40, yOffset);
+    yOffset += 20;
+    doc.setFontSize(12);
+    doc.text(`Fecha del Turno: ${detalles.turno.fecha}`, 40, yOffset);
+    yOffset += 20;
+    doc.text(`Hora del Turno: ${detalles.turno.horaInicio}`, 40, yOffset);
+    yOffset += 20;
+    doc.text(`Profesional: ${turno.profesional.usuario.nombre} ${turno.profesional.usuario.apellido}`, 40, yOffset);
+    yOffset += 40;
 
-    doc.text('Detalles de los Servicios:', 10, 100);
+    doc.text('Servicios:', 40, yOffset);
+    yOffset += 20;
     detalles.turno.servicios.forEach((servicio, index) => {
-      doc.text(`${index + 1}. ${servicio.detallesServicio} - ${servicio.precio} $`, 10, 110 + (index * 10));
+      doc.text(`- ${servicio.detallesServicio}: $${servicio.precio.toFixed(2)}`, 40, yOffset);
+      yOffset += 20;
     });
 
-    doc.text(`Monto Total: ${detalles.monto} $`, 10, 120 + (detalles.turno.servicios.length * 10));
+    // Total
+    yOffset += 20;
+    doc.setFontSize(14);
+    doc.text(`Monto Total: $${detalles.monto.toFixed(2)}`, 40, yOffset);
+
+    // Footer
+    yOffset += 40;
+    doc.setFontSize(10);
+    doc.text('Sitio Web: www.SpaSentirseBien.com', 40, yOffset);
+    doc.text('Teléfono: (55) 1234-5678', 40, yOffset + 20);
+    doc.text('Email: SpaSentirseBien@gmail.com', 40, yOffset + 40);
+    doc.text('Dirección: Calle Cualquiera 123, Cualquier Lugar', 40, yOffset + 60);
 
     const pdfBlob = doc.output('blob');
     const pdfUrl = URL.createObjectURL(pdfBlob);

@@ -25,7 +25,7 @@ const Factura = ({ id }) => {
     doc.setFontSize(18);
     doc.text('Factura Comercial', 40, 40);
     doc.setFontSize(12);
-    doc.text(`Licenciada Juliana Silva`, 40, 60);
+    doc.text(`Spa Sentirse Bien`, 40, 60);
     doc.text(`Fecha: ${facturaData.fecha}`, 450, 40);
     doc.text(`Factura: #${facturaData.numeroFactura}`, 450, 60);
 
@@ -56,9 +56,9 @@ const Factura = ({ id }) => {
     // Footer
     yOffset += 40;
     doc.setFontSize(10);
-    doc.text('Sitio Web: www.sitioincreible.com', 40, yOffset);
+    doc.text('Sitio Web: www.SpaSentirseBien.com', 40, yOffset);
     doc.text('Teléfono: (55) 1234-5678', 40, yOffset + 20);
-    doc.text('Email: hola@sitioincreible.com', 40, yOffset + 40);
+    doc.text('Email: SpaSentirseBien@gmail.com', 40, yOffset + 40);
     doc.text('Dirección: Calle Cualquiera 123, Cualquier Lugar', 40, yOffset + 60);
 
     // Guardar el PDF con un nombre dinámico
