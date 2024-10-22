@@ -6,7 +6,7 @@ import CrearTurnoVacio from '../Turnos/componentes/CrearTurnoVacio';
 import { useAuth } from '../context/AuthContext';
 
 import ClientesPorProfesional from '../Components/ClientesPorProfesional';
-import ListadoClientes from '../Components/ListadoClientes';
+import ListadoClientes from '../components/ListadoClientes';
 import InformeIngresos from '../Components/InformeIngresos';
 import InformeServicios from '../Components/InformeServicios';
 import PagosPorCliente from '../Components/PagosPorCliente';
