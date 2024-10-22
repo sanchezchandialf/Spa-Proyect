@@ -4,6 +4,8 @@ import toast from 'react-hot-toast';
 import { useLogin } from "../context/LoginContext";
 import { useAuth } from "../context/AuthContext";
 import axios from "../api/axios";
+import { useNavigate } from 'react-router-dom';
+
 
 const Login = ()=>{
 
@@ -11,8 +13,8 @@ const Login = ()=>{
     const {register, handleSubmit, setError, reset, 
     formState:{errors , isSubmitting}} = useForm();
 
-    const { login, esAdmin, n } = useAuth();
-
+    const { login, esCliente } = useAuth();
+    const navigate = useNavigate();
     
     
  const {handleModalClose, handleRegisterClick}=useLogin();
@@ -32,9 +34,14 @@ const Login = ()=>{
             // Guarda el token y el rol en el contexto usando el hook useAuth
             login(accessToken, idRole, idUsuario, nombreUsuario);
             
+            
             toast.success('Se inició sesión correctamente');
             handleClose(); // Cerrar el modal
             
+            // Redirigir a '/MisTurnos' si el usuario es un cliente
+            if (idRole === 1) { // Asumiendo que 1 es el ID del rol de cliente
+                navigate('/MisTurnos');
+            }
           } else {
             throw new Error('Respuesta inesperada del servidor');
           }

@@ -29,7 +29,7 @@ const Header2 = () => {
     { text: "Inicio", path: "/" },
     { text: "Servicios", path: "/servicios" },
     { text: "Contacto", path: "/contacto" },
-    esCliente() && { text: "Mis Turnos", path: "/MisTurnos" }
+    esCliente() && { text: "Mi cuenta", path: "/MisTurnos" }
   ].filter(Boolean);
 
 
@@ -65,7 +65,7 @@ const Header2 = () => {
                     onClick={handleRegisterProfesionalClick}
                     className="text-white bg-pink-500 hover:bg-pink-600 font-medium rounded-lg text-sm px-4 py-2 transition-colors"
                   >
-                    Registrar Profesional
+                    Registrar Empleado
                   </button>
                 )}
               </>
