@@ -2,11 +2,14 @@
 
 import React, { useState } from 'react';
 import useAxios from '../api/useAxios';
+import { jsPDF } from "jspdf";
+import toast from 'react-hot-toast';
 
 const PagosPorCliente = () => {
   const [clienteId, setClienteId] = useState('');
   const [pagos, setPagos] = useState([]);
   const [error, setError] = useState('');
+  const [facturaUrl, setFacturaUrl] = useState(null);
   const api = useAxios();
 
   const handleInputChange = (e) => {
@@ -25,6 +28,53 @@ const PagosPorCliente = () => {
       setError('');  // Limpiar errores si la solicitud es exitosa.
     } catch (error) {
       setError('Error al obtener los pagos del cliente.');
+    }
+  };
+
+  const generarInformePDF = () => {
+    const doc = new jsPDF();
+
+    doc.setFontSize(18);
+    doc.text('Informe de Pagos por Cliente', 10, 10);
+
+    doc.setFontSize(12);
+    doc.text(`ID del Cliente: ${clienteId}`, 10, 20);
+
+    let yPos = 30;
+    pagos.forEach((pago, index) => {
+      doc.text(`Pago ${index + 1}:`, 10, yPos);
+      yPos += 10;
+      doc.text(`Nombre del Cliente: ${pago.turno.cliente.usuario.nombre} ${pago.turno.cliente.usuario.apellido}`, 15, yPos);
+      yPos += 10;
+      doc.text(`Titular de la Tarjeta: ${pago.nombreTitular}`, 15, yPos);
+      yPos += 10;
+      doc.text(`Monto Total: $${pago.monto.toFixed(2)}`, 15, yPos);
+      yPos += 10;
+      doc.text(`Fecha del Pago: ${new Date(pago.fechaPago).toLocaleDateString()}`, 15, yPos);
+      yPos += 10;
+      doc.text(`Fecha del Turno: ${new Date(pago.turno.fecha).toLocaleDateString()}`, 15, yPos);
+      yPos += 10;
+      doc.text(`Hora del Turno: ${pago.turno.horaInicio}`, 15, yPos);
+      yPos += 20;
+
+      if (yPos > 280) {
+        doc.addPage();
+        yPos = 20;
+      }
+    });
+
+    const pdfBlob = doc.output('blob');
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+    setFacturaUrl(pdfUrl);
+    
+    toast.success('Informe PDF generado con éxito');
+  };
+
+  const abrirInforme = () => {
+    if (facturaUrl) {
+      window.open(facturaUrl, '_blank');
+    } else {
+      toast.error('El informe aún no está disponible');
     }
   };
 
@@ -84,6 +134,23 @@ const PagosPorCliente = () => {
           </tbody>
         </table>
       </div>
+
+      {pagos.length > 0 && (
+        <div className="mt-4">
+          <button
+            onClick={generarInformePDF}
+            className="p-2 bg-[#4A6340] text-white rounded-md hover:bg-[#3A4F32] transition-colors mr-2"
+          >
+            Generar Informe PDF
+          </button>
+          <button
+            onClick={abrirInforme}
+            className="p-2 bg-[#4A6340] text-white rounded-md hover:bg-[#3A4F32] transition-colors"
+          >
+            Abrir Informe PDF
+          </button>
+        </div>
+      )}
     </div>
   );
 };

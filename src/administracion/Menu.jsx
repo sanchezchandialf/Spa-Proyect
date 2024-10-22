@@ -7,9 +7,9 @@ import CrearTurnoVacio from '../Turnos/componentes/CrearTurnoVacio';
 import { useAuth } from '../context/AuthContext';
 import useAxios from '../api/useAxios';
 
-import ClientesPorProfesional from '../Components/ClientesPorProfesional';
-import ListadoClientes from '../Components/ListadoClientes';
-import InformeIngresos from '../Components/InformeIngresos';
+import ClientesPorProfesional from '../components/ClientesPorProfesional';
+import ListadoClientes from '../components/ListadoClientes';
+import InformeIngresos from '../components/InformeIngresos';
 import InformeServicios from '../Components/InformeServicios';
 import PagosPorCliente from '../Components/PagosPorCliente';
 
