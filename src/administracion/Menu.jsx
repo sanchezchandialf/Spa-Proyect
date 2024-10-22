@@ -5,7 +5,7 @@ import EmpleoListWithPostulaciones from '../Profesional/Components/EmpleoListWit
 import CrearTurnoVacio from '../Turnos/componentes/CrearTurnoVacio';
 import { useAuth } from '../context/AuthContext';
 
-import ClientesPorProfesional from '../components/ClientesPorProfesional';
+import ClientesPorProfesional from  '../components/ClientesPorProfesional';
 import ListadoClientes from '../components/ListadoClientes';
 import InformeIngresos from '../components/InformeIngresos';
 import InformeServicios from '../components/InformeServicios';
