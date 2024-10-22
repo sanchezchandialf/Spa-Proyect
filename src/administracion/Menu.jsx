@@ -5,10 +5,10 @@ import EmpleoListWithPostulaciones from '../Profesional/Components/EmpleoListWit
 import CrearTurnoVacio from '../Turnos/componentes/CrearTurnoVacio';
 import { useAuth } from '../context/AuthContext';
 
-import ClientesPorProfesional from  '../components/ClientesPorProfesional';
-import ListadoClientes from '../components/ListadoClientes';
-import InformeIngresos from '../components/InformeIngresos';
-import InformeServicios from '../components/InformeServicios';
+import ClientesPorProfesional from '../Components/ClientesPorProfesional';
+import ListadoClientes from '../Components/ListadoClientes';
+import InformeIngresos from '../Components/InformeIngresos';
+import InformeServicios from '../Components/InformeServicios';
 import PagosPorCliente from '../Components/PagosPorCliente';
 
 export default function Menu() {
