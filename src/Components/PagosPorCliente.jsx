@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import useAxios from '../api/useAxios';
 import { jsPDF } from "jspdf";
+import 'jspdf-autotable';
 import toast from 'react-hot-toast';
 
 const PagosPorCliente = () => {
@@ -40,26 +41,40 @@ const PagosPorCliente = () => {
     doc.setFontSize(12);
     doc.text(`ID del Cliente: ${clienteId}`, 10, 20);
 
-    let yPos = 30;
-    pagos.forEach((pago, index) => {
-      doc.text(`Pago ${index + 1}:`, 10, yPos);
-      yPos += 10;
-      doc.text(`Nombre del Cliente: ${pago.turno.cliente.usuario.nombre} ${pago.turno.cliente.usuario.apellido}`, 15, yPos);
-      yPos += 10;
-      doc.text(`Titular de la Tarjeta: ${pago.nombreTitular}`, 15, yPos);
-      yPos += 10;
-      doc.text(`Monto Total: $${pago.monto.toFixed(2)}`, 15, yPos);
-      yPos += 10;
-      doc.text(`Fecha del Pago: ${new Date(pago.fechaPago).toLocaleDateString()}`, 15, yPos);
-      yPos += 10;
-      doc.text(`Fecha del Turno: ${new Date(pago.turno.fecha).toLocaleDateString()}`, 15, yPos);
-      yPos += 10;
-      doc.text(`Hora del Turno: ${pago.turno.horaInicio}`, 15, yPos);
-      yPos += 20;
+    // Definir las columnas
+    const columns = [
+      "Nombre del Cliente",
+      "Titular de la Tarjeta",
+      "Monto Total",
+      "Fecha del Pago",
+      "Fecha del Turno",
+      "Hora del Turno"
+    ];
 
-      if (yPos > 280) {
-        doc.addPage();
-        yPos = 20;
+    // Preparar los datos
+    const data = pagos.map(pago => [
+      `${pago.turno.cliente.usuario.nombre} ${pago.turno.cliente.usuario.apellido}`,
+      pago.nombreTitular,
+      `$${pago.monto.toFixed(2)}`,
+      new Date(pago.fechaPago).toLocaleDateString(),
+      new Date(pago.turno.fecha).toLocaleDateString(),
+      pago.turno.horaInicio
+    ]);
+
+    // Configurar la tabla
+    doc.autoTable({
+      startY: 30,
+      head: [columns],
+      body: data,
+      theme: 'striped',
+      styles: { fontSize: 8, cellPadding: 1 },
+      columnStyles: {
+        0: { cellWidth: 40 },
+        1: { cellWidth: 40 },
+        2: { cellWidth: 25 },
+        3: { cellWidth: 25 },
+        4: { cellWidth: 25 },
+        5: { cellWidth: 25 }
       }
     });
 

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import useAxios from '../../api/useAxios';
 import { useAuth } from '../../context/AuthContext';
 import { TurnoCard } from '../utilidades/TurnoCard';
+import { jsPDF } from "jspdf";
+import 'jspdf-autotable';
 
 const ConsultarTurnosSection = () => {
     const [turnos, setTurnos] = useState([]);
@@ -36,6 +38,48 @@ const ConsultarTurnosSection = () => {
           console.error('Por favor, selecciona una fecha válida.');
         }
       };
+  
+    const generarInformePDF = () => {
+      const doc = new jsPDF();
+  
+      doc.setFontSize(18);
+      doc.text('Informe de Turnos', 14, 20);
+  
+      doc.setFontSize(12);
+      doc.text(`Fecha: ${selectedDate || 'Todos los turnos'}`, 14, 30);
+  
+      const columns = [
+        "Profesional", "Fecha", "Hora", "Estado", "Pago"
+      ];
+  
+      const data = turnos.map(turno => [
+        `${turno.profesional.usuario.nombre} ${turno.profesional.usuario.apellido}`,
+        turno.fecha,
+        `${turno.horaInicio} - ${turno.horaFin || 'Pendiente'}`,
+        turno.estado,
+        turno.pago === "COMPLETADO" || turno.estado === "PAGADO" ? "Pagado" : "Pendiente"
+      ]);
+  
+      doc.autoTable({
+        startY: 40,
+        head: [columns],
+        body: data,
+        theme: 'striped',
+        styles: { fontSize: 8, cellPadding: 2 },
+        headStyles: { fillColor: [242, 225, 244], textColor: [0, 0, 0], fontStyle: 'bold' },
+        alternateRowStyles: { fillColor: [248, 240, 249] },
+        columnStyles: {
+          0: { cellWidth: 50 },
+          1: { cellWidth: 30 },
+          2: { cellWidth: 40 },
+          3: { cellWidth: 30 },
+          4: { cellWidth: 30 }
+        }
+      });
+  
+      // Abrir el PDF en una nueva ventana para imprimir
+      window.open(URL.createObjectURL(doc.output('blob')), '_blank');
+    };
   
     if (!esProfesional) {
       return <p>No tienes acceso a esta sección.</p>;
@@ -88,7 +132,12 @@ const ConsultarTurnosSection = () => {
           >
             Turnos Cancelados
           </button>
-          
+          <button
+            onClick={generarInformePDF}
+            className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Imprimir y Generar PDF
+          </button>
         </div>
   
         {/* Mostrar los turnos */}

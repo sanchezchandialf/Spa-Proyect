@@ -99,55 +99,66 @@ export const TurnoCard = ({ turno }) => {
 
   const generarYEnviarFacturaPDF = (detalles) => {
     const doc = new jsPDF('p', 'pt', 'a4');
+    const pageWidth = doc.internal.pageSize.width;
 
     // Encabezado
     doc.setFontSize(18);
-    doc.text('Factura', 40, 40);
-    doc.setFontSize(12);
-    doc.text(`Spa Sentirse Bien`, 40, 60);
-    doc.text(`Fecha: ${new Date(detalles.fechaPago).toLocaleDateString()}`, 450, 40);
-    doc.text(`Factura: #${detalles.id}`, 450, 60);
+    doc.text('SPA SENTIRSE BIEN', pageWidth / 2, 40, { align: 'center' });
+    
+    doc.setFontSize(14);
+    doc.text('FACTURA', pageWidth / 2, 70, { align: 'center' });
+
+    doc.setFontSize(10);
+    doc.text(`Fecha: ${new Date(detalles.fechaPago).toLocaleDateString()}`, 40, 100);
+    doc.text(`N° ${detalles.id.toString().padStart(4, '0')}`, pageWidth - 100, 100);
+
+    // Línea separadora
+    doc.line(40, 120, pageWidth - 40, 120);
 
     // Detalles del cliente
-    doc.setFontSize(14);
-    doc.text('Detalles del Cliente:', 40, 100);
     doc.setFontSize(12);
-    doc.text(`Nombre: ${detalles.nombreTitular}`, 40, 120);
-    doc.text(`Método de Pago: ${detalles.metodoPago}`, 40, 140);
-    doc.text(`Turno ID: ${detalles.turno.idTurno}`, 40, 160);
+    doc.text('Detalles del Cliente:', 40, 150);
+    doc.setFontSize(10);
+    doc.text(`Nombre: ${detalles.nombreTitular}`, 40, 170);
+    doc.text(`Método de Pago: ${detalles.metodoPago}`, 40, 190);
+    doc.text(`Turno ID: ${detalles.turno.idTurno}`, 40, 210);
 
     // Detalles del servicio
-    let yOffset = 200;
-    doc.setFontSize(14);
-    doc.text('Detalles del Turno:', 40, yOffset);
-    yOffset += 20;
     doc.setFontSize(12);
-    doc.text(`Fecha del Turno: ${detalles.turno.fecha}`, 40, yOffset);
-    yOffset += 20;
-    doc.text(`Hora del Turno: ${detalles.turno.horaInicio}`, 40, yOffset);
-    yOffset += 20;
-    doc.text(`Profesional: ${turno.profesional.usuario.nombre} ${turno.profesional.usuario.apellido}`, 40, yOffset);
-    yOffset += 40;
+    doc.text('Detalles del Turno:', 40, 240);
+    doc.setFontSize(10);
+    doc.text(`Fecha del Turno: ${detalles.turno.fecha}`, 40, 260);
+    doc.text(`Hora del Turno: ${detalles.turno.horaInicio}`, 40, 280);
+    doc.text(`Profesional: ${turno.profesional.usuario.nombre} ${turno.profesional.usuario.apellido}`, 40, 300);
 
-    doc.text('Servicios:', 40, yOffset);
-    yOffset += 20;
-    detalles.turno.servicios.forEach((servicio, index) => {
-      doc.text(`- ${servicio.detallesServicio}: $${servicio.precio.toFixed(2)}`, 40, yOffset);
-      yOffset += 20;
+    // Tabla de servicios
+    const headers = [['Descripción', 'Importe']];
+    const serviceData = detalles.turno.servicios.map(servicio => [
+      servicio.detallesServicio,
+      `$${servicio.precio.toFixed(2)}`
+    ]);
+
+    doc.autoTable({
+      startY: 320,
+      head: headers,
+      body: serviceData,
+      theme: 'grid',
+      styles: { fontSize: 8, cellPadding: 5 },
+      headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0], fontStyle: 'bold' },
+      columnStyles: {
+        0: { cellWidth: 'auto' },
+        1: { cellWidth: 80, halign: 'right' }
+      }
     });
 
     // Total
-    yOffset += 20;
-    doc.setFontSize(14);
-    doc.text(`Monto Total: $${detalles.monto.toFixed(2)}`, 40, yOffset);
+    const finalY = doc.lastAutoTable.finalY || 320;
+    doc.setFontSize(12);
+    doc.text(`Monto Total: $${detalles.monto.toFixed(2)}`, pageWidth - 120, finalY + 30, { align: 'right' });
 
-    // Footer
-    yOffset += 40;
-    doc.setFontSize(10);
-    doc.text('Sitio Web: www.SpaSentirseBien.com', 40, yOffset);
-    doc.text('Teléfono: (55) 1234-5678', 40, yOffset + 20);
-    doc.text('Email: SpaSentirseBien@gmail.com', 40, yOffset + 40);
-    doc.text('Dirección: Calle Cualquiera 123, Cualquier Lugar', 40, yOffset + 60);
+    // Pie de página
+    doc.setFontSize(8);
+    doc.text('Gracias por su preferencia', pageWidth / 2, doc.internal.pageSize.height - 30, { align: 'center' });
 
     const pdfBlob = doc.output('blob');
     const pdfUrl = URL.createObjectURL(pdfBlob);
