@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import useAxios from '../api/useAxios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { jsPDF } from "jspdf";
+import 'jspdf-autotable';
+import SpaFinal from '../assets/SpaFinal.png';
 
 const InformeServicios = () => {
   const [profesionales, setProfesionales] = useState([]);
@@ -40,6 +43,55 @@ const InformeServicios = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const generarInformePDF = () => {
+    const doc = new jsPDF();
+
+    // Agregar el logo
+    doc.addImage(SpaFinal, 'PNG', 14, 10, 30, 30);
+
+    // Título del informe
+    doc.setFontSize(20);
+    doc.setTextColor(52, 76, 61); // Color #344C3D
+    doc.text('Informe de Servicios Realizados', 50, 25);
+
+    // Información del informe
+    doc.setFontSize(12);
+    doc.setTextColor(0, 0, 0);
+    const profesionalSeleccionado = profesionales.find(p => p.idProfesional === idProfesional);
+    doc.text(`Profesional: ${profesionalSeleccionado ? `${profesionalSeleccionado.usuario.nombre} ${profesionalSeleccionado.usuario.apellido}` : 'No seleccionado'}`, 14, 50);
+    doc.text(`Fecha de inicio: ${fechaInicio.toISOString().split('T')[0]}`, 14, 60);
+    doc.text(`Fecha de fin: ${fechaFin.toISOString().split('T')[0]}`, 14, 70);
+
+    // Tabla de servicios
+    const columns = ["Nombre del Servicio", "Fecha de Realización"];
+    const data = servicios.map(servicio => [servicio.nombreServicio, servicio.fechaRealizacion]);
+
+    doc.autoTable({
+      startY: 80,
+      head: [columns],
+      body: data,
+      theme: 'grid',
+      styles: { fontSize: 10, cellPadding: 5 },
+      headStyles: { fillColor: [130, 150, 114], textColor: [255, 255, 255], fontStyle: 'bold' },
+      alternateRowStyles: { fillColor: [244, 243, 241] },
+      columnStyles: {
+        0: { cellWidth: 100 },
+        1: { cellWidth: 60 }
+      }
+    });
+
+    // Pie de página
+    const pageCount = doc.internal.getNumberOfPages();
+    for(let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(10);
+      doc.setTextColor(128);
+      doc.text(`Página ${i} de ${pageCount}`, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10, { align: 'right' });
+    }
+
+    window.open(URL.createObjectURL(doc.output('blob')), '_blank');
   };
 
   useEffect(() => {
@@ -92,6 +144,14 @@ const InformeServicios = () => {
           className="bg-[#829672] text-white px-4 py-2 rounded hover:bg-[#344C3D] transition duration-300"
         >
           Buscar
+        </button>
+
+        <button
+          onClick={generarInformePDF}
+          className="bg-[#829672] text-white px-4 py-2 rounded hover:bg-[#344C3D] transition duration-300"
+          disabled={servicios.length === 0}
+        >
+          Imprimir y Generar PDF
         </button>
       </div>
 

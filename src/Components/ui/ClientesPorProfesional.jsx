@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import useAxios from '../api/useAxios';
+import useAxios from '../../api/useAxios';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
-
+import SpaFinal from '../../assets/SpaFinal.png'; 
 const ClientesPorProfesional = () => {
   const [turnos, setTurnos] = useState([]);
   const [fecha, setFecha] = useState(new Date());
@@ -65,14 +65,21 @@ const ClientesPorProfesional = () => {
   const generarInformePDF = () => {
     const doc = new jsPDF();
 
-    doc.setFontSize(18);
-    doc.text('Informe de Clientes por Profesional', 14, 20);
+    // Agregar el logo
+    doc.addImage(SpaFinal, 'PNG', 14, 10, 30, 30); // Ajusta el tamaño y posición según necesites
 
+    // Título del informe
+    doc.setFontSize(20);
+    doc.setTextColor(128, 0, 128); // Color púrpura para el título
+    doc.text('Informe de Clientes por Profesional', 50, 25);
+
+    // Información del informe
     doc.setFontSize(12);
-    doc.text(`Fecha: ${fecha.toISOString().split('T')[0]}`, 14, 30);
-    doc.text(`Profesional: ${profesionales.find(p => p.idProfesional === idProfesional)?.usuario.nombre || 'No seleccionado'}`, 14, 40);
-    doc.text(`Estado de pago: ${pagado ? 'Pagado' : 'No pagado'}`, 14, 50);
+    doc.setTextColor(0, 0, 0); // Color negro para el texto normal
+    doc.text(`Fecha: ${fecha.toISOString().split('T')[0]}`, 14, 50);
+    doc.text(`Estado de pago: ${pagado ? 'Pagado' : 'No pagado'}`, 14, 70);
 
+    // Tabla de clientes
     const columns = [
       "Cliente", "DNI", "Teléfono", "Fecha", "Hora"
     ];
@@ -86,13 +93,13 @@ const ClientesPorProfesional = () => {
     ]);
 
     doc.autoTable({
-      startY: 60,
+      startY: 80,
       head: [columns],
       body: data,
-      theme: 'striped',
+      theme: 'grid',
       styles: { fontSize: 8, cellPadding: 2 },
-      headStyles: { fillColor: [242, 225, 244], textColor: [0, 0, 0], fontStyle: 'bold' },
-      alternateRowStyles: { fillColor: [248, 240, 249] },
+      headStyles: { fillColor: [128, 0, 128], textColor: [255, 255, 255], fontStyle: 'bold' },
+      alternateRowStyles: { fillColor: [245, 245, 245] },
       columnStyles: {
         0: { cellWidth: 50 },
         1: { cellWidth: 30 },
@@ -101,6 +108,15 @@ const ClientesPorProfesional = () => {
         4: { cellWidth: 40 }
       }
     });
+
+    // Pie de página
+    const pageCount = doc.internal.getNumberOfPages();
+    for(let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(10);
+      doc.setTextColor(128);
+      doc.text(`Página ${i} de ${pageCount}`, doc.internal.pageSize.width - 20, doc.internal.pageSize.height - 10, { align: 'right' });
+    }
 
     window.open(URL.createObjectURL(doc.output('blob')), '_blank');
   };

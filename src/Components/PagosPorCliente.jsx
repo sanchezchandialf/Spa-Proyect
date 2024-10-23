@@ -5,7 +5,7 @@ import useAxios from '../api/useAxios';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
 import toast from 'react-hot-toast';
-
+import SpaFinal from '../assets/SpaFinal.png';
 const PagosPorCliente = () => {
   const [clienteId, setClienteId] = useState('');
   const [pagos, setPagos] = useState([]);
@@ -36,6 +36,7 @@ const PagosPorCliente = () => {
     const doc = new jsPDF();
 
     doc.setFontSize(18);
+    doc.addImage(SpaFinal, 'PNG', 10, 10, 40, 40);
     doc.text('Informe de Pagos por Cliente', 10, 10);
 
     doc.setFontSize(12);

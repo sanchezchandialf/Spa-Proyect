@@ -3,7 +3,7 @@ import useAxios from '../../api/useAxios';
 import { useAuth } from '../../context/AuthContext';
 import { jsPDF } from "jspdf";
 import toast from 'react-hot-toast';
-
+import SpaFinal from '../../assets/SpaFinal.png';
 export const TurnoCard = ({ turno }) => {
   const axiosInstance = useAxios();
   const [estadoTurno, setEstadoTurno] = useState(turno.estado);
@@ -103,8 +103,8 @@ export const TurnoCard = ({ turno }) => {
 
     // Encabezado
     doc.setFontSize(18);
+    doc.addImage(SpaFinal, 'PNG', 10, 10, 40, 40);
     doc.text('SPA SENTIRSE BIEN', pageWidth / 2, 40, { align: 'center' });
-    
     doc.setFontSize(14);
     doc.text('FACTURA', pageWidth / 2, 70, { align: 'center' });
 
