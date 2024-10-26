@@ -17,34 +17,34 @@ const Body = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 text-gray-900">
-      <main className="w-screen overflow-x-hidden"> {/* Asegura que el main ocupe todo el ancho */}
+      <main className="w-full overflow-x-hidden"> {/* Cambiado de w-screen a w-full */}
         {/* Sección de Bienvenida */}
-        <section className="w-full -mt-4 md:-mt-8 max-w-none"> {/* Añadimos max-w-none */}
+        <section className="w-full -mt-4 md:-mt-8">
           <WelcomeSection />
         </section>
 
         {/* Servicios Presentación */}
-        <section className="w-full bg-white max-w-none"> {/* Añadimos max-w-none */}
+        <section className="w-full bg-white">
           <ServiciosPresentacion />
         </section>
 
         {/* Llamada a la acción */}
-        <section className="w-full bg-gray-100 max-w-none"> {/* Añadimos max-w-none */}
+        <section className="w-full bg-gray-100">
           <CallToAction />
         </section>
 
         {/* Carousel de noticias */}
-        <section className="w-full bg-white max-w-none"> {/* Aseguramos ancho completo */}
+        <section className="w-full bg-white">
           <NewsCarousel />
         </section>
 
         {/* Contacto */}
-        <section className="w-full bg-gray-200 max-w-none"> {/* Añadimos max-w-none */}
+        <section className="w-full bg-gray-200">
           <Contact />
         </section>
 
-        {/* Contacto */}
-        <section className="w-full bg-gray-200 max-w-none"> {/* Añadimos max-w-none */}
+        {/* Fondo */}
+        <section className="w-full bg-gray-200">
           <Fondo />
         </section>
        

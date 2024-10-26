@@ -19,7 +19,7 @@ a {
   font-weight: 500;
 
   /* Color del enlace */
-  color: #646cff;
+  color: #df2a99;
 
   /* Decoración de los enlaces */
   text-decoration: inherit;
@@ -28,7 +28,7 @@ a {
 /* Estilos de los enlaces al pasar el cursor */
 a:hover {
   /* Color del enlace al pasar el cursor */
-  color: #535bf2;
+  color: #df2a99;
 }
 
 /* Estilos del cuerpo de la página */
@@ -75,7 +75,7 @@ button {
 /* Estilos de los botones al pasar el cursor */
 button:hover {
   /* Color de borde de los botones al pasar el cursor */
-  border-color: #646cff;
+  border-color: #df2a99;
 }
 
 /* Estilos de los botones al enfocarlos */
@@ -97,7 +97,7 @@ button:focus-visible {
 
   /* Color de los enlaces al pasar el cursor en el modo claro */
   a:hover {
-    color: #747bff;
+    color: #df2a99;
   }
 
   /* Color de fondo de los botones en el modo claro */
@@ -112,7 +112,7 @@ button:focus-visible {
     background-color: #b3c1a2;
   }
   a:hover {
-    color: #747bff;
+    color: #df2a99;
   }
   button {
     background-color: #f9f9f9;

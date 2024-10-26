@@ -4,10 +4,7 @@ import ConsultasSection from '../Profesional/Components/ConsultasSection';
 import EmpleoListWithPostulaciones from '../Profesional/Components/EmpleoListWithPostulaciones';
 import CrearTurnoVacio from '../Turnos/componentes/CrearTurnoVacio';
 import { useAuth } from '../context/AuthContext';
-
 import ClientesPorProfesional from '../Components/ui/ClientesPorProfesional';
-
-
 import InformeIngresos from '../Components/ui/InformeIngresos';
 import InformeServicios from '../Components/InformeServicios';
 import PagosPorCliente from '../Components/PagosPorCliente';
@@ -73,7 +70,7 @@ export default function Menu() {
                   >
                     Todos los clientes
                   </button>
-                  {esAdmin() && (
+                  {admin_profesional() && (
                     <button 
                     onClick={() => setSelectedOption('Clientes por profesional')} 
                     className="w-full text-left p-2 bg-[#D8959B] hover:bg-[#f2d1d4] m-1"
@@ -103,7 +100,7 @@ export default function Menu() {
               </button>
               )}
 
-              {admin_profesional() && (
+              {esAdmin() && (
                 <button 
                 onClick={() => setSelectedOption('Agregar turnos')} 
                 className="w-full text-left p-2 bg-[#829672] hover:bg-[#344C3D] m-1"

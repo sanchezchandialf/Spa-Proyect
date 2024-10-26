@@ -41,7 +41,9 @@ const Login = ()=>{
             // Redirigir a '/MisTurnos' si el usuario es un cliente
             if (idRole === 1) { // Asumiendo que 1 es el ID del rol de cliente
                 navigate('/MisTurnos');
-            }
+            }else{
+              navigate('/administracion/clientes');
+            } 
           } else {
             throw new Error('Respuesta inesperada del servidor');
           }
