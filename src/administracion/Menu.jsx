@@ -8,7 +8,7 @@ import { useAuth } from '../context/AuthContext';
 import ClientesPorProfesional from '../Components/ui/ClientesPorProfesional';
 
 
-import InformeIngresos from '../Components/InformeIngresos';
+import InformeIngresos from '../Components/ui/InformeIngresos';
 import InformeServicios from '../Components/InformeServicios';
 import PagosPorCliente from '../Components/PagosPorCliente';
 import ListadoClientes from '../Components/ui/ListadoClientes';

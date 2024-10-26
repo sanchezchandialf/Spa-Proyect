@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import useAxios from '../api/useAxios';
+import useAxios from '../../api/useAxios';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { jsPDF } from "jspdf";
 import 'jspdf-autotable';
-import SpaFinal from '../assets/SpaFinal.png';
+import SpaFinal from '../../assets/SpaFinal.png'; 
 
 const InformeIngresos = () => {
   const [fechaInicio, setFechaInicio] = useState(new Date());

@@ -35,12 +35,16 @@ const PagosPorCliente = () => {
   const generarInformePDF = () => {
     const doc = new jsPDF();
 
-    doc.setFontSize(18);
+    // Agregar la imagen
     doc.addImage(SpaFinal, 'PNG', 10, 10, 40, 40);
-    doc.text('Informe de Pagos por Cliente', 10, 10);
 
+    // Título
+    doc.setFontSize(18);
+    doc.text('Informe de Pagos por Cliente', 60, 25);
+
+    // Información del cliente
     doc.setFontSize(12);
-    doc.text(`ID del Cliente: ${clienteId}`, 10, 20);
+    doc.text(`ID del Cliente: ${clienteId}`, 60, 35);
 
     // Definir las columnas
     const columns = [
@@ -64,14 +68,14 @@ const PagosPorCliente = () => {
 
     // Configurar la tabla
     doc.autoTable({
-      startY: 30,
+      startY: 60,
       head: [columns],
       body: data,
       theme: 'striped',
       styles: { fontSize: 8, cellPadding: 1 },
       columnStyles: {
-        0: { cellWidth: 40 },
-        1: { cellWidth: 40 },
+        0: { cellWidth: 30 },
+        1: { cellWidth: 30 },
         2: { cellWidth: 25 },
         3: { cellWidth: 25 },
         4: { cellWidth: 25 },
