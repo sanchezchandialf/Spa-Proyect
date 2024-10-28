@@ -20,7 +20,11 @@ const InformeIngresos = () => {
     setError(null);
     try {
       const response = await api.get(`/api/pago/ingresos?fechaInicio=${fechaInicio.toISOString().split('T')[0]}&fechaFin=${fechaFin.toISOString().split('T')[0]}`);
-      setIngresos(response.data);
+      if (response.data.length === 0) {
+        setError('No hay pagos registrados en el rango de fechas seleccionado.');
+      } else {
+        setIngresos(response.data);
+      }
     } catch (err) {
       setError('Error al obtener los ingresos');
       console.error(err);

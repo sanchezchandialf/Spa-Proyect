@@ -5,10 +5,13 @@ import { useLogin } from '../context/LoginContext';
 import { useAuth } from '../context/AuthContext';
 
 const Logo = () => (
-  <Link to="/" className="flex items-center">
-    <img src={SpaFinal} className="h-8 w-auto sm:h-10" alt="Logo Sentirse Bien" />
+   <div className="flex items-center">
+
+<img src={SpaFinal} className="h-8 w-auto sm:h-10" alt="Logo Sentirse Bien" />
     <span className="ml-3 text-2xl font-bold text-gray-900">Sentirse Bien</span>
-  </Link>
+
+   </div>
+   
 );
 
 const NavigationElement = ({ text, path }) => (

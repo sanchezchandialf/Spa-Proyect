@@ -240,14 +240,14 @@ export const TurnoCard = ({ turno }) => {
                 </button>
               </>
             )}
-            {esCliente() && (estadoTurno === "PAGADO" || estadoPago === "COMPLETADO") && (
+           {/*  {esCliente() && (estadoTurno === "PAGADO" || estadoPago === "COMPLETADO") && (
               <button
                 className="bg-green-500 text-white px-3 py-1 text-sm rounded hover:bg-green-600"
                 onClick={abrirComprobante}
               >
                 Comprobante
-              </button>
-            )}
+              </button> 
+            )} */}
           </div>
 
           {mostrarPagoModal && (
