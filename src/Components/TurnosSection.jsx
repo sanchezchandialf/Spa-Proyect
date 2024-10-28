@@ -114,7 +114,7 @@ const ConsultarTurnosSection = () => {
           >
             Listar Todos los Turnos
           </button>
-          <button
+          {/* <button
             onClick={() => fetchTurnos('/api/turno/listar?estado=asignado')}
             className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded"
           >
@@ -125,7 +125,7 @@ const ConsultarTurnosSection = () => {
             className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-4 rounded"
           >
             Turnos Cancelados
-          </button>
+          </button> */}
           <button
             onClick={generarInformePDF}
             className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded"
