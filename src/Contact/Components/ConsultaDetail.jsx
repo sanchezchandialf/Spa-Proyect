@@ -1,33 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { FetchApi } from '../../api/Common';
+import useAxios from '../../api/useAxios';
 import toast from 'react-hot-toast';
 
 const ConsultaDetail = ({ consultaId }) => {
   const [consulta, setConsulta] = useState(null);
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem('accessToken'); // Obtener el token del almacenamiento local
+  const axios = useAxios();
 
   const fetchConsulta = async () => {
     setLoading(true);
     try {
-      const response = await FetchApi({
-        path: `api/consulta/${consultaId}`,
-        method: 'GET',
-        requiresAuth: true,
-        token, // Pasar el token para autenticación
-      });
-
-      if (response.code === 200) {
-        setConsulta(response.data);
-      } else if (response.code === 401) {
-        toast.error('Tu sesión ha expirado. Por favor, inicia sesión nuevamente.');
-        // Redirigir al usuario al login si es necesario
-      } else {
-        toast.error('Error al obtener la consulta');
-      }
+      const response = await axios.get(`api/consulta/${consultaId}`);
+      setConsulta(response.data);
     } catch (error) {
       console.error('Error detallado:', error);
-      toast.error('Error al obtener la consulta');
+      toast.error('Error al obtener la consulta: ' + error.message);
     } finally {
       setLoading(false);
     }
