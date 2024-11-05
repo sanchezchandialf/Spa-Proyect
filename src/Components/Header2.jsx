@@ -40,7 +40,7 @@ const Header2 = ({ menuOpen, setMenuOpen }) => {
   const itemsAdministrativos = [
     {text: "Clientes registrados", path: "/administracion/clientes" },
     admin_profesional() && { text: "Turnos de clientes por profesional", path: "/administracion/clientes-por-profesional" },
-    admin_profesional() && { text: "Turnos creados", path: "/administracion/turnos-creados" },
+    //admin_profesional() && { text: "Turnos creados", path: "/administracion/turnos-creados" },
     esAdmin() && { text: "Agregar turnos", path: "/administracion/agregar-turnos" },
     admin_secretaria() && { text: "Pagos realizados", path: "/administracion/pagos" },
     admin_secretaria() && { text: "Informe de Ingresos", path: "/administracion/ingresos" },

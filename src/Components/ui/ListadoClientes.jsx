@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import useAxios from '../../hooks/useAxios';
+import useAxios from '../../api/useAxios';
 
 const ListadoClientes = () => {
   const [clientes, setClientes] = useState([]);
@@ -10,7 +10,7 @@ const ListadoClientes = () => {
   const fetchClientes = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('api/cliente/listar');
+      const response = await axios.get('/api/cliente/listar');
       setClientes(response.data.data);
       setError(null);
     } catch (err) {

@@ -1,6 +1,6 @@
 // PagoModal.jsx
 import React, { useState } from "react";
-import useAxios from "../../hooks/useAxios";
+import useAxios from "../../api/useAxios";
 import toast from 'react-hot-toast';
 
 const PagoModal = ({ turnoId, onClose, onPagoExitoso }) => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useAxios from '../../hooks/useAxios';
+import useAxios from '../../api/useAxios';
 
 const PostulacionModal = ({ empleo, onClose }) => {
   const [cvFile, setCvFile] = useState(null);

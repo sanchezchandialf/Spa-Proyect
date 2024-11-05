@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import useAxios from '../../hooks/useAxios';
+import useAxios from '../../api/useAxios';
 
 export const Responder = ({ consultaId }) => {
     const [textoRespuesta, setTextoRespuesta] = useState('');

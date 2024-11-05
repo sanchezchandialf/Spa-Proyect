@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import useAxios from '../../hooks/useAxios';
+import useAxios from '../../api/useAxios';
 
 const ConsultasList = ({ onConsultaSelect }) => {
   const [consultas, setConsultas] = useState([]);
@@ -11,7 +11,7 @@ const ConsultasList = ({ onConsultaSelect }) => {
   const fetchConsultas = async (contestado = '') => {
     setLoading(true);
     try {
-      const response = await axiosInstance.get(`api/consulta/listar`, {
+      const response = await axiosInstance.get(`/api/consulta/listar`, {
         params: { contestado }
       });
 

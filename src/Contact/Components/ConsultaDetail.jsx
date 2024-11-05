@@ -10,7 +10,7 @@ const ConsultaDetail = ({ consultaId }) => {
   const fetchConsulta = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`api/consulta/${consultaId}`);
+      const response = await axios.get(`/api/consulta/${consultaId}`);
       setConsulta(response.data);
     } catch (error) {
       console.error('Error detallado:', error);

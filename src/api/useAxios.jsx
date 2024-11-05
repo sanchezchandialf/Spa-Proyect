@@ -8,10 +8,13 @@ const useAxios = (options = {}) => {
   const { handleLoginClick } = useLogin();
   const { ignoreAuthError = false } = options;
 
+  const API_URL = "https://amiable-learning-production.up.railway.app"
+
   const axiosInstance = axios.create({
     //baseURL: 'http://localhost:8080',
-    baseURL: 'https://calm-perception-production.up.railway.app',
     /* baseURL: 'https://agile-flexibility-production.up.railway.app', */
+    //baseURL: 'https://calm-perception-production.up.railway.app',
+    baseURL: API_URL,
     headers: {
       'Content-Type': 'application/json',
     },
