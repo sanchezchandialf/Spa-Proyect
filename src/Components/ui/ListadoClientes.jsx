@@ -10,7 +10,7 @@ const ListadoClientes = () => {
   const fetchClientes = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('api/cliente/listar');
+      const response = await axios.get('/api/cliente/listar');
       setClientes(response.data.data);
       setError(null);
     } catch (err) {

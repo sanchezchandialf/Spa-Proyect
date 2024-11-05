@@ -11,7 +11,8 @@ const EmpleoList = () => {
         const fetchEmpleos = async () => {
             try {
                 //const response = await axios.get('https://agile-flexibility-production.up.railway.app/api/empleo/listar');
-                const response=await axios.get('http://localhost:8080/');
+                //const response=await axios.get('http://localhost:8080/');
+                const response=await axios.get('https://amiable-learning-production.up.railway.app');
                 setEmpleos(response.data.data);
             } catch (error) {
                 console.error('Error al obtener los empleos', error);
