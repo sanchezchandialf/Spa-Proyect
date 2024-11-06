@@ -25,7 +25,7 @@ const RegisterProfecional = () => {
         const { confirmPassword, telefono, ...formData } = transformedData; // Excluye confirmPassword
     
         try {
-            const endpoint = rol === "Profesional" ? "api/auth/registerProf" : "api/auth/registerSecretario";
+            const endpoint = rol === "Profesional" ? "/api/auth/registerProf" : "/api/auth/registerSecretario";
             const response = await axios.post(endpoint, formData);
 
             if (response.status === 200) {
